@@ -151,7 +151,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 <div class="tab-content" id="tab-scoring">
     <div class="intro" style="padding:14px 18px" data-i18n="score_instructions">
-        Select a house, review its photographs, then grade each perceptual attribute. AI grades are shown for reference.
+        Select a house, review its photographs, then grade each perceptual attribute yourself. AI grades are not shown.
     </div>
     {% if is_admin %}
     <div class="filter-bar">
@@ -206,7 +206,7 @@ en:{
   app_title:"Perceptual Attribute Survey", tab_welcome:"Welcome", tab_validate:"1. Attribute Validation", tab_scoring:"2. House Scoring", tab_admin:"Admin Panel",
   sign_out:"Sign out", lot:"Lot", section:"Section:", order:"Order:", all:"All", all_sections:"All Sections", first_only:"First-Order Only", second_only:"Second-Order Only",
   your_progress:"Your progress", val_instructions:"For each attribute, indicate (1) whether it is relevant to house valuation, and (2) whether you classify it as first-order or second-order. First-order = directly observable with a strong expected effect on price (cost, risk, usability, hygiene, non-replicable amenities). Second-order = more of a refinement of aesthetic appeal, design coherence, or perceptual credibility. The AI's own order classification is hidden so that your judgment is independent.",
-  score_instructions:"Select a house, review its listing photographs, then grade each perceptual attribute independently. AI grades are shown for reference.",
+  score_instructions:"Select a house, review its listing photographs, then grade each perceptual attribute yourself based only on what you see. AI grades are not shown.",
   relevant_q:"Relevant to valuation?", yes:"Yes", no:"No", order_q:"Order classification?", order_1:"1st Order", order_2:"2nd Order",
   saved:"saved", completed:"Completed", scored:"Scored", your_grade:"Your grade…", photos:"photos", no_houses:"No houses assigned.",
   admin_blurb:"Export all survey responses collected from all users. Data is stored in SQLite and exported as CSV.",
@@ -218,10 +218,10 @@ en:{
 <p style="font-style:italic;color:var(--brand);font-weight:500">"From Vision to Prediction: A Multimodal-AI Pipeline to Generate Perceptual Attributes for Price Prediction"</p>
 <h3>What is this about?</h3>
 <p>Our research uses multimodal AI to extract <strong>perceptual attributes</strong> from residential listing photographs — qualities a human viewer perceives (facade condition, natural light, landscaping, etc.) that help explain house prices.</p>
-<p>We need <strong>human expert validation</strong> of (1) whether the attributes themselves matter, (2) how you would classify their priority (first vs second order), and (3) whether the AI grades on houses are accurate.</p>
+<p>We need <strong>human expert validation</strong> of (1) whether the attributes themselves matter, (2) how you would classify their priority (first vs second order), and (3) how you would grade houses from photos (independently of the AI).</p>
 <h3>What do we need from you?</h3>
 <p><strong>Tab 1 — Attribute Validation:</strong> For each of 59 attributes, say (1) whether it matters for valuation, and (2) which order <em>you</em> assign (1st or 2nd). We do <strong>not</strong> show the AI's order classification.</p>
-<p><strong>Tab 2 — House Scoring:</strong> For houses in your assigned lot, review photos and grade each attribute. Responses save automatically.</p>
+<p><strong>Tab 2 — House Scoring:</strong> For houses in your assigned lot, review photos and grade each attribute yourself. AI grades are hidden. Responses save automatically.</p>
 <table class="scale-table"><tr><th>Grade</th><th>Meaning</th></tr>
 <tr><td><strong>Excellent</strong></td><td>Top quality, no visible issues</td></tr>
 <tr><td><strong>Good</strong></td><td>Above average, minor imperfections</td></tr>
@@ -234,7 +234,7 @@ fr:{
   app_title:"Enquête attributs perceptuels", tab_welcome:"Bienvenue", tab_validate:"1. Validation des attributs", tab_scoring:"2. Notation des maisons", tab_admin:"Administration",
   sign_out:"Déconnexion", lot:"Lot", section:"Section :", order:"Ordre :", all:"Tous", all_sections:"Toutes les sections", first_only:"1er ordre seulement", second_only:"2e ordre seulement",
   your_progress:"Votre progression", val_instructions:"Pour chaque attribut, indiquez (1) s'il est pertinent pour la valorisation immobilière, et (2) comment vous le classifiez en 1er ou 2e ordre. 1er ordre = directement observable, avec un effet attendu fort sur le prix (coût, risque, usabilité, hygiène, aménités non réplicables). 2e ordre = raffinement esthétique, cohérence de design ou crédibilité perceptuelle. La classification d'ordre de l'IA n'est pas affichée, afin que votre jugement reste indépendant.",
-  score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez chaque attribut perceptuel. Les notes de l'IA sont affichées à titre de référence.",
+  score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez chaque attribut perceptuel vous-même, uniquement à partir de ce que vous voyez. Les notes de l'IA ne sont pas affichées.",
   relevant_q:"Pertinent pour la valorisation ?", yes:"Oui", no:"Non", order_q:"Classification d'ordre ?", order_1:"1er ordre", order_2:"2e ordre",
   saved:"enregistré", completed:"Terminé", scored:"Noté", your_grade:"Votre note…", photos:"photos", no_houses:"Aucune maison assignée.",
   admin_blurb:"Exportez toutes les réponses. Les données sont stockées en SQLite et exportées en CSV.",
@@ -246,10 +246,10 @@ fr:{
 <p style="font-style:italic;color:var(--brand);font-weight:500">« From Vision to Prediction: A Multimodal-AI Pipeline to Generate Perceptual Attributes for Price Prediction »</p>
 <h3>De quoi s'agit-il ?</h3>
 <p>Nous utilisons l'IA multimodale pour extraire des <strong>attributs perceptuels</strong> à partir des photos d'annonces immobilières — des qualités qu'un acheteur perçoit (état de façade, lumière naturelle, aménagement, etc.) et qui peuvent expliquer les prix.</p>
-<p>Nous avons besoin d'une <strong>validation d'experts humains</strong> : (1) les attributs sont-ils pertinents ? (2) comment les classifiez-vous (1er vs 2e ordre) ? (3) les notes de l'IA sur les maisons sont-elles exactes ?</p>
+<p>Nous avons besoin d'une <strong>validation d'experts humains</strong> : (1) les attributs sont-ils pertinents ? (2) comment les classifiez-vous (1er vs 2e ordre) ? (3) quelles notes donneriez-vous aux maisons à partir des photos (indépendamment de l'IA) ?</p>
 <h3>Ce que nous vous demandons</h3>
 <p><strong>Onglet 1 — Validation :</strong> pour chacun des 59 attributs, indiquez (1) s'il compte pour la valorisation, et (2) l'ordre que <em>vous</em> jugez approprié (1er ou 2e). Nous ne montrons <strong>pas</strong> la classification d'ordre de l'IA.</p>
-<p><strong>Onglet 2 — Notation :</strong> pour les maisons de votre lot, notez chaque attribut à partir des photos. Sauvegarde automatique.</p>
+<p><strong>Onglet 2 — Notation :</strong> pour les maisons de votre lot, notez chaque attribut vous-même à partir des photos. Les notes de l'IA sont masquées. Sauvegarde automatique.</p>
 <table class="scale-table"><tr><th>Note</th><th>Signification</th></tr>
 <tr><td><strong>Excellent</strong></td><td>Qualité maximale, aucun problème visible</td></tr>
 <tr><td><strong>Good</strong></td><td>Au-dessus de la moyenne, imperfections mineures</td></tr>
@@ -262,7 +262,7 @@ nl:{
   app_title:"Enquête perceptuele attributen", tab_welcome:"Welkom", tab_validate:"1. Attribuutvalidatie", tab_scoring:"2. Huizen scoren", tab_admin:"Beheer",
   sign_out:"Uitloggen", lot:"Lot", section:"Sectie:", order:"Orde:", all:"Alles", all_sections:"Alle secties", first_only:"Alleen 1e orde", second_only:"Alleen 2e orde",
   your_progress:"Uw voortgang", val_instructions:"Geef per attribuut aan (1) of het relevant is voor woningwaardering, en (2) of u het als 1e of 2e orde classificeert. 1e orde = direct waarneembaar met een sterk verwacht prijseffect (kosten, risico, bruikbaarheid, hygiëne, niet-repliceerbare amenities). 2e orde = eerder een verfijning van esthetiek, ontwerpcoherentie of perceptuele geloofwaardigheid. De ordeclassificatie van de AI wordt niet getoond, zodat uw oordeel onafhankelijk blijft.",
-  score_instructions:"Kies een huis, bekijk de foto's en geef elk perceptueel attribuut een score. AI-scores dienen als referentie.",
+  score_instructions:"Kies een huis, bekijk de foto's en geef elk perceptueel attribuut zelf een score op basis van wat u ziet. AI-scores worden niet getoond.",
   relevant_q:"Relevant voor waardering?", yes:"Ja", no:"Nee", order_q:"Ordeclassificatie?", order_1:"1e orde", order_2:"2e orde",
   saved:"opgeslagen", completed:"Voltooid", scored:"Gescoord", your_grade:"Uw score…", photos:"foto's", no_houses:"Geen huizen toegewezen.",
   admin_blurb:"Exporteer alle antwoorden. Data staat in SQLite en wordt als CSV geëxporteerd.",
@@ -274,10 +274,10 @@ nl:{
 <p style="font-style:italic;color:var(--brand);font-weight:500">"From Vision to Prediction: A Multimodal-AI Pipeline to Generate Perceptual Attributes for Price Prediction"</p>
 <h3>Waarover gaat dit?</h3>
 <p>We gebruiken multimodale AI om <strong>perceptuele attributen</strong> uit woningfoto's te halen — kwaliteiten die een koper ziet (gevelstaat, natuurlijk licht, tuin, enz.) en die woningprijzen helpen verklaren.</p>
-<p>We hebben <strong>menselijke expertvalidatie</strong> nodig over (1) of de attributen ertoe doen, (2) hoe u hun prioriteit classificeert (1e vs 2e orde), en (3) of de AI-scores kloppen.</p>
+<p>We hebben <strong>menselijke expertvalidatie</strong> nodig over (1) of de attributen ertoe doen, (2) hoe u hun prioriteit classificeert (1e vs 2e orde), en (3) hoe u huizen zou scoren op basis van foto's (onafhankelijk van de AI).</p>
 <h3>Wat vragen we van u?</h3>
 <p><strong>Tab 1 — Validatie:</strong> voor elk van de 59 attributen: (1) relevant voor waardering? (2) welke orde <em>u</em> toekent (1e of 2e). We tonen de ordeclassificatie van de AI <strong>niet</strong>.</p>
-<p><strong>Tab 2 — Scoren:</strong> voor huizen in uw lot foto's bekijken en elk attribuut scoren. Antwoorden worden automatisch opgeslagen.</p>
+<p><strong>Tab 2 — Scoren:</strong> voor huizen in uw lot foto's bekijken en elk attribuut zelf scoren. AI-scores zijn verborgen. Antwoorden worden automatisch opgeslagen.</p>
 <table class="scale-table"><tr><th>Score</th><th>Betekenis</th></tr>
 <tr><td><strong>Excellent</strong></td><td>Topkwaliteit, geen zichtbare problemen</td></tr>
 <tr><td><strong>Good</strong></td><td>Boven gemiddeld, kleine imperfecties</td></tr>
@@ -480,18 +480,12 @@ function renderHouseDetail() {
             html += `<div class="sub-header">${SL[sub]||sub}</div>`;
             feats.forEach(f => {
                 const ug = CUR_HOUSE_SAVED[f.vn] || '';
-                const match = ug && ug === f.val;
-                const icon = !ug ? '' : match
-                    ? '<i class="bi bi-check-circle-fill" style="color:var(--good);font-size:.75rem;margin-left:4px"></i>'
-                    : '<i class="bi bi-x-circle-fill" style="color:var(--bad);font-size:.75rem;margin-left:4px"></i>';
                 html += `<div class="feat-row">
-                    <span class="ord-badge ${f.ord}">${f.ord==='first'?'1st':'2nd'}</span>
                     <div class="feat-name">${f.feat.replace(/_/g,' ')}<small>${f.vn}</small></div>
-                    <span class="ai-grade ${f.val}">AI: ${f.val}</span>
                     <select class="grade-select${ug?' done':''}" onchange="saveScore('${h.id}','${f.vn}',this.value)">
                         <option value="">${t('your_grade')}</option>
                         ${GRADES.map(g=>`<option value="${g}"${ug===g?' selected':''}>${g}</option>`).join('')}
-                    </select>${icon}
+                    </select>
                 </div>`;
             });
         }
