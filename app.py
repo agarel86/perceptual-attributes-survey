@@ -175,7 +175,37 @@ def init_db():
         UNIQUE(username, house_id, variable_name)
     )""")
     db.commit()
+    # One-shot clean sheet (set SURVEY_FORCE_CLEAN=1 on Railway, redeploy, then unset)
+    if os.environ.get("SURVEY_FORCE_CLEAN", "").strip() in ("1", "true", "yes"):
+        db.execute("DELETE FROM attribute_validation")
+        db.execute("DELETE FROM house_scoring")
+        try:
+            db.execute(
+                "DELETE FROM sqlite_sequence WHERE name IN ('attribute_validation','house_scoring')"
+            )
+        except sqlite3.Error:
+            pass
+        db.commit()
+        print("SURVEY_FORCE_CLEAN: all validation and scoring responses wiped.")
     db.close()
+
+
+def wipe_all_responses(db=None):
+    close = False
+    if db is None:
+        db = sqlite3.connect(DB_PATH)
+        close = True
+    db.execute("DELETE FROM attribute_validation")
+    db.execute("DELETE FROM house_scoring")
+    try:
+        db.execute(
+            "DELETE FROM sqlite_sequence WHERE name IN ('attribute_validation','house_scoring')"
+        )
+    except sqlite3.Error:
+        pass
+    db.commit()
+    if close:
+        db.close()
 
 
 def hash_pw(pw):
@@ -562,6 +592,14 @@ def admin_dashboard():
             }
         )
     return jsonify(stats=stats)
+
+
+@app.route("/admin/reset-all", methods=["POST"])
+@admin_required
+def admin_reset_all():
+    """Delete every validation and scoring answer (clean sheet for all users)."""
+    wipe_all_responses(get_db())
+    return jsonify(ok=True, message="All responses cleared.")
 
 
 # Load data + DB whenever the app starts (gunicorn OR python app.py)

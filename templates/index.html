@@ -175,6 +175,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
             <a href="/admin/export/validation" class="export-btn blue"><i class="bi bi-download"></i> <span data-i18n="export_val">Attribute Validation CSV</span></a>
             <a href="/admin/export/scoring" class="export-btn blue"><i class="bi bi-download"></i> <span data-i18n="export_score">House Scoring CSV</span></a>
             <a href="/admin/export/combined" class="export-btn green"><i class="bi bi-download"></i> <span data-i18n="export_combined">Combined Export</span></a>
+            <button type="button" class="export-btn" style="background:#b91c1c" onclick="resetAllResponses()"><i class="bi bi-trash"></i> <span data-i18n="reset_all">Reset all responses</span></button>
         </div>
         <h3 style="font-size:.9rem;font-weight:600;margin-bottom:10px" data-i18n="user_progress">User Progress</h3>
         <table class="admin-table" id="adminTable">
@@ -223,6 +224,7 @@ en:{
   saved:"saved", completed:"Completed", scored:"Scored", your_grade:"Your grade…", photos:"photos", no_houses:"No houses assigned.",
   admin_blurb:"Export all survey responses collected from all users. Data is stored in SQLite and exported as CSV.",
   export_val:"Attribute Validation CSV", export_score:"House Scoring CSV", export_combined:"Combined Export (with AI grades)",
+  reset_all:"Reset all responses", reset_confirm:"Delete ALL validation and scoring answers for every user? This cannot be undone.", reset_done:"All responses cleared. Clean sheet.",
   user_progress:"User Progress", user:"User", houses:"Houses", validation:"Validation", scoring:"Scoring",
   progress_val:"Attribute Validation", progress_score:"House Scoring",
   welcome_html:`<h2>Expert survey on perceptual housing attributes</h2>
@@ -254,6 +256,7 @@ fr:{
   saved:"enregistré", completed:"Terminé", scored:"Noté", your_grade:"Votre note…", photos:"photos", no_houses:"Aucune maison assignée.",
   admin_blurb:"Exportez toutes les réponses. Les données sont stockées en SQLite et exportées en CSV.",
   export_val:"CSV validation des attributs", export_score:"CSV notation des maisons", export_combined:"Export combiné (avec notes IA)",
+  reset_all:"Effacer toutes les réponses", reset_confirm:"Supprimer TOUTES les réponses de validation et de notation pour tous les utilisateurs ? Irréversible.", reset_done:"Toutes les réponses ont été effacées.",
   user_progress:"Progression des utilisateurs", user:"Utilisateur", houses:"Maisons", validation:"Validation", scoring:"Notation",
   progress_val:"Validation des attributs", progress_score:"Notation des maisons",
   welcome_html:`<h2>Enquête d'experts sur les attributs perceptuels du logement</h2>
@@ -285,6 +288,7 @@ nl:{
   saved:"opgeslagen", completed:"Voltooid", scored:"Gescoord", your_grade:"Uw score…", photos:"foto's", no_houses:"Geen huizen toegewezen.",
   admin_blurb:"Exporteer alle antwoorden. Data staat in SQLite en wordt als CSV geëxporteerd.",
   export_val:"CSV attribuutvalidatie", export_score:"CSV huisenscores", export_combined:"Gecombineerde export (met AI-scores)",
+  reset_all:"Alle antwoorden wissen", reset_confirm:"ALLE validatie- en scoringsantwoorden van alle gebruikers verwijderen? Dit kan niet ongedaan worden.", reset_done:"Alle antwoorden gewist. Schone lei.",
   user_progress:"Voortgang gebruikers", user:"Gebruiker", houses:"Huizen", validation:"Validatie", scoring:"Scoring",
   progress_val:"Attribuutvalidatie", progress_score:"Huizen scoren",
   welcome_html:`<h2>Expertenquête over perceptuele woningattributen</h2>
@@ -608,6 +612,19 @@ async function loadAdmin() {
             <td>${s.score_done}/${s.score_total} (${sp}%)</td>
         </tr>`;
     }).join("");
+}
+
+async function resetAllResponses() {
+    if (!confirm(t("reset_confirm"))) return;
+    const r = await fetch("/admin/reset-all", { method: "POST" });
+    if (!r.ok) { alert("Reset failed"); return; }
+    // Clear in-memory caches so UI shows blank immediately
+    TX_SAVED = {};
+    CUR_HOUSE_SAVED = {};
+    valLoaded = false;
+    alert(t("reset_done"));
+    loadAdmin();
+    loadProgress();
 }
 
 applyI18n();
