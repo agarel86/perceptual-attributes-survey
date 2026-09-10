@@ -137,7 +137,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 <div class="tab-content" id="tab-validate">
     <div class="intro" style="padding:14px 18px" data-i18n="val_instructions">
-        For each attribute, indicate whether it is relevant to house valuation, and classify it yourself as first-order or second-order (the AI order label is hidden).
+        For each attribute, say whether it is relevant to house valuation. Only if you say yes, also classify it as first-order or second-order.
     </div>
     <div class="filter-bar">
         <label data-i18n="section">Section:</label>
@@ -205,7 +205,7 @@ const I18N = {
 en:{
   app_title:"Perceptual Attribute Survey", tab_welcome:"Welcome", tab_validate:"1. Attribute Validation", tab_scoring:"2. House Scoring", tab_admin:"Admin Panel",
   sign_out:"Sign out", lot:"Lot", section:"Section:", order:"Order:", all:"All", all_sections:"All Sections", first_only:"First-Order Only", second_only:"Second-Order Only",
-  your_progress:"Your progress", val_instructions:"For each attribute, indicate (1) whether it is relevant to house valuation, and (2) whether you classify it as first-order or second-order. First-order = directly observable with a strong expected effect on price (cost, risk, usability, hygiene, non-replicable amenities). Second-order = more of a refinement of aesthetic appeal, design coherence, or perceptual credibility. The AI's own order classification is hidden so that your judgment is independent.",
+  your_progress:"Your progress", val_instructions:"For each attribute, indicate whether it is relevant to house valuation. Only if you answer Yes, also classify it as first-order or second-order. First-order = directly observable with a strong expected effect on price (cost, risk, usability, hygiene, non-replicable amenities). Second-order = more of a refinement of aesthetic appeal, design coherence, or perceptual credibility. If you answer No, no order classification is needed. The AI's order classification is hidden.",
   score_instructions:"Select a house, review its listing photographs, then grade each perceptual attribute yourself based only on what you see. AI grades are not shown.",
   relevant_q:"Relevant to valuation?", yes:"Yes", no:"No", order_q:"Order classification?", order_1:"1st Order", order_2:"2nd Order",
   saved:"saved", completed:"Completed", scored:"Scored", your_grade:"Your grade…", photos:"photos", no_houses:"No houses assigned.",
@@ -220,7 +220,7 @@ en:{
 <p>Our research uses multimodal AI to extract <strong>perceptual attributes</strong> from residential listing photographs — qualities a human viewer perceives (facade condition, natural light, landscaping, etc.) that help explain house prices.</p>
 <p>We need <strong>human expert validation</strong> of (1) whether the attributes themselves matter, (2) how you would classify their priority (first vs second order), and (3) how you would grade houses from photos (independently of the AI).</p>
 <h3>What do we need from you?</h3>
-<p><strong>Tab 1 — Attribute Validation:</strong> For each of 59 attributes, say (1) whether it matters for valuation, and (2) which order <em>you</em> assign (1st or 2nd). We do <strong>not</strong> show the AI's order classification.</p>
+<p><strong>Tab 1 — Attribute Validation:</strong> For each of 59 attributes, say whether it matters for valuation. Only if Yes, also choose 1st or 2nd order (AI order is hidden).</p>
 <p><strong>Tab 2 — House Scoring:</strong> For houses in your assigned lot, review photos and grade each attribute yourself. AI grades are hidden. Responses save automatically.</p>
 <table class="scale-table"><tr><th>Grade</th><th>Meaning</th></tr>
 <tr><td><strong>Excellent</strong></td><td>Top quality, no visible issues</td></tr>
@@ -233,7 +233,7 @@ en:{
 fr:{
   app_title:"Enquête attributs perceptuels", tab_welcome:"Bienvenue", tab_validate:"1. Validation des attributs", tab_scoring:"2. Notation des maisons", tab_admin:"Administration",
   sign_out:"Déconnexion", lot:"Lot", section:"Section :", order:"Ordre :", all:"Tous", all_sections:"Toutes les sections", first_only:"1er ordre seulement", second_only:"2e ordre seulement",
-  your_progress:"Votre progression", val_instructions:"Pour chaque attribut, indiquez (1) s'il est pertinent pour la valorisation immobilière, et (2) comment vous le classifiez en 1er ou 2e ordre. 1er ordre = directement observable, avec un effet attendu fort sur le prix (coût, risque, usabilité, hygiène, aménités non réplicables). 2e ordre = raffinement esthétique, cohérence de design ou crédibilité perceptuelle. La classification d'ordre de l'IA n'est pas affichée, afin que votre jugement reste indépendant.",
+  your_progress:"Votre progression", val_instructions:"Pour chaque attribut, indiquez s'il est pertinent pour la valorisation immobilière. Seulement si vous répondez Oui, classifiez-le aussi en 1er ou 2e ordre. 1er ordre = directement observable, avec un effet attendu fort sur le prix (coût, risque, usabilité, hygiène, aménités non réplicables). 2e ordre = raffinement esthétique, cohérence de design ou crédibilité perceptuelle. Si vous répondez Non, aucune classification d'ordre n'est demandée. La classification d'ordre de l'IA n'est pas affichée.",
   score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez chaque attribut perceptuel vous-même, uniquement à partir de ce que vous voyez. Les notes de l'IA ne sont pas affichées.",
   relevant_q:"Pertinent pour la valorisation ?", yes:"Oui", no:"Non", order_q:"Classification d'ordre ?", order_1:"1er ordre", order_2:"2e ordre",
   saved:"enregistré", completed:"Terminé", scored:"Noté", your_grade:"Votre note…", photos:"photos", no_houses:"Aucune maison assignée.",
@@ -248,7 +248,7 @@ fr:{
 <p>Nous utilisons l'IA multimodale pour extraire des <strong>attributs perceptuels</strong> à partir des photos d'annonces immobilières — des qualités qu'un acheteur perçoit (état de façade, lumière naturelle, aménagement, etc.) et qui peuvent expliquer les prix.</p>
 <p>Nous avons besoin d'une <strong>validation d'experts humains</strong> : (1) les attributs sont-ils pertinents ? (2) comment les classifiez-vous (1er vs 2e ordre) ? (3) quelles notes donneriez-vous aux maisons à partir des photos (indépendamment de l'IA) ?</p>
 <h3>Ce que nous vous demandons</h3>
-<p><strong>Onglet 1 — Validation :</strong> pour chacun des 59 attributs, indiquez (1) s'il compte pour la valorisation, et (2) l'ordre que <em>vous</em> jugez approprié (1er ou 2e). Nous ne montrons <strong>pas</strong> la classification d'ordre de l'IA.</p>
+<p><strong>Onglet 1 — Validation :</strong> pour chacun des 59 attributs, dites s'il compte pour la valorisation. Seulement si Oui, choisissez aussi 1er ou 2e ordre (l'ordre de l'IA n'est pas montré).</p>
 <p><strong>Onglet 2 — Notation :</strong> pour les maisons de votre lot, notez chaque attribut vous-même à partir des photos. Les notes de l'IA sont masquées. Sauvegarde automatique.</p>
 <table class="scale-table"><tr><th>Note</th><th>Signification</th></tr>
 <tr><td><strong>Excellent</strong></td><td>Qualité maximale, aucun problème visible</td></tr>
@@ -261,7 +261,7 @@ fr:{
 nl:{
   app_title:"Enquête perceptuele attributen", tab_welcome:"Welkom", tab_validate:"1. Attribuutvalidatie", tab_scoring:"2. Huizen scoren", tab_admin:"Beheer",
   sign_out:"Uitloggen", lot:"Lot", section:"Sectie:", order:"Orde:", all:"Alles", all_sections:"Alle secties", first_only:"Alleen 1e orde", second_only:"Alleen 2e orde",
-  your_progress:"Uw voortgang", val_instructions:"Geef per attribuut aan (1) of het relevant is voor woningwaardering, en (2) of u het als 1e of 2e orde classificeert. 1e orde = direct waarneembaar met een sterk verwacht prijseffect (kosten, risico, bruikbaarheid, hygiëne, niet-repliceerbare amenities). 2e orde = eerder een verfijning van esthetiek, ontwerpcoherentie of perceptuele geloofwaardigheid. De ordeclassificatie van de AI wordt niet getoond, zodat uw oordeel onafhankelijk blijft.",
+  your_progress:"Uw voortgang", val_instructions:"Geef per attribuut aan of het relevant is voor woningwaardering. Alleen als u Ja antwoordt, classificeert u het ook als 1e of 2e orde. 1e orde = direct waarneembaar met een sterk verwacht prijseffect (kosten, risico, bruikbaarheid, hygiëne, niet-repliceerbare amenities). 2e orde = eerder een verfijning van esthetiek, ontwerpcoherentie of perceptuele geloofwaardigheid. Bij Nee is geen ordeclassificatie nodig. De ordeclassificatie van de AI wordt niet getoond.",
   score_instructions:"Kies een huis, bekijk de foto's en geef elk perceptueel attribuut zelf een score op basis van wat u ziet. AI-scores worden niet getoond.",
   relevant_q:"Relevant voor waardering?", yes:"Ja", no:"Nee", order_q:"Ordeclassificatie?", order_1:"1e orde", order_2:"2e orde",
   saved:"opgeslagen", completed:"Voltooid", scored:"Gescoord", your_grade:"Uw score…", photos:"foto's", no_houses:"Geen huizen toegewezen.",
@@ -276,7 +276,7 @@ nl:{
 <p>We gebruiken multimodale AI om <strong>perceptuele attributen</strong> uit woningfoto's te halen — kwaliteiten die een koper ziet (gevelstaat, natuurlijk licht, tuin, enz.) en die woningprijzen helpen verklaren.</p>
 <p>We hebben <strong>menselijke expertvalidatie</strong> nodig over (1) of de attributen ertoe doen, (2) hoe u hun prioriteit classificeert (1e vs 2e orde), en (3) hoe u huizen zou scoren op basis van foto's (onafhankelijk van de AI).</p>
 <h3>Wat vragen we van u?</h3>
-<p><strong>Tab 1 — Validatie:</strong> voor elk van de 59 attributen: (1) relevant voor waardering? (2) welke orde <em>u</em> toekent (1e of 2e). We tonen de ordeclassificatie van de AI <strong>niet</strong>.</p>
+<p><strong>Tab 1 — Validatie:</strong> voor elk van de 59 attributen: relevant voor waardering? Alleen bij Ja kiest u ook 1e of 2e orde (AI-orde wordt niet getoond).</p>
 <p><strong>Tab 2 — Scoren:</strong> voor huizen in uw lot foto's bekijken en elk attribuut zelf scoren. AI-scores zijn verborgen. Antwoorden worden automatisch opgeslagen.</p>
 <table class="scale-table"><tr><th>Score</th><th>Betekenis</th></tr>
 <tr><td><strong>Excellent</strong></td><td>Topkwaliteit, geen zichtbare problemen</td></tr>
@@ -343,13 +343,19 @@ async function loadValidation() {
     renderValidation();
 }
 
+function isValComplete(s) {
+    if (!s || !s.relevant) return false;
+    if (s.relevant === 'no') return true;
+    return s.relevant === 'yes' && !!s.order_opinion;
+}
+
 function renderValidation() {
     const secF = document.getElementById('valFilterSec').value;
     const filtered = TX.filter(a => {
         if (secF !== 'all' && a.sec !== secF) return false;
         return true;
     });
-    const done = TX.filter(a => TX_SAVED[a.vn] && TX_SAVED[a.vn].relevant && TX_SAVED[a.vn].order_opinion).length;
+    const done = TX.filter(a => isValComplete(TX_SAVED[a.vn])).length;
     document.getElementById('valProgress').textContent = `${t('completed')}: ${done} / ${TX.length}`;
 
     const groups = {};
@@ -366,7 +372,15 @@ function renderValidation() {
             html += `<div class="sub-header">${SL[sub] || sub}</div>`;
             attrs.forEach(a => {
                 const s = TX_SAVED[a.vn] || {};
-                const tick = (s.relevant && s.order_opinion) ? `<span class="saved-tick"><i class="bi bi-check-circle-fill"></i> ${t('saved')}</span>` : '';
+                const tick = isValComplete(s) ? `<span class="saved-tick"><i class="bi bi-check-circle-fill"></i> ${t('saved')}</span>` : '';
+                const orderBlock = s.relevant === 'yes' ? `
+                    <div>
+                        <span class="attr-q">${t('order_q')}</span>
+                        <div class="btn-group">
+                            <button class="btn-1${s.order_opinion==='first'?' sel':''}" onclick="saveVal('${a.vn}','order_opinion','first')">${t('order_1')}</button>
+                            <button class="btn-2${s.order_opinion==='second'?' sel':''}" onclick="saveVal('${a.vn}','order_opinion','second')">${t('order_2')}</button>
+                        </div>
+                    </div>` : '';
                 html += `<div class="attr-card">
                     <div class="attr-header">
                         <div class="attr-name">${a.feat.replace(/_/g,' ')} ${tick}</div>
@@ -382,13 +396,7 @@ function renderValidation() {
                                 <button class="btn-n${s.relevant==='no'?' sel':''}" onclick="saveVal('${a.vn}','relevant','no')">${t('no')}</button>
                             </div>
                         </div>
-                        <div>
-                            <span class="attr-q">${t('order_q')}</span>
-                            <div class="btn-group">
-                                <button class="btn-1${s.order_opinion==='first'?' sel':''}" onclick="saveVal('${a.vn}','order_opinion','first')">${t('order_1')}</button>
-                                <button class="btn-2${s.order_opinion==='second'?' sel':''}" onclick="saveVal('${a.vn}','order_opinion','second')">${t('order_2')}</button>
-                            </div>
-                        </div>
+                        ${orderBlock}
                     </div>
                 </div>`;
             });
@@ -400,9 +408,14 @@ function renderValidation() {
 async function saveVal(vn, field, value) {
     if (!TX_SAVED[vn]) TX_SAVED[vn] = {};
     TX_SAVED[vn][field] = value;
+    if (field === 'relevant' && value === 'no') {
+        TX_SAVED[vn].order_opinion = '';
+    }
+    const payload = {variable_name: vn, ...TX_SAVED[vn]};
+    if (payload.relevant === 'no') payload.order_opinion = '';
     await fetch('/save/validation', {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({variable_name: vn, ...TX_SAVED[vn]})
+        body: JSON.stringify(payload)
     });
     renderValidation();
 }
