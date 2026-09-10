@@ -459,15 +459,18 @@ def admin_dashboard():
     return jsonify(stats=stats)
 
 
+# Load data + DB whenever the app starts (gunicorn OR python app.py)
+init_db()
+load_data()
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--port", type=int, default=5000)
     parser.add_argument("--host", default="0.0.0.0")
     args = parser.parse_args()
 
-    init_db()
-    load_data()
     print(f"\n  Survey running at http://localhost:{args.port}")
     print(f"  Images: {IMAGES_DIR}")
-    print(f"  Houses: {len(HOUSES)} | Attributes: {len(TAXONOMY)}\n")
+    print(f"  Houses: {len(HOUSES)} | Attributes: {len(TAXONOMY)}")
+    print(f"  Users: {len(USERS)}\n")
     app.run(host=args.host, port=args.port, debug=False)
