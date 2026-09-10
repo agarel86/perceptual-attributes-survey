@@ -175,8 +175,11 @@ def init_db():
         UNIQUE(username, house_id, variable_name)
     )""")
     db.commit()
-    # One-shot clean sheet (set SURVEY_FORCE_CLEAN=1 on Railway, redeploy, then unset)
-    if os.environ.get("SURVEY_FORCE_CLEAN", "").strip() in ("1", "true", "yes"):
+
+    # One-shot clean sheet before real fieldwork (marker lives next to the DB / volume)
+    marker = os.path.join(os.path.dirname(os.path.abspath(DB_PATH)), ".survey_clean_sheet_v1")
+    force = os.environ.get("SURVEY_FORCE_CLEAN", "").strip().lower() in ("1", "true", "yes")
+    if force or not os.path.exists(marker):
         db.execute("DELETE FROM attribute_validation")
         db.execute("DELETE FROM house_scoring")
         try:
@@ -186,7 +189,13 @@ def init_db():
         except sqlite3.Error:
             pass
         db.commit()
-        print("SURVEY_FORCE_CLEAN: all validation and scoring responses wiped.")
+        try:
+            with open(marker, "w", encoding="utf-8") as f:
+                f.write(datetime.utcnow().isoformat() + "\n")
+        except OSError as e:
+            print("Could not write clean-sheet marker:", e)
+        print("Clean sheet: all validation and scoring responses wiped.")
+
     db.close()
 
 
