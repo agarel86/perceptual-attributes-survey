@@ -1,0 +1,13 @@
+# Local Python runtime (portable)
+.python/
+__pycache__/
+*.pyc
+.env
+.secret_key
+
+# Runtime DB & local exports (keep data/ JSON, not live answers)
+survey.db
+survey.db-*
+exports/
+*.log
+.DS_Store
