@@ -1,0 +1,1592 @@
+{
+  "architectural_style": {
+    "feat": {
+      "fr": "Style architectural",
+      "nl": "Architectonische stijl"
+    },
+    "def": {
+      "fr": "L'identité esthétique et culturelle perçue du design architectural du bâtiment.",
+      "nl": "De waargenomen esthetische en culturele identiteit van het architecturale ontwerp van het gebouw."
+    },
+    "rat": {
+      "fr": "Le style architectural véhicule prestige, alignement culturel et résonance émotionnelle, influençant le caractère unique et l'attrait perçus.",
+      "nl": "Architectonische stijl straalt prestige, culturele afstemming en emotionele resonantie uit, wat de waargenomen uniciteit en aantrekkelijkheid beïnvloedt."
+    },
+    "cues": {
+      "fr": [
+        "forme du toit",
+        "symétrie de la façade",
+        "style des fenêtres",
+        "ornementation",
+        "matériaux utilisés",
+        "éléments de design historiques ou modernes"
+      ],
+      "nl": [
+        "dakvorm",
+        "gevelsymmetrie",
+        "raamstijl",
+        "ornamentiek",
+        "gebruikte materialen",
+        "historische of moderne ontwerpelementen"
+      ]
+    }
+  },
+  "facade_condition": {
+    "feat": {
+      "fr": "État de la façade",
+      "nl": "Staat van de gevel"
+    },
+    "def": {
+      "fr": "L'état visible d'entretien et d'intégrité des surfaces extérieures du bâtiment.",
+      "nl": "De zichtbare staat van onderhoud en integriteit van de buitenoppervlakken van het gebouw."
+    },
+    "rat": {
+      "fr": "Une façade bien entretenue signale un bon entretien et réduit les coûts de réparation futurs perçus, renforçant la qualité perçue.",
+      "nl": "Een goed onderhouden gevel signaleert zorgvuldig onderhoud en vermindert de waargenomen toekomstige reparatiekosten, wat de waargenomen kwaliteit verhoogt."
+    },
+    "cues": {
+      "fr": [
+        "qualité de la peinture",
+        "fissures",
+        "taches",
+        "moisissure",
+        "altération due aux intempéries",
+        "propreté"
+      ],
+      "nl": [
+        "verfkwaliteit",
+        "scheuren",
+        "vlekken",
+        "schimmel",
+        "verwering",
+        "netheid"
+      ]
+    }
+  },
+  "roof_condition": {
+    "feat": {
+      "fr": "État du toit",
+      "nl": "Staat van het dak"
+    },
+    "def": {
+      "fr": "L'état physique apparent et le niveau d'entretien du toit.",
+      "nl": "De ogenschijnlijke fysieke staat en het onderhoudsniveau van het dak."
+    },
+    "rat": {
+      "fr": "L'état du toit indique la solidité structurelle et le niveau d'entretien, influençant directement la durabilité et la valeur perçues.",
+      "nl": "De staat van het dak wijst op structurele soliditeit en onderhoudsniveau, wat direct de waargenomen duurzaamheid en waarde beïnvloedt."
+    },
+    "cues": {
+      "fr": [
+        "bardeaux manquants",
+        "décoloration",
+        "croissance de mousse",
+        "lignes d'affaissement"
+      ],
+      "nl": [
+        "ontbrekende dakpannen",
+        "verkleuring",
+        "mosgroei",
+        "doorhangende lijnen"
+      ]
+    }
+  },
+  "window_quality": {
+    "feat": {
+      "fr": "Qualité des fenêtres",
+      "nl": "Kwaliteit van de ramen"
+    },
+    "def": {
+      "fr": "La qualité, la modernité et l'état perçus des fenêtres.",
+      "nl": "De waargenomen kwaliteit, moderniteit en staat van de ramen."
+    },
+    "rat": {
+      "fr": "Les fenêtres influencent l'efficacité énergétique, le confort et l'attrait esthétique, affectant l'habitabilité et l'efficacité des coûts perçues.",
+      "nl": "Ramen beïnvloeden energie-efficiëntie, comfort en esthetische aantrekkingskracht, wat de waargenomen leefbaarheid en kostenefficiëntie beïnvloedt."
+    },
+    "cues": {
+      "fr": [
+        "matériau du cadre",
+        "propreté",
+        "double vitrage",
+        "intégrité des joints",
+        "cohérence du design"
+      ],
+      "nl": [
+        "materiaal van het kozijn",
+        "netheid",
+        "dubbel glas",
+        "integriteit van de afdichting",
+        "ontwerpconsistentie"
+      ]
+    }
+  },
+  "entryway_design": {
+    "feat": {
+      "fr": "Design de l'entrée",
+      "nl": "Ontwerp van de entree"
+    },
+    "def": {
+      "fr": "L'attrait visuel et le design de la zone d'entrée principale.",
+      "nl": "De visuele aantrekkingskracht en het ontwerp van het hoofdentreegedeelte."
+    },
+    "rat": {
+      "fr": "Une entrée accueillante et élégante renforce la première impression et le prestige perçu.",
+      "nl": "Een uitnodigende en elegante entree versterkt de eerste indruk en het waargenomen prestige."
+    },
+    "cues": {
+      "fr": [
+        "style de la porte",
+        "design du porche",
+        "éclairage",
+        "symétrie",
+        "éléments décoratifs"
+      ],
+      "nl": [
+        "deurstijl",
+        "ontwerp van de veranda",
+        "verlichting",
+        "symmetrie",
+        "decoratieve elementen"
+      ]
+    }
+  },
+  "garage_integration": {
+    "feat": {
+      "fr": "Intégration du garage",
+      "nl": "Integratie van de garage"
+    },
+    "def": {
+      "fr": "L'harmonie visuelle et l'intégration du garage avec la structure principale.",
+      "nl": "De visuele harmonie en integratie van de garage met de hoofdstructuur."
+    },
+    "rat": {
+      "fr": "Un design de garage bien intégré contribue à la cohérence architecturale et à la qualité perçue du bien.",
+      "nl": "Een goed geïntegreerd garageontwerp draagt bij aan architecturale coherentie en de waargenomen kwaliteit van het pand."
+    },
+    "cues": {
+      "fr": [
+        "design de la porte de garage",
+        "emplacement",
+        "proportion",
+        "matériaux"
+      ],
+      "nl": [
+        "ontwerp van de garagepoort",
+        "plaatsing",
+        "proportie",
+        "materialen"
+      ]
+    }
+  },
+  "balcony_or_terrace_design": {
+    "feat": {
+      "fr": "Design du balcon ou de la terrasse",
+      "nl": "Ontwerp van balkon of terras"
+    },
+    "def": {
+      "fr": "L'attrait esthétique et fonctionnel des balcons ou terrasses.",
+      "nl": "De esthetische en functionele aantrekkingskracht van balkons of terrassen."
+    },
+    "rat": {
+      "fr": "Les extensions extérieures renforcent la qualité de vie perçue et le potentiel de détente.",
+      "nl": "Buitenuitbreidingen verhogen de waargenomen levenskwaliteit en het ontspanningspotentieel."
+    },
+    "cues": {
+      "fr": [
+        "design de la rampe",
+        "taille",
+        "matériaux",
+        "exposition à la vue"
+      ],
+      "nl": [
+        "ontwerp van de railing",
+        "grootte",
+        "materialen",
+        "zichtblootstelling"
+      ]
+    }
+  },
+  "spatial_layout": {
+    "feat": {
+      "fr": "Agencement spatial",
+      "nl": "Ruimtelijke indeling"
+    },
+    "def": {
+      "fr": "L'ouverture, la circulation et l'agencement fonctionnel perçus des espaces intérieurs.",
+      "nl": "De waargenomen openheid, doorstroming en functionele indeling van binnenruimtes."
+    },
+    "rat": {
+      "fr": "Des agencements efficaces et ouverts renforcent l'espace et l'utilisabilité perçus, augmentant l'attrait.",
+      "nl": "Efficiënte en open indelingen verhogen de waargenomen ruimtewerking en bruikbaarheid, wat de aantrekkelijkheid vergroot."
+    },
+    "cues": {
+      "fr": [
+        "connectivité des pièces",
+        "largeur des couloirs",
+        "conception en open space",
+        "lignes de vue"
+      ],
+      "nl": [
+        "verbinding tussen kamers",
+        "breedte van de gang",
+        "open-plan ontwerp",
+        "zichtlijnen"
+      ]
+    }
+  },
+  "ceiling_height": {
+    "feat": {
+      "fr": "Hauteur sous plafond",
+      "nl": "Plafondhoogte"
+    },
+    "def": {
+      "fr": "L'espace vertical perçu des pièces intérieures.",
+      "nl": "De waargenomen verticale ruimtelijkheid van interieurkamers."
+    },
+    "rat": {
+      "fr": "Des plafonds plus hauts évoquent le luxe et l'ouverture, influençant le statut et le confort perçus.",
+      "nl": "Hogere plafonds roepen luxe en openheid op, wat de waargenomen status en het comfort beïnvloedt."
+    },
+    "cues": {
+      "fr": [
+        "proportion des murs par rapport au plafond",
+        "hauteur des fenêtres",
+        "distribution de la lumière"
+      ],
+      "nl": [
+        "verhouding van muren tot plafond",
+        "raamhoogte",
+        "lichtverdeling"
+      ]
+    }
+  },
+  "natural_light": {
+    "feat": {
+      "fr": "Lumière naturelle",
+      "nl": "Natuurlijk licht"
+    },
+    "def": {
+      "fr": "La quantité et la qualité de la lumière du jour pénétrant dans les espaces intérieurs.",
+      "nl": "De hoeveelheid en kwaliteit van daglicht dat de binnenruimtes binnenkomt."
+    },
+    "rat": {
+      "fr": "La lumière naturelle améliore l'humeur, le confort et l'espace perçu, augmentant l'attractivité.",
+      "nl": "Natuurlijk licht verbetert de stemming, het comfort en de waargenomen ruimtewerking, wat de aantrekkelijkheid vergroot."
+    },
+    "cues": {
+      "fr": [
+        "taille des fenêtres",
+        "intensité de la lumière",
+        "douceur des ombres",
+        "indices d'orientation"
+      ],
+      "nl": [
+        "raamgrootte",
+        "lichtintensiteit",
+        "zachtheid van schaduwen",
+        "oriëntatie-aanwijzingen"
+      ]
+    }
+  },
+  "color_palette": {
+    "feat": {
+      "fr": "Palette de couleurs",
+      "nl": "Kleurenpalet"
+    },
+    "def": {
+      "fr": "Le schéma de couleurs dominant et son harmonie à l'intérieur.",
+      "nl": "Het dominante kleurenschema en de harmonie daarvan in het interieur."
+    },
+    "rat": {
+      "fr": "L'harmonie des couleurs influence la réponse émotionnelle et la perception de chaleur ou de modernité.",
+      "nl": "Kleurenharmonie beïnvloedt de emotionele respons en de waargenomen warmte of moderniteit."
+    },
+    "cues": {
+      "fr": [
+        "couleurs des murs",
+        "tons des sols",
+        "niveaux de contraste",
+        "température de couleur"
+      ],
+      "nl": [
+        "muurkleuren",
+        "vloertonen",
+        "contrastniveaus",
+        "kleurtemperatuur"
+      ]
+    }
+  },
+  "flooring_quality": {
+    "feat": {
+      "fr": "Qualité des sols",
+      "nl": "Kwaliteit van de vloeren"
+    },
+    "def": {
+      "fr": "La qualité matérielle visible et l'état des surfaces de sol.",
+      "nl": "De zichtbare materiaalkwaliteit en staat van vloeroppervlakken."
+    },
+    "rat": {
+      "fr": "Des sols de haute qualité signalent la durabilité et le confort, influençant la valeur perçue.",
+      "nl": "Hoogwaardige vloeren signaleren duurzaamheid en comfort, wat de waargenomen waarde beïnvloedt."
+    },
+    "cues": {
+      "fr": [
+        "type de matériau",
+        "brillance",
+        "marques d'usure",
+        "propreté"
+      ],
+      "nl": [
+        "materiaaltype",
+        "glans",
+        "slijtplekken",
+        "netheid"
+      ]
+    }
+  },
+  "wall_finish_condition": {
+    "feat": {
+      "fr": "État des finitions murales",
+      "nl": "Staat van de muurafwerking"
+    },
+    "def": {
+      "fr": "L'état visible et la qualité des surfaces et finitions murales.",
+      "nl": "De zichtbare staat en kwaliteit van muurvlakken en afwerkingen."
+    },
+    "rat": {
+      "fr": "Des murs bien entretenus indiquent un bon entretien et réduisent les besoins de rénovation perçus.",
+      "nl": "Goed onderhouden muren wijzen op goed onderhoud en verminderen de waargenomen renovatiebehoefte."
+    },
+    "cues": {
+      "fr": [
+        "uniformité de la peinture",
+        "fissures",
+        "texture",
+        "propreté"
+      ],
+      "nl": [
+        "egale verflaag",
+        "scheuren",
+        "textuur",
+        "netheid"
+      ]
+    }
+  },
+  "lighting_design": {
+    "feat": {
+      "fr": "Design de l'éclairage",
+      "nl": "Verlichtingsontwerp"
+    },
+    "def": {
+      "fr": "L'agencement et l'esthétique des luminaires artificiels.",
+      "nl": "De indeling en esthetiek van kunstmatige verlichtingsarmaturen."
+    },
+    "rat": {
+      "fr": "Un bon éclairage renforce l'ambiance et la sophistication perçue.",
+      "nl": "Goede verlichting versterkt de sfeer en de waargenomen verfijning."
+    },
+    "cues": {
+      "fr": [
+        "style des luminaires",
+        "distribution de la lumière",
+        "luminosité",
+        "température de couleur"
+      ],
+      "nl": [
+        "stijl van de armaturen",
+        "lichtverdeling",
+        "helderheid",
+        "kleurtemperatuur"
+      ]
+    }
+  },
+  "kitchen_design": {
+    "feat": {
+      "fr": "Design de la cuisine",
+      "nl": "Keukenontwerp"
+    },
+    "def": {
+      "fr": "Le design esthétique et fonctionnel de la zone cuisine.",
+      "nl": "Het esthetische en functionele ontwerp van de keukenruimte."
+    },
+    "rat": {
+      "fr": "Le design de la cuisine influence fortement la modernité et l'utilisabilité perçues.",
+      "nl": "Keukenontwerp beïnvloedt sterk de waargenomen moderniteit en bruikbaarheid."
+    },
+    "cues": {
+      "fr": [
+        "style des meubles",
+        "matériau du plan de travail",
+        "agencement",
+        "intégration des appareils"
+      ],
+      "nl": [
+        "stijl van de kasten",
+        "materiaal van het werkblad",
+        "indeling",
+        "integratie van apparatuur"
+      ]
+    }
+  },
+  "bathroom_design": {
+    "feat": {
+      "fr": "Design de la salle de bain",
+      "nl": "Badkamerontwerp"
+    },
+    "def": {
+      "fr": "L'attrait visuel et la modernité des équipements et finitions de salle de bain.",
+      "nl": "De visuele aantrekkingskracht en moderniteit van badkamerarmaturen en -afwerkingen."
+    },
+    "rat": {
+      "fr": "Les salles de bain sont des indicateurs clés de l'entretien du bien et du niveau de luxe.",
+      "nl": "Badkamers zijn belangrijke indicatoren van onderhoud van het pand en luxe niveau."
+    },
+    "cues": {
+      "fr": [
+        "qualité des carrelages",
+        "design des équipements",
+        "propreté",
+        "agencement"
+      ],
+      "nl": [
+        "tegelkwaliteit",
+        "ontwerp van de armaturen",
+        "netheid",
+        "indeling"
+      ]
+    }
+  },
+  "storage_space_visibility": {
+    "feat": {
+      "fr": "Visibilité des rangements",
+      "nl": "Zichtbaarheid van opslagruimte"
+    },
+    "def": {
+      "fr": "La présence visible et l'accessibilité des espaces de rangement.",
+      "nl": "De zichtbare aanwezigheid en toegankelijkheid van opslagruimtes."
+    },
+    "rat": {
+      "fr": "Des rangements amples renforcent la fonctionnalité et l'habitabilité perçues.",
+      "nl": "Ruime opslag verhoogt de waargenomen functionaliteit en leefbaarheid."
+    },
+    "cues": {
+      "fr": [
+        "portes de placard",
+        "armoires intégrées",
+        "visibilité du cellier"
+      ],
+      "nl": [
+        "kastdeuren",
+        "ingebouwde kasten",
+        "zichtbaarheid van de voorraadkast"
+      ]
+    }
+  },
+  "fireplace_presence": {
+    "feat": {
+      "fr": "Présence d'une cheminée",
+      "nl": "Aanwezigheid van een open haard"
+    },
+    "def": {
+      "fr": "L'existence et le design d'une cheminée comme élément focal intérieur.",
+      "nl": "Het bestaan en ontwerp van een open haard als centraal interieurelement."
+    },
+    "rat": {
+      "fr": "Les cheminées évoquent chaleur et luxe, renforçant l'attrait émotionnel et de statut.",
+      "nl": "Open haarden roepen warmte en luxe op, wat de emotionele en statusaantrekkingskracht versterkt."
+    },
+    "cues": {
+      "fr": [
+        "structure de la cheminée",
+        "design du manteau",
+        "matériau",
+        "emplacement"
+      ],
+      "nl": [
+        "structuur van de haard",
+        "ontwerp van de schouwmantel",
+        "materiaal",
+        "plaatsing"
+      ]
+    }
+  },
+  "staircase_design": {
+    "feat": {
+      "fr": "Design de l'escalier",
+      "nl": "Trapontwerp"
+    },
+    "def": {
+      "fr": "Le design esthétique et structurel des escaliers.",
+      "nl": "Het esthetische en structurele ontwerp van trappen."
+    },
+    "rat": {
+      "fr": "Des escaliers élégants signalent l'artisanat et le raffinement architectural.",
+      "nl": "Elegante trappen signaleren vakmanschap en architecturale verfijning."
+    },
+    "cues": {
+      "fr": [
+        "style de la rampe",
+        "matériau",
+        "forme",
+        "intégration avec l'espace"
+      ],
+      "nl": [
+        "stijl van de leuning",
+        "materiaal",
+        "vorm",
+        "integratie met de ruimte"
+      ]
+    }
+  },
+  "ceiling_finish": {
+    "feat": {
+      "fr": "Finition du plafond",
+      "nl": "Plafondafwerking"
+    },
+    "def": {
+      "fr": "La texture, le design et l'état visibles des plafonds.",
+      "nl": "De zichtbare textuur, het ontwerp en de staat van plafonds."
+    },
+    "rat": {
+      "fr": "Les finitions de plafond contribuent à l'attention au détail et à l'entretien perçus.",
+      "nl": "Plafondafwerkingen dragen bij aan de waargenomen aandacht voor detail en onderhoud."
+    },
+    "cues": {
+      "fr": [
+        "moulures",
+        "qualité de la peinture",
+        "intégration de l'éclairage"
+      ],
+      "nl": [
+        "lijstwerk",
+        "verfkwaliteit",
+        "integratie van verlichting"
+      ]
+    }
+  },
+  "room_proportion": {
+    "feat": {
+      "fr": "Proportion des pièces",
+      "nl": "Kamerproporties"
+    },
+    "def": {
+      "fr": "L'équilibre perçu entre les dimensions des pièces et l'échelle du mobilier.",
+      "nl": "Het waargenomen evenwicht tussen kamerafmetingen en meubelschaal."
+    },
+    "rat": {
+      "fr": "Des pièces bien proportionnées paraissent plus confortables et fonctionnelles.",
+      "nl": "Goed geproportioneerde kamers voelen comfortabeler en functioneler aan."
+    },
+    "cues": {
+      "fr": [
+        "ratios spatiaux",
+        "espacement du mobilier",
+        "ouverture visuelle"
+      ],
+      "nl": [
+        "ruimtelijke verhoudingen",
+        "meubelafstand",
+        "visuele openheid"
+      ]
+    }
+  },
+  "garden_landscaping": {
+    "feat": {
+      "fr": "Aménagement paysager du jardin",
+      "nl": "Tuinlandschapsarchitectuur"
+    },
+    "def": {
+      "fr": "La qualité de conception et d'entretien des espaces jardin ou cour.",
+      "nl": "De ontwerp- en onderhoudskwaliteit van tuin- of erfgebieden."
+    },
+    "rat": {
+      "fr": "L'aménagement paysager renforce l'attrait esthétique et signale le soin et l'investissement.",
+      "nl": "Landschapsarchitectuur versterkt de esthetische aantrekkingskracht en signaleert zorg en investering."
+    },
+    "cues": {
+      "fr": [
+        "état de la pelouse",
+        "agencement des plantes",
+        "allées",
+        "éléments décoratifs"
+      ],
+      "nl": [
+        "staat van het gazon",
+        "plantenindeling",
+        "paden",
+        "decoratieve elementen"
+      ]
+    }
+  },
+  "outdoor_living_areas": {
+    "feat": {
+      "fr": "Espaces de vie extérieurs",
+      "nl": "Buitenleefruimtes"
+    },
+    "def": {
+      "fr": "La présence et le design d'espaces extérieurs utilisables pour les loisirs.",
+      "nl": "De aanwezigheid en het ontwerp van bruikbare buitenruimtes voor vrije tijd."
+    },
+    "rat": {
+      "fr": "Les espaces de vie extérieurs augmentent la qualité de vie perçue et le potentiel de détente.",
+      "nl": "Buitenleefruimtes verhogen de waargenomen levenskwaliteit en het ontspanningspotentieel."
+    },
+    "cues": {
+      "fr": [
+        "mobilier de patio",
+        "terrasses en bois",
+        "pergolas",
+        "foyers extérieurs"
+      ],
+      "nl": [
+        "patio-meubels",
+        "vlonders",
+        "pergola's",
+        "vuurplaatsen"
+      ]
+    }
+  },
+  "fencing_and_privacy": {
+    "feat": {
+      "fr": "Clôture et intimité",
+      "nl": "Omheining en privacy"
+    },
+    "def": {
+      "fr": "Le niveau visible de délimitation des limites et de protection de l'intimité.",
+      "nl": "Het zichtbare niveau van erfafbakening en privacybescherming."
+    },
+    "rat": {
+      "fr": "L'intimité renforce la sécurité et le confort perçus.",
+      "nl": "Privacy versterkt de waargenomen veiligheid en het comfort."
+    },
+    "cues": {
+      "fr": [
+        "hauteur de la clôture",
+        "haies",
+        "éléments d'occultation"
+      ],
+      "nl": [
+        "hoogte van de omheining",
+        "hagen",
+        "afschermingselementen"
+      ]
+    }
+  },
+  "driveway_condition": {
+    "feat": {
+      "fr": "État de l'allée",
+      "nl": "Staat van de oprit"
+    },
+    "def": {
+      "fr": "L'état visible et la qualité matérielle de l'allée d'accès.",
+      "nl": "De zichtbare staat en materiaalkwaliteit van de oprit."
+    },
+    "rat": {
+      "fr": "Une allée bien entretenue signale un bon entretien du bien.",
+      "nl": "Een goed onderhouden oprit signaleert goed onderhoud van het pand."
+    },
+    "cues": {
+      "fr": [
+        "fissures de surface",
+        "propreté",
+        "type de matériau"
+      ],
+      "nl": [
+        "oppervlaktescheuren",
+        "netheid",
+        "materiaaltype"
+      ]
+    }
+  },
+  "outdoor_lighting_quality": {
+    "feat": {
+      "fr": "Éclairage extérieur",
+      "nl": "Buitenverlichting"
+    },
+    "def": {
+      "fr": "La présence et le design des luminaires extérieurs.",
+      "nl": "De aanwezigheid en het ontwerp van buitenverlichtingsarmaturen."
+    },
+    "rat": {
+      "fr": "L'éclairage extérieur renforce la sécurité et l'attrait esthétique.",
+      "nl": "Buitenverlichting versterkt de veiligheid en esthetische aantrekkingskracht."
+    },
+    "cues": {
+      "fr": [
+        "style des lampes",
+        "emplacement",
+        "couverture d'éclairage"
+      ],
+      "nl": [
+        "lampstijl",
+        "plaatsing",
+        "verlichtingsdekking"
+      ]
+    }
+  },
+  "swimming_pool_condition": {
+    "feat": {
+      "fr": "État de la piscine",
+      "nl": "Staat van het zwembad"
+    },
+    "def": {
+      "fr": "La propreté visible et l'entretien d'une piscine.",
+      "nl": "De zichtbare netheid en het onderhoud van een zwembad."
+    },
+    "rat": {
+      "fr": "Une piscine bien entretenue signale le luxe et le potentiel de loisirs.",
+      "nl": "Een goed onderhouden zwembad signaleert luxe en vrijetijdspotentieel."
+    },
+    "cues": {
+      "fr": [
+        "clarté de l'eau",
+        "état des carrelages",
+        "qualité du deck environnant"
+      ],
+      "nl": [
+        "helderheid van het water",
+        "staat van de tegels",
+        "kwaliteit van het omliggende dek"
+      ]
+    }
+  },
+  "outdoor_maintenance_level": {
+    "feat": {
+      "fr": "Entretien extérieur",
+      "nl": "Buitenonderhoud"
+    },
+    "def": {
+      "fr": "L'entretien global et la propreté des espaces extérieurs.",
+      "nl": "Het algehele onderhoud en de netheid van buitenruimtes."
+    },
+    "rat": {
+      "fr": "Le niveau d'entretien reflète le soin du propriétaire et l'état du bien.",
+      "nl": "Het onderhoudsniveau weerspiegelt de zorg van de eigenaar en de staat van het pand."
+    },
+    "cues": {
+      "fr": [
+        "présence de débris",
+        "croissance de mauvaises herbes",
+        "usure de la peinture des clôtures"
+      ],
+      "nl": [
+        "aanwezigheid van afval",
+        "onkruidgroei",
+        "verfslitage op hekken"
+      ]
+    }
+  },
+  "street_cleanliness": {
+    "feat": {
+      "fr": "Propreté de la rue",
+      "nl": "Netheid van de straat"
+    },
+    "def": {
+      "fr": "La propreté et l'ordre visibles de l'environnement de la rue.",
+      "nl": "De zichtbare netheid en ordelijkheid van de straatomgeving."
+    },
+    "rat": {
+      "fr": "Des rues propres signalent l'entretien de la communauté et la sécurité.",
+      "nl": "Schone straten signaleren gemeenschapsonderhoud en veiligheid."
+    },
+    "cues": {
+      "fr": [
+        "présence de déchets",
+        "état de la chaussée",
+        "entretien des trottoirs"
+      ],
+      "nl": [
+        "aanwezigheid van zwerfvuil",
+        "staat van de weg",
+        "onderhoud van de stoep"
+      ]
+    }
+  },
+  "neighboring_property_condition": {
+    "feat": {
+      "fr": "État des biens voisins",
+      "nl": "Staat van naburige panden"
+    },
+    "def": {
+      "fr": "L'entretien et la qualité visibles des biens adjacents.",
+      "nl": "Het zichtbare onderhoud en de kwaliteit van aangrenzende panden."
+    },
+    "rat": {
+      "fr": "Des environs bien entretenus renforcent la valeur de quartier perçue.",
+      "nl": "Goed onderhouden omgevingen verhogen de waargenomen buurtwaarde."
+    },
+    "cues": {
+      "fr": [
+        "entretien des façades",
+        "état des jardins",
+        "qualité de la peinture"
+      ],
+      "nl": [
+        "onderhoud van gevels",
+        "staat van de tuin",
+        "verfkwaliteit"
+      ]
+    }
+  },
+  "street_tree_cover": {
+    "feat": {
+      "fr": "Couverture arborée de la rue",
+      "nl": "Straatbomenbedekking"
+    },
+    "def": {
+      "fr": "La présence et la densité des arbres le long de la rue.",
+      "nl": "De aanwezigheid en dichtheid van bomen langs de straat."
+    },
+    "rat": {
+      "fr": "Les rues bordées d'arbres évoquent le calme et la qualité environnementale.",
+      "nl": "Met bomen omzoomde straten roepen rust en milieukwaliteit op."
+    },
+    "cues": {
+      "fr": [
+        "canopée des arbres",
+        "couverture d'ombre",
+        "densité de la végétation"
+      ],
+      "nl": [
+        "bomenkroon",
+        "schaduwdekking",
+        "dichtheid van groen"
+      ]
+    }
+  },
+  "traffic_visibility": {
+    "feat": {
+      "fr": "Visibilité du trafic",
+      "nl": "Zichtbaarheid van verkeer"
+    },
+    "def": {
+      "fr": "Le niveau apparent de trafic automobile près du bien.",
+      "nl": "Het ogenschijnlijke niveau van autoverkeer nabij het pand."
+    },
+    "rat": {
+      "fr": "Un trafic plus faible implique des environnements plus calmes et plus sûrs.",
+      "nl": "Minder verkeer impliceert stillere, veiligere omgevingen."
+    },
+    "cues": {
+      "fr": [
+        "voitures stationnées",
+        "largeur de la route",
+        "flou de mouvement des véhicules"
+      ],
+      "nl": [
+        "geparkeerde auto's",
+        "wegbreedte",
+        "bewegingsonscherpte van voertuigen"
+      ]
+    }
+  },
+  "noise_indicators": {
+    "feat": {
+      "fr": "Indicateurs de bruit",
+      "nl": "Geluidindicatoren"
+    },
+    "def": {
+      "fr": "Indices visuels suggérant des sources de bruit potentielles.",
+      "nl": "Visuele aanwijzingen die potentiële geluidsbronnen suggereren."
+    },
+    "rat": {
+      "fr": "L'exposition au bruit réduit la tranquillité et le confort perçus.",
+      "nl": "Blootstelling aan geluid vermindert de waargenomen rust en het comfort."
+    },
+    "cues": {
+      "fr": [
+        "proximité des routes",
+        "aéroports",
+        "zones commerciales"
+      ],
+      "nl": [
+        "nabijheid van wegen",
+        "luchthavens",
+        "commerciële gebieden"
+      ]
+    }
+  },
+  "view_quality": {
+    "feat": {
+      "fr": "Qualité de la vue",
+      "nl": "Kwaliteit van het uitzicht"
+    },
+    "def": {
+      "fr": "L'attrait esthétique et émotionnel des environs visibles.",
+      "nl": "De esthetische en emotionele aantrekkingskracht van de zichtbare omgeving."
+    },
+    "rat": {
+      "fr": "De belles vues renforcent le lien émotionnel et l'exclusivité perçue.",
+      "nl": "Mooie uitzichten versterken de emotionele band en de waargenomen exclusiviteit."
+    },
+    "cues": {
+      "fr": [
+        "paysages pittoresques",
+        "vues sur la skyline",
+        "perspectives ouvertes"
+      ],
+      "nl": [
+        "schilderachtige landschappen",
+        "skyline-uitzichten",
+        "open vergezichten"
+      ]
+    }
+  },
+  "proximity_to_nature": {
+    "feat": {
+      "fr": "Proximité de la nature",
+      "nl": "Nabijheid van de natuur"
+    },
+    "def": {
+      "fr": "La proximité visible d'éléments naturels ou d'espaces verts.",
+      "nl": "De zichtbare nabijheid van natuurlijke elementen of groene ruimtes."
+    },
+    "rat": {
+      "fr": "La proximité de la nature augmente le bien-être et l'attrait perçus.",
+      "nl": "Nabijheid van de natuur vergroot het waargenomen welzijn en de aantrekkelijkheid."
+    },
+    "cues": {
+      "fr": [
+        "parcs",
+        "forêts",
+        "plans d'eau",
+        "montagnes"
+      ],
+      "nl": [
+        "parken",
+        "bossen",
+        "waterlichamen",
+        "bergen"
+      ]
+    }
+  },
+  "urban_density": {
+    "feat": {
+      "fr": "Densité urbaine",
+      "nl": "Stedelijke dichtheid"
+    },
+    "def": {
+      "fr": "La compacité perçue et la densité des bâtiments de la zone.",
+      "nl": "De waargenomen compactheid en gebouwdichtheid van het gebied."
+    },
+    "rat": {
+      "fr": "Une densité plus faible implique plus d'intimité et d'espace, renforçant le confort.",
+      "nl": "Lagere dichtheid impliceert meer privacy en ruimte, wat het comfort versterkt."
+    },
+    "cues": {
+      "fr": [
+        "espacement des bâtiments",
+        "nombre de structures visibles",
+        "visibilité du ciel"
+      ],
+      "nl": [
+        "afstand tussen gebouwen",
+        "aantal zichtbare structuren",
+        "zichtbaarheid van de lucht"
+      ]
+    }
+  },
+  "lighting_and_safety_cues": {
+    "feat": {
+      "fr": "Indices d'éclairage et de sécurité",
+      "nl": "Verlichtings- en veiligheidsindicatoren"
+    },
+    "def": {
+      "fr": "La présence visible d'éclairage public et d'éléments de sécurité.",
+      "nl": "De zichtbare aanwezigheid van straatverlichting en veiligheidsvoorzieningen."
+    },
+    "rat": {
+      "fr": "Des éléments de sécurité visibles augmentent la sécurité et l'habitabilité perçues.",
+      "nl": "Zichtbare veiligheidsvoorzieningen verhogen de waargenomen veiligheid en leefbaarheid."
+    },
+    "cues": {
+      "fr": [
+        "lampadaires",
+        "caméras de sécurité",
+        "zones clôturées"
+      ],
+      "nl": [
+        "straatverlichting",
+        "beveiligingscamera's",
+        "afgerasterde zones"
+      ]
+    }
+  },
+  "neighborhood_aesthetic_cohesion": {
+    "feat": {
+      "fr": "Cohésion esthétique du quartier",
+      "nl": "Esthetische samenhang van de buurt"
+    },
+    "def": {
+      "fr": "L'harmonie visuelle et la cohérence des styles architecturaux dans la zone.",
+      "nl": "De visuele harmonie en consistentie van architecturale stijlen in het gebied."
+    },
+    "rat": {
+      "fr": "Les quartiers cohérents paraissent plus prestigieux et mieux planifiés.",
+      "nl": "Samenhangende buurten ogen prestigieuzer en beter gepland."
+    },
+    "cues": {
+      "fr": [
+        "alignement des bâtiments",
+        "harmonie des couleurs",
+        "uniformité du design"
+      ],
+      "nl": [
+        "uitlijning van gebouwen",
+        "kleurenharmonie",
+        "ontwerpuniformiteit"
+      ]
+    }
+  },
+  "air_clarity": {
+    "feat": {
+      "fr": "Clarté de l'air",
+      "nl": "Helderheid van de lucht"
+    },
+    "def": {
+      "fr": "La limpidité visible de l'air et l'absence de brume ou de pollution.",
+      "nl": "De zichtbare helderheid van de lucht en de afwezigheid van nevel of vervuiling."
+    },
+    "rat": {
+      "fr": "Un air clair implique des conditions de vie saines et agréables.",
+      "nl": "Heldere lucht impliceert gezonde en prettige leefomstandigheden."
+    },
+    "cues": {
+      "fr": [
+        "couleur du ciel",
+        "distance de visibilité",
+        "présence de brume"
+      ],
+      "nl": [
+        "kleur van de lucht",
+        "zichtafstand",
+        "aanwezigheid van nevel"
+      ]
+    }
+  },
+  "sun_exposure": {
+    "feat": {
+      "fr": "Exposition au soleil",
+      "nl": "Zonblootstelling"
+    },
+    "def": {
+      "fr": "L'orientation visible et l'exposition au soleil du bien.",
+      "nl": "De zichtbare oriëntatie en zonblootstelling van het pand."
+    },
+    "rat": {
+      "fr": "Une bonne exposition au soleil renforce la chaleur et l'efficacité énergétique.",
+      "nl": "Goede zonblootstelling versterkt warmte en energie-efficiëntie."
+    },
+    "cues": {
+      "fr": [
+        "direction des ombres",
+        "intensité du soleil",
+        "luminosité de la façade"
+      ],
+      "nl": [
+        "schaduwrichting",
+        "zonintensiteit",
+        "helderheid van de gevel"
+      ]
+    }
+  },
+  "topography_and_elevation": {
+    "feat": {
+      "fr": "Topographie et élévation",
+      "nl": "Topografie en liggingshoogte"
+    },
+    "def": {
+      "fr": "Les caractéristiques visibles d'élévation et de terrain du site du bien.",
+      "nl": "De zichtbare hoogte- en terreinkenmerken van het perceel."
+    },
+    "rat": {
+      "fr": "Les sites élevés véhiculent souvent l'exclusivité et de meilleures vues.",
+      "nl": "Verhoogde locaties stralen vaak exclusiviteit en betere uitzichten uit."
+    },
+    "cues": {
+      "fr": [
+        "pentes",
+        "vues depuis la hauteur",
+        "contours du terrain"
+      ],
+      "nl": [
+        "hellingen",
+        "uitzichten vanaf hoogte",
+        "terreincontouren"
+      ]
+    }
+  },
+  "proximity_to_water": {
+    "feat": {
+      "fr": "Proximité de l'eau",
+      "nl": "Nabijheid van water"
+    },
+    "def": {
+      "fr": "La proximité visible de lacs, rivières ou de la mer.",
+      "nl": "De zichtbare nabijheid van meren, rivieren of de zee."
+    },
+    "rat": {
+      "fr": "La proximité de l'eau renforce l'attrait émotionnel et le luxe perçu.",
+      "nl": "Nabijheid van water versterkt de emotionele aantrekkingskracht en de waargenomen luxe."
+    },
+    "cues": {
+      "fr": [
+        "reflets de l'eau",
+        "rivages",
+        "bateaux"
+      ],
+      "nl": [
+        "waterreflecties",
+        "oevers",
+        "boten"
+      ]
+    }
+  },
+  "greenery_density": {
+    "feat": {
+      "fr": "Densité de verdure",
+      "nl": "Dichtheid van groen"
+    },
+    "def": {
+      "fr": "L'abondance visible de végétation autour du bien.",
+      "nl": "De zichtbare overvloed aan vegetatie rondom het pand."
+    },
+    "rat": {
+      "fr": "Un environnement vert augmente la tranquillité et le caractère sain perçus.",
+      "nl": "Groene omgevingen verhogen de waargenomen rust en gezondheid."
+    },
+    "cues": {
+      "fr": [
+        "arbres",
+        "arbustes",
+        "pelouses",
+        "parterres de fleurs"
+      ],
+      "nl": [
+        "bomen",
+        "struiken",
+        "gazons",
+        "bloembedden"
+      ]
+    }
+  },
+  "urban_view_elements": {
+    "feat": {
+      "fr": "Éléments de vue urbaine",
+      "nl": "Stedelijke uitzichtelementen"
+    },
+    "def": {
+      "fr": "La présence visible de monuments urbains ou de paysages de ville.",
+      "nl": "De zichtbare aanwezigheid van stedelijke landmarken of stadsgezichten."
+    },
+    "rat": {
+      "fr": "Les vues urbaines peuvent signaler le prestige et la connectivité.",
+      "nl": "Stedelijke uitzichten kunnen prestige en connectiviteit signaleren."
+    },
+    "cues": {
+      "fr": [
+        "skyline",
+        "ponts",
+        "tours"
+      ],
+      "nl": [
+        "skyline",
+        "bruggen",
+        "torens"
+      ]
+    }
+  },
+  "image_brightness": {
+    "feat": {
+      "fr": "Luminosité de l'image",
+      "nl": "Beeldhelderheid"
+    },
+    "def": {
+      "fr": "Le niveau global de luminance et d'exposition des photos de l'annonce.",
+      "nl": "Het algehele luminantie- en belichtingsniveau van de advertentiefoto's."
+    },
+    "rat": {
+      "fr": "Des images lumineuses renforcent la propreté et l'espace perçus.",
+      "nl": "Heldere beelden versterken de waargenomen netheid en ruimtewerking."
+    },
+    "cues": {
+      "fr": [
+        "intensité de la lumière",
+        "profondeur des ombres",
+        "équilibre d'exposition"
+      ],
+      "nl": [
+        "lichtintensiteit",
+        "schaduwdiepte",
+        "belichtingsbalans"
+      ]
+    }
+  },
+  "image_sharpness": {
+    "feat": {
+      "fr": "Netteté de l'image",
+      "nl": "Beeldscherpte"
+    },
+    "def": {
+      "fr": "La clarté et la qualité de mise au point des photos de l'annonce.",
+      "nl": "De helderheid en scherpstelkwaliteit van de advertentiefoto's."
+    },
+    "rat": {
+      "fr": "Des images nettes véhiculent le professionnalisme et la transparence.",
+      "nl": "Scherpe beelden stralen professionaliteit en transparantie uit."
+    },
+    "cues": {
+      "fr": [
+        "définition des contours",
+        "niveau de bruit",
+        "précision de la mise au point"
+      ],
+      "nl": [
+        "randdefinitie",
+        "ruisniveau",
+        "scherpstelnauwkeurigheid"
+      ]
+    }
+  },
+  "color_temperature_balance": {
+    "feat": {
+      "fr": "Température de couleur",
+      "nl": "Kleurtemperatuur"
+    },
+    "def": {
+      "fr": "La chaleur ou la froideur de la tonalité colorimétrique de la photo.",
+      "nl": "De warmte of koelte van de kleurtoon van de foto."
+    },
+    "rat": {
+      "fr": "Les tons chauds évoquent le confort, tandis que les tons froids suggèrent la modernité.",
+      "nl": "Warme tonen roepen gezelligheid op, terwijl koele tonen moderniteit suggereren."
+    },
+    "cues": {
+      "fr": [
+        "balance des blancs",
+        "dominante de couleur",
+        "teinte de l'éclairage"
+      ],
+      "nl": [
+        "witbalans",
+        "kleurzweem",
+        "tint van de verlichting"
+      ]
+    }
+  },
+  "composition_and_angle_quality": {
+    "feat": {
+      "fr": "Composition et angle",
+      "nl": "Compositie en hoek"
+    },
+    "def": {
+      "fr": "Le cadrage et la perspective utilisés dans les photos du bien.",
+      "nl": "Het kaderen en perspectief gebruikt in de pandfoto's."
+    },
+    "rat": {
+      "fr": "Une composition professionnelle renforce la qualité perçue du bien.",
+      "nl": "Professionele compositie versterkt de waargenomen kwaliteit van het pand."
+    },
+    "cues": {
+      "fr": [
+        "hauteur de la caméra",
+        "symétrie",
+        "représentation de la profondeur"
+      ],
+      "nl": [
+        "camerahoogte",
+        "symmetrie",
+        "diepteweergave"
+      ]
+    }
+  },
+  "image_consistency_across_set": {
+    "feat": {
+      "fr": "Cohérence des images",
+      "nl": "Beeldconsistentie"
+    },
+    "def": {
+      "fr": "L'uniformité de style et d'éclairage sur l'ensemble des photos de l'annonce.",
+      "nl": "De uniformiteit van stijl en belichting over alle advertentiefoto's."
+    },
+    "rat": {
+      "fr": "Une imagerie cohérente signale un marketing professionnel et la fiabilité.",
+      "nl": "Consistente beelden signaleren professionele marketing en betrouwbaarheid."
+    },
+    "cues": {
+      "fr": [
+        "cohérence de la balance des couleurs",
+        "uniformité de l'exposition"
+      ],
+      "nl": [
+        "consistentie van de kleurbalans",
+        "uniformiteit van belichting"
+      ]
+    }
+  },
+  "furniture_arrangement_quality": {
+    "feat": {
+      "fr": "Disposition du mobilier",
+      "nl": "Meubelopstelling"
+    },
+    "def": {
+      "fr": "L'organisation spatiale du mobilier pour mettre en valeur la fonctionnalité des pièces.",
+      "nl": "De ruimtelijke organisatie van meubels om de functionaliteit van kamers te benadrukken."
+    },
+    "rat": {
+      "fr": "Une bonne disposition renforce l'utilisabilité et l'espace perçus.",
+      "nl": "Een goede opstelling versterkt de waargenomen bruikbaarheid en ruimtewerking."
+    },
+    "cues": {
+      "fr": [
+        "espacement du mobilier",
+        "circulation",
+        "équilibre"
+      ],
+      "nl": [
+        "meubelafstand",
+        "doorstroming",
+        "balans"
+      ]
+    }
+  },
+  "decor_style_quality": {
+    "feat": {
+      "fr": "Style de décoration",
+      "nl": "Decoratiestijl"
+    },
+    "def": {
+      "fr": "La cohérence esthétique et le bon goût de la décoration intérieure.",
+      "nl": "De esthetische coherentie en smaakvolheid van interieurdecoratie."
+    },
+    "rat": {
+      "fr": "Une décoration élégante renforce l'attrait émotionnel et la sophistication perçue.",
+      "nl": "Stijlvolle decoratie versterkt de emotionele aantrekkingskracht en de waargenomen verfijning."
+    },
+    "cues": {
+      "fr": [
+        "œuvres d'art",
+        "coordination des couleurs",
+        "style des accessoires"
+      ],
+      "nl": [
+        "kunstwerken",
+        "kleurafstemming",
+        "accessoirestijl"
+      ]
+    }
+  },
+  "cleanliness_and_order": {
+    "feat": {
+      "fr": "Propreté et ordre",
+      "nl": "Netheid en orde"
+    },
+    "def": {
+      "fr": "La propreté et l'ordre visibles de l'environnement mis en scène.",
+      "nl": "De zichtbare netheid en ordelijkheid van de gestylede omgeving."
+    },
+    "rat": {
+      "fr": "La propreté signale le soin et la préparation à l'occupation.",
+      "nl": "Netheid signaleert zorg en gereedheid voor bewoning."
+    },
+    "cues": {
+      "fr": [
+        "absence d'encombrement",
+        "brillance des surfaces",
+        "espaces organisés"
+      ],
+      "nl": [
+        "afwezigheid van rommel",
+        "glans van oppervlakken",
+        "georganiseerde ruimtes"
+      ]
+    }
+  },
+  "personalization_level": {
+    "feat": {
+      "fr": "Niveau de personnalisation",
+      "nl": "Personalisatieniveau"
+    },
+    "def": {
+      "fr": "Le degré auquel l'espace paraît neutre ou personnalisé.",
+      "nl": "De mate waarin de ruimte neutraal versus gepersonaliseerd oogt."
+    },
+    "rat": {
+      "fr": "Une mise en scène neutre permet aux acheteurs de s'imaginer dans l'espace.",
+      "nl": "Neutrale staging stelt kopers in staat zichzelf in de ruimte voor te stellen."
+    },
+    "cues": {
+      "fr": [
+        "photos de famille",
+        "objets personnels",
+        "décoration neutre"
+      ],
+      "nl": [
+        "familiefoto's",
+        "persoonlijke spullen",
+        "neutrale decoratie"
+      ]
+    }
+  },
+  "lighting_enhancement_quality": {
+    "feat": {
+      "fr": "Amélioration de l'éclairage",
+      "nl": "Verlichtingsverbetering"
+    },
+    "def": {
+      "fr": "L'utilisation de l'éclairage artificiel pour améliorer l'attrait visuel.",
+      "nl": "Het gebruik van kunstmatige verlichting om de visuele aantrekkingskracht te verbeteren."
+    },
+    "rat": {
+      "fr": "Un éclairage renforcé améliore la chaleur et l'attractivité perçues.",
+      "nl": "Verbeterde verlichting verbetert de waargenomen warmte en aantrekkelijkheid."
+    },
+    "cues": {
+      "fr": [
+        "emplacement des lampes",
+        "chaleur de la lumière",
+        "éléments mis en valeur"
+      ],
+      "nl": [
+        "lampplaatsing",
+        "lichtwarmte",
+        "uitgelichte kenmerken"
+      ]
+    }
+  },
+  "curtain_and_window_treatment_quality": {
+    "feat": {
+      "fr": "Rideaux et habillage des fenêtres",
+      "nl": "Gordijnen en raambekleding"
+    },
+    "def": {
+      "fr": "Le design et l'état des habillages de fenêtres.",
+      "nl": "Het ontwerp en de staat van raambekleding."
+    },
+    "rat": {
+      "fr": "Les habillages de fenêtres influencent l'élégance perçue et le contrôle de la lumière.",
+      "nl": "Raambekleding beïnvloedt de waargenomen elegantie en lichtregulering."
+    },
+    "cues": {
+      "fr": [
+        "matériau des rideaux",
+        "couleur",
+        "ouverture"
+      ],
+      "nl": [
+        "gordijnmateriaal",
+        "kleur",
+        "opening"
+      ]
+    }
+  },
+  "room_function_clarity": {
+    "feat": {
+      "fr": "Clarté de la fonction des pièces",
+      "nl": "Duidelijkheid van kamerfunctie"
+    },
+    "def": {
+      "fr": "La clarté avec laquelle la destination de chaque pièce est communiquée visuellement.",
+      "nl": "De duidelijkheid waarmee het doel van elke kamer visueel wordt gecommuniceerd."
+    },
+    "rat": {
+      "fr": "Des fonctions de pièce claires aident les acheteurs à visualiser l'usage pratique.",
+      "nl": "Duidelijke kamerfuncties helpen kopers het praktische gebruik te visualiseren."
+    },
+    "cues": {
+      "fr": [
+        "type de mobilier",
+        "indices d'agencement",
+        "contexte décoratif"
+      ],
+      "nl": [
+        "meubeltype",
+        "indelingsaanwijzingen",
+        "decoratieve context"
+      ]
+    }
+  },
+  "curb_appeal_quality": {
+    "feat": {
+      "fr": "Attrait depuis la rue",
+      "nl": "Aantrekkingskracht vanaf de straat"
+    },
+    "def": {
+      "fr": "L'impression visuelle immédiate de l'extérieur du bien depuis la rue.",
+      "nl": "De onmiddellijke visuele indruk van het exterieur van het pand vanaf de straat."
+    },
+    "rat": {
+      "fr": "Un fort attrait depuis la rue crée de premières impressions positives et un prestige perçu.",
+      "nl": "Sterke aantrekkingskracht vanaf de straat creëert positieve eerste indrukken en waargenomen prestige."
+    },
+    "cues": {
+      "fr": [
+        "état du jardin avant",
+        "design de l'entrée",
+        "symétrie",
+        "propreté"
+      ],
+      "nl": [
+        "staat van de voortuin",
+        "ontwerp van de entree",
+        "symmetrie",
+        "netheid"
+      ]
+    }
+  },
+  "photo_sequence_cohesion": {
+    "feat": {
+      "fr": "Cohésion de la séquence photo",
+      "nl": "Samenhang van de fotosequentie"
+    },
+    "def": {
+      "fr": "Le flux logique et esthétique des images dans la séquence de l'annonce.",
+      "nl": "De logische en esthetische flow van beelden in de advertentiesequentie."
+    },
+    "rat": {
+      "fr": "Des séquences photo cohérentes renforcent la compréhension et l'engagement.",
+      "nl": "Samenhangende fotosequenties versterken begrip en betrokkenheid."
+    },
+    "cues": {
+      "fr": [
+        "ordre des photos",
+        "cohérence narrative",
+        "fluidité des transitions"
+      ],
+      "nl": [
+        "foto-volgorde",
+        "narratieve coherentie",
+        "soepelheid van overgangen"
+      ]
+    }
+  },
+  "seasonal_presentation_alignment": {
+    "feat": {
+      "fr": "Présentation saisonnière",
+      "nl": "Seizoenspresentatie"
+    },
+    "def": {
+      "fr": "Le contexte saisonnier visible sur les photos et son effet sur l'ambiance.",
+      "nl": "De seizoenscontext zichtbaar op foto's en het effect daarvan op de sfeer."
+    },
+    "rat": {
+      "fr": "Les indices saisonniers influencent la chaleur, la vivacité et la résonance émotionnelle.",
+      "nl": "Seizoensaanwijzingen beïnvloeden warmte, levendigheid en emotionele resonantie."
+    },
+    "cues": {
+      "fr": [
+        "neige",
+        "soleil",
+        "feuillage",
+        "décoration saisonnière"
+      ],
+      "nl": [
+        "sneeuw",
+        "zonlicht",
+        "bladerdak",
+        "seizoensdecoratie"
+      ]
+    }
+  }
+}

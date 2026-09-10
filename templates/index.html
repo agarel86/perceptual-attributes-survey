@@ -6,7 +6,7 @@
 <title>Perceptual Attribute Survey</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <style>
-:root{--brand:#1e3a5f;--accent:#3b82f6;--good:#16a34a;--avg:#d97706;--bad:#dc2626;--bg:#f0f2f5;--card:#fff;--text:#1a2b3c;--muted:#6b7a8d;--border:#e2e8f0}
+:root{--brand:#1e3a5f;--accent:#3b82f6;--good:#16a34a;--avg:#d97706;--bad:#dc2626;--bg:#f0f2f5;--card:#fff;--text:#1a2b3c;--muted:#6b7a8d;--border:#e2e8f0;--topbar-h:56px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
 .topbar{background:var(--brand);color:#fff;padding:10px 24px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.15);flex-wrap:wrap}
@@ -19,14 +19,15 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .topbar .right a:hover{color:#fff}
 .badge-user{background:rgba(255,255,255,.15);padding:3px 10px;border-radius:12px;font-size:.75rem}
 .lang{display:inline-flex;gap:3px}
-.lang a{text-decoration:none;font-size:.7rem;font-weight:700;padding:3px 7px;border-radius:4px;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.75)}
+.lang a{text-decoration:none;font-size:.7rem;font-weight:700;padding:3px 7px;border-radius:4px;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.75);cursor:pointer}
 .lang a.on{background:#fff;color:var(--brand);border-color:#fff}
-.container{max-width:1100px;margin:0 auto;padding:20px}
+.container{max-width:1200px;margin:0 auto;padding:20px}
 .tab-content{display:none}.tab-content.active{display:block}
 .intro{background:var(--card);border-radius:10px;padding:24px 28px;margin-bottom:20px;border:1px solid var(--border);line-height:1.65;font-size:.86rem;color:#374151}
 .intro h2{font-size:1.1rem;font-weight:700;color:var(--brand);margin-bottom:8px}
 .intro h3{font-size:.92rem;font-weight:600;color:var(--brand);margin:14px 0 6px}
 .intro p{margin-bottom:8px}
+.intro a{color:var(--accent)}
 .intro .scale-table{width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:.8rem}
 .intro .scale-table th,.intro .scale-table td{padding:5px 10px;text-align:left;border-bottom:1px solid var(--border)}
 .intro .scale-table th{background:#f8fafc;font-weight:600}
@@ -38,18 +39,15 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .attr-rat{font-size:.74rem;color:#777;margin-top:3px;font-style:italic;line-height:1.45}
 .attr-cues{font-size:.7rem;color:#999;margin-top:4px}
 .attr-cues span{background:#f1f5f9;padding:1px 6px;border-radius:3px;margin-right:3px;display:inline-block;margin-bottom:2px}
-.ord-badge{font-size:.62rem;padding:2px 8px;border-radius:10px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;flex-shrink:0}
-.ord-badge.first{background:#dcfce7;color:#166534}
-.ord-badge.second{background:#fff7ed;color:#c2410c}
 .attr-actions{display:flex;gap:14px;margin-top:10px;padding-top:8px;border-top:1px solid #f0f0f0;flex-wrap:wrap;align-items:center}
 .attr-q{font-size:.76rem;color:#555;font-weight:500;min-width:180px}
 .btn-group{display:inline-flex;gap:3px}
-.btn-group button{border:none;padding:4px 12px;border-radius:5px;font-size:.72rem;cursor:pointer;font-weight:500;transition:.12s}
-.btn-y{background:#dcfce7;color:#166534}.btn-y:hover,.btn-y.sel{background:#16a34a;color:#fff}
-.btn-n{background:#fee2e2;color:#991b1b}.btn-n:hover,.btn-n.sel{background:#dc2626;color:#fff}
-.btn-1{background:#dcfce7;color:#166534}.btn-1:hover,.btn-1.sel{background:#15803d;color:#fff}
-.btn-2{background:#fff7ed;color:#c2410c}.btn-2:hover,.btn-2.sel{background:#c2410c;color:#fff}
-.btn-a{background:#dbeafe;color:#1d4ed8}.btn-a:hover,.btn-a.sel{background:#2563eb;color:#fff}
+.btn-group button{border:1px solid #cbd5e1;padding:4px 12px;border-radius:5px;font-size:.72rem;cursor:pointer;font-weight:500;transition:.12s;background:#f8fafc;color:#334155}
+.btn-group button:hover{background:#e2e8f0}
+.btn-y.sel{background:#16a34a;color:#fff;border-color:#16a34a}
+.btn-n.sel{background:#dc2626;color:#fff;border-color:#dc2626}
+.btn-1.sel{background:#15803d;color:#fff;border-color:#15803d}
+.btn-2.sel{background:#c2410c;color:#fff;border-color:#c2410c}
 .saved-tick{color:var(--good);font-size:.7rem;margin-left:6px}
 .sec-header{font-size:.95rem;font-weight:700;color:var(--brand);margin:22px 0 8px;padding-bottom:5px;border-bottom:2px solid var(--accent)}
 .sub-header{font-size:.82rem;font-weight:600;color:#555;margin:14px 0 6px;padding-left:8px;border-left:3px solid var(--accent)}
@@ -59,29 +57,23 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .house-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .house-btn .prog{display:block;font-size:.6rem;color:#94a3b8;margin-top:2px}
 .house-btn.active .prog{color:rgba(255,255,255,.7)}
-.img-viewer{background:#111827;border-radius:10px;padding:14px;margin-bottom:16px}
+.scoring-layout{display:grid;grid-template-columns:minmax(300px,.95fr) minmax(340px,1.05fr);gap:16px;align-items:start}
+.scoring-photos{position:sticky;top:calc(var(--topbar-h) + 8px);z-index:20}
+.img-viewer{background:#111827;border-radius:10px;padding:12px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
 .img-strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scroll-behavior:smooth}
 .img-strip::-webkit-scrollbar{height:5px}
 .img-strip::-webkit-scrollbar-thumb{background:rgba(255,255,255,.25);border-radius:3px}
-.thumb{width:88px;height:64px;object-fit:cover;border-radius:5px;cursor:pointer;border:2px solid transparent;flex-shrink:0;transition:.15s}
+.thumb{width:72px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;border:2px solid transparent;flex-shrink:0;transition:.15s}
 .thumb:hover{border-color:rgba(255,255,255,.4)}
 .thumb.active{border-color:var(--accent);box-shadow:0 0 6px rgba(59,130,246,.5)}
-.big-img{display:block;max-height:420px;max-width:100%;margin:10px auto 0;border-radius:8px;object-fit:contain}
+.big-img{display:block;max-height:min(42vh,380px);max-width:100%;margin:8px auto 0;border-radius:8px;object-fit:contain}
 .img-counter{color:rgba(255,255,255,.6);text-align:center;font-size:.75rem;margin-top:6px}
+.scoring-attrs{min-width:0}
 .feat-row{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:6px;margin-bottom:3px;background:var(--card);border:1px solid var(--border);flex-wrap:wrap;transition:.12s}
 .feat-row:hover{border-color:#c5c5c5}
 .feat-name{flex:1;min-width:160px;font-size:.8rem;font-weight:500}
 .feat-name small{display:block;color:#94a3b8;font-weight:400;font-size:.68rem}
-.ai-grade{display:inline-block;padding:2px 9px;border-radius:4px;font-size:.72rem;font-weight:600;min-width:64px;text-align:center}
-.ai-grade.Excellent{background:#dcfce7;color:#166534}
-.ai-grade.Good{background:#d1fae5;color:#065f46}
-.ai-grade.Average{background:#fef9c3;color:#854d0e}
-.ai-grade.Bad{background:#fee2e2;color:#991b1b}
-.ai-grade.Terrible{background:#fecaca;color:#7f1d1d}
-.ai-grade.Unknown{background:#f1f5f9;color:#64748b}
-.ai-grade.True{background:#dcfce7;color:#166534}
-.ai-grade.False{background:#fee2e2;color:#991b1b}
-.grade-select{padding:4px 8px;border-radius:5px;border:1.5px solid #d1d9e6;font-size:.78rem;min-width:100px;cursor:pointer}
+.grade-select{padding:4px 8px;border-radius:5px;border:1.5px solid #d1d9e6;font-size:.78rem;min-width:120px;cursor:pointer}
 .grade-select.done{border-color:var(--accent);background:#eff6ff}
 .progress-bar{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin:8px 0}
 .progress-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .3s}
@@ -94,12 +86,23 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .export-btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:6px;border:none;font-size:.8rem;font-weight:500;cursor:pointer;transition:.15s;text-decoration:none;color:#fff}
 .export-btn.blue{background:var(--accent)}.export-btn.blue:hover{background:#2563eb}
 .export-btn.green{background:var(--good)}.export-btn.green:hover{background:#15803d}
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:8px 24px;display:flex;justify-content:space-between;align-items:center;z-index:90;font-size:.78rem;color:var(--muted)}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:8px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:90;font-size:.78rem;color:var(--muted)}
+.nav-btns{display:flex;gap:8px;align-items:center}
+.nav-btns button{border:1px solid var(--border);background:#fff;color:var(--brand);padding:7px 14px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer}
+.nav-btns button:hover{border-color:var(--accent);color:var(--accent)}
+.nav-btns button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.nav-btns button:disabled{opacity:.4;cursor:not-allowed}
 .lot-selector{font-size:.8rem;padding:4px 8px;border:1px solid var(--border);border-radius:5px}
 .filter-bar{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center;font-size:.78rem}
 .filter-bar label{font-weight:500;color:var(--muted)}
 .filter-bar select{font-size:.78rem;padding:3px 8px;border-radius:5px;border:1px solid var(--border)}
-@media(max-width:640px){.topbar{gap:8px;padding:8px 12px}.container{padding:12px}.tabs button{padding:5px 10px;font-size:.72rem}}
+.affil{font-size:.8rem;color:var(--muted);margin-bottom:10px}
+@media(max-width:900px){
+  .scoring-layout{grid-template-columns:1fr}
+  .scoring-photos{position:sticky;top:calc(var(--topbar-h) + 4px)}
+  .big-img{max-height:28vh}
+}
+@media(max-width:640px){.topbar{gap:8px;padding:8px 12px}.container{padding:12px}.tabs button{padding:5px 10px;font-size:.72rem}.bottom-bar{padding:8px 12px;flex-wrap:wrap}}
 </style>
 </head>
 <body>
@@ -116,16 +119,16 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
     </div>
     <div class="right">
         <div class="lang">
-            <a href="/set-lang/en" class="{{ 'on' if lang=='en' else '' }}">EN</a>
-            <a href="/set-lang/fr" class="{{ 'on' if lang=='fr' else '' }}">FR</a>
-            <a href="/set-lang/nl" class="{{ 'on' if lang=='nl' else '' }}">NL</a>
+            <a href="#" class="{{ 'on' if lang=='en' else '' }}" onclick="return changeLang('en')">EN</a>
+            <a href="#" class="{{ 'on' if lang=='fr' else '' }}" onclick="return changeLang('fr')">FR</a>
+            <a href="#" class="{{ 'on' if lang=='nl' else '' }}" onclick="return changeLang('nl')">NL</a>
         </div>
         <span class="badge-user"><i class="bi bi-person-fill"></i> {{ username }}{% if lot_id %} · <span data-i18n="lot">Lot</span> {{ lot_id }}{% endif %}</span>
         <a href="/logout"><i class="bi bi-box-arrow-right"></i> <span data-i18n="sign_out">Sign out</span></a>
     </div>
 </div>
 
-<div class="container" style="padding-bottom:60px">
+<div class="container" style="padding-bottom:72px">
 
 <div class="tab-content active" id="tab-welcome">
     <div class="intro" id="welcomeIntro"></div>
@@ -192,7 +195,10 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 <div class="bottom-bar">
     <span id="bottomInfo" data-i18n="app_title">Perceptual Attribute Survey</span>
-    <span id="bottomProgress"></span>
+    <div class="nav-btns">
+        <button type="button" id="btnPrev" onclick="navTab(-1)"><i class="bi bi-chevron-left"></i> <span data-i18n="prev">Previous</span></button>
+        <button type="button" id="btnNext" class="primary" onclick="navTab(1)"><span data-i18n="next">Next</span> <i class="bi bi-chevron-right"></i></button>
+    </div>
 </div>
 
 <script>
@@ -200,28 +206,36 @@ const LANG = "{{ lang }}";
 const IS_ADMIN = {{ 'true' if is_admin else 'false' }};
 const USERNAME = "{{ username }}";
 const GRADES = ["Excellent","Good","Average","Bad","Terrible","Unknown"];
+const GRADE_LABELS = {
+  en:{Excellent:"Excellent",Good:"Good",Average:"Average",Bad:"Bad",Terrible:"Terrible",Unknown:"Unknown"},
+  fr:{Excellent:"Excellent",Good:"Bon",Average:"Moyen",Bad:"Mauvais",Terrible:"Très mauvais",Unknown:"Inconnu"},
+  nl:{Excellent:"Uitstekend",Good:"Goed",Average:"Gemiddeld",Bad:"Slecht",Terrible:"Zeer slecht",Unknown:"Onbekend"}
+};
 
 const I18N = {
 en:{
   app_title:"Perceptual Attribute Survey", tab_welcome:"Welcome", tab_validate:"1. Attribute Validation", tab_scoring:"2. House Scoring", tab_admin:"Admin Panel",
   sign_out:"Sign out", lot:"Lot", section:"Section:", order:"Order:", all:"All", all_sections:"All Sections", first_only:"First-Order Only", second_only:"Second-Order Only",
-  your_progress:"Your progress", val_instructions:"For each attribute, indicate whether it is relevant to house valuation. Only if you answer Yes, also classify it as first-order or second-order. First-order = directly observable with a strong expected effect on price (cost, risk, usability, hygiene, non-replicable amenities). Second-order = more of a refinement of aesthetic appeal, design coherence, or perceptual credibility. If you answer No, no order classification is needed. The AI's order classification is hidden.",
-  score_instructions:"Select a house, review its listing photographs, then grade each perceptual attribute yourself based only on what you see. AI grades are not shown.",
-  relevant_q:"Relevant to valuation?", yes:"Yes", no:"No", order_q:"Order classification?", order_1:"1st Order", order_2:"2nd Order",
+  your_progress:"Your progress", next:"Next", prev:"Previous", rationale:"Rationale",
+  val_instructions:"For each attribute, indicate whether it is relevant for a typical buyer's willingness to pay. Only if you answer Yes, also classify it as first-order or second-order. First-order = directly observable with a strong expected effect on price (cost, risk, usability, hygiene, non-replicable amenities). Second-order = more of a refinement of aesthetic appeal, design coherence, or perceptual credibility. If you answer No, no order classification is needed. Nothing is pre-filled — answers start blank. The AI's order classification is hidden.",
+  score_instructions:"Select a house, review its listing photographs, then grade each perceptual attribute from a typical buyer's point of view based only on what you see. Photos stay visible while you scroll. AI grades are not shown.",
+  relevant_q:"Relevant for a buyer's valuation?", yes:"Yes", no:"No", order_q:"Order classification?", order_1:"1st Order", order_2:"2nd Order",
   saved:"saved", completed:"Completed", scored:"Scored", your_grade:"Your grade…", photos:"photos", no_houses:"No houses assigned.",
   admin_blurb:"Export all survey responses collected from all users. Data is stored in SQLite and exported as CSV.",
   export_val:"Attribute Validation CSV", export_score:"House Scoring CSV", export_combined:"Combined Export (with AI grades)",
   user_progress:"User Progress", user:"User", houses:"Houses", validation:"Validation", scoring:"Scoring",
   progress_val:"Attribute Validation", progress_score:"House Scoring",
-  welcome_html:`<h2>Welcome to the Perceptual Attribute Rating Survey</h2>
-<p>Thank you for participating in this research study. This tool is part of the paper:</p>
-<p style="font-style:italic;color:var(--brand);font-weight:500">"From Vision to Prediction: A Multimodal-AI Pipeline to Generate Perceptual Attributes for Price Prediction"</p>
-<h3>What is this about?</h3>
-<p>Our research uses multimodal AI to extract <strong>perceptual attributes</strong> from residential listing photographs — qualities a human viewer perceives (facade condition, natural light, landscaping, etc.) that help explain house prices.</p>
-<p>We need <strong>human expert validation</strong> of (1) whether the attributes themselves matter, (2) how you would classify their priority (first vs second order), and (3) how you would grade houses from photos (independently of the AI).</p>
-<h3>What do we need from you?</h3>
-<p><strong>Tab 1 — Attribute Validation:</strong> For each of 59 attributes, say whether it matters for valuation. Only if Yes, also choose 1st or 2nd order (AI order is hidden).</p>
-<p><strong>Tab 2 — House Scoring:</strong> For houses in your assigned lot, review photos and grade each attribute yourself. AI grades are hidden. Responses save automatically.</p>
+  welcome_html:`<h2>Expert survey on perceptual housing attributes</h2>
+<p class="affil"><strong>Alexandre Garel</strong> &amp; <strong>Koen W. De Bock</strong> · Audencia Business School (Nantes, France)<br>
+Non-commercial academic research · <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5987534" target="_blank" rel="noopener">Working paper on SSRN</a></p>
+<h3>Purpose</h3>
+<p>We study how <strong>visual impressions from listing photos</strong> relate to house prices. Multimodal AI can extract perceptual attributes (facade condition, natural light, landscaping, etc.). We ask real-estate experts to validate whether these attributes matter and how houses look on those attributes — so we can compare human judgment with the AI.</p>
+<p><strong>Please answer from a typical buyer's point of view</strong> (what would influence willingness to pay), not from your professional valuation methodology or appraisal checklist.</p>
+<h3>What we ask</h3>
+<p><strong>1. Attribute Validation:</strong> For each of 59 attributes — is it relevant for buyers? If Yes, is it 1st or 2nd order? (AI order is hidden; nothing is pre-answered.)</p>
+<p><strong>2. House Scoring:</strong> For houses in your lot, grade each attribute from the photos only. AI grades are hidden. Answers save automatically.</p>
+<h3>Data use</h3>
+<p>Responses are used only for academic research (working paper and related publications). Results are analysed in aggregate; we do not publish individual identities. Participation is voluntary. More detail is in the invitation email.</p>
 <table class="scale-table"><tr><th>Grade</th><th>Meaning</th></tr>
 <tr><td><strong>Excellent</strong></td><td>Top quality, no visible issues</td></tr>
 <tr><td><strong>Good</strong></td><td>Above average, minor imperfections</td></tr>
@@ -233,63 +247,70 @@ en:{
 fr:{
   app_title:"Enquête attributs perceptuels", tab_welcome:"Bienvenue", tab_validate:"1. Validation des attributs", tab_scoring:"2. Notation des maisons", tab_admin:"Administration",
   sign_out:"Déconnexion", lot:"Lot", section:"Section :", order:"Ordre :", all:"Tous", all_sections:"Toutes les sections", first_only:"1er ordre seulement", second_only:"2e ordre seulement",
-  your_progress:"Votre progression", val_instructions:"Pour chaque attribut, indiquez s'il est pertinent pour la valorisation immobilière. Seulement si vous répondez Oui, classifiez-le aussi en 1er ou 2e ordre. 1er ordre = directement observable, avec un effet attendu fort sur le prix (coût, risque, usabilité, hygiène, aménités non réplicables). 2e ordre = raffinement esthétique, cohérence de design ou crédibilité perceptuelle. Si vous répondez Non, aucune classification d'ordre n'est demandée. La classification d'ordre de l'IA n'est pas affichée.",
-  score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez chaque attribut perceptuel vous-même, uniquement à partir de ce que vous voyez. Les notes de l'IA ne sont pas affichées.",
-  relevant_q:"Pertinent pour la valorisation ?", yes:"Oui", no:"Non", order_q:"Classification d'ordre ?", order_1:"1er ordre", order_2:"2e ordre",
+  your_progress:"Votre progression", next:"Suivant", prev:"Précédent", rationale:"Justification",
+  val_instructions:"Pour chaque attribut, indiquez s'il est pertinent pour la disposition à payer d'un acheteur typique. Seulement si vous répondez Oui, classifiez-le aussi en 1er ou 2e ordre. 1er ordre = directement observable, avec un effet attendu fort sur le prix (coût, risque, usabilité, hygiène, aménités non réplicables). 2e ordre = raffinement esthétique, cohérence de design ou crédibilité perceptuelle. Si Non, aucune classification d'ordre n'est demandée. Rien n'est prérempli. La classification d'ordre de l'IA n'est pas affichée.",
+  score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez chaque attribut perceptuel du point de vue d'un acheteur typique, uniquement à partir de ce que vous voyez. Les photos restent visibles pendant le défilement. Les notes de l'IA ne sont pas affichées.",
+  relevant_q:"Pertinent pour un acheteur ?", yes:"Oui", no:"Non", order_q:"Classification d'ordre ?", order_1:"1er ordre", order_2:"2e ordre",
   saved:"enregistré", completed:"Terminé", scored:"Noté", your_grade:"Votre note…", photos:"photos", no_houses:"Aucune maison assignée.",
   admin_blurb:"Exportez toutes les réponses. Les données sont stockées en SQLite et exportées en CSV.",
   export_val:"CSV validation des attributs", export_score:"CSV notation des maisons", export_combined:"Export combiné (avec notes IA)",
   user_progress:"Progression des utilisateurs", user:"Utilisateur", houses:"Maisons", validation:"Validation", scoring:"Notation",
   progress_val:"Validation des attributs", progress_score:"Notation des maisons",
-  welcome_html:`<h2>Bienvenue dans l'enquête de notation des attributs perceptuels</h2>
-<p>Merci de participer à cette étude. Cet outil accompagne l'article :</p>
-<p style="font-style:italic;color:var(--brand);font-weight:500">« From Vision to Prediction: A Multimodal-AI Pipeline to Generate Perceptual Attributes for Price Prediction »</p>
-<h3>De quoi s'agit-il ?</h3>
-<p>Nous utilisons l'IA multimodale pour extraire des <strong>attributs perceptuels</strong> à partir des photos d'annonces immobilières — des qualités qu'un acheteur perçoit (état de façade, lumière naturelle, aménagement, etc.) et qui peuvent expliquer les prix.</p>
-<p>Nous avons besoin d'une <strong>validation d'experts humains</strong> : (1) les attributs sont-ils pertinents ? (2) comment les classifiez-vous (1er vs 2e ordre) ? (3) quelles notes donneriez-vous aux maisons à partir des photos (indépendamment de l'IA) ?</p>
-<h3>Ce que nous vous demandons</h3>
-<p><strong>Onglet 1 — Validation :</strong> pour chacun des 59 attributs, dites s'il compte pour la valorisation. Seulement si Oui, choisissez aussi 1er ou 2e ordre (l'ordre de l'IA n'est pas montré).</p>
-<p><strong>Onglet 2 — Notation :</strong> pour les maisons de votre lot, notez chaque attribut vous-même à partir des photos. Les notes de l'IA sont masquées. Sauvegarde automatique.</p>
+  welcome_html:`<h2>Enquête d'experts sur les attributs perceptuels du logement</h2>
+<p class="affil"><strong>Alexandre Garel</strong> &amp; <strong>Koen W. De Bock</strong> · Audencia Business School (Nantes, France)<br>
+Recherche académique non commerciale · <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5987534" target="_blank" rel="noopener">Working paper sur SSRN</a></p>
+<h3>Objectif</h3>
+<p>Nous étudions le lien entre les <strong>impressions visuelles des photos d'annonces</strong> et les prix des maisons. L'IA multimodale peut extraire des attributs perceptuels (état de façade, lumière naturelle, aménagement, etc.). Nous demandons à des experts immobiliers de valider si ces attributs comptent et comment les maisons se présentent — pour comparer le jugement humain à l'IA.</p>
+<p><strong>Répondez du point de vue d'un acheteur typique</strong> (ce qui influencerait la disposition à payer), et non selon votre méthodologie professionnelle d'évaluation.</p>
+<h3>Ce que nous demandons</h3>
+<p><strong>1. Validation des attributs :</strong> pour chacun des 59 attributs — pertinent pour les acheteurs ? Si Oui, 1er ou 2e ordre ? (ordre IA masqué ; rien n'est prérempli.)</p>
+<p><strong>2. Notation des maisons :</strong> pour les maisons de votre lot, notez chaque attribut à partir des photos seules. Notes IA masquées. Sauvegarde automatique.</p>
+<h3>Utilisation des données</h3>
+<p>Les réponses servent uniquement à la recherche académique (working paper et publications associées). Analyse agrégée ; pas de publication d'identités individuelles. Participation volontaire. Plus de détails dans l'e-mail d'invitation.</p>
 <table class="scale-table"><tr><th>Note</th><th>Signification</th></tr>
 <tr><td><strong>Excellent</strong></td><td>Qualité maximale, aucun problème visible</td></tr>
-<tr><td><strong>Good</strong></td><td>Au-dessus de la moyenne, imperfections mineures</td></tr>
-<tr><td><strong>Average</strong></td><td>Typique, ni notablement bon ni mauvais</td></tr>
-<tr><td><strong>Bad</strong></td><td>En dessous de la moyenne, problèmes visibles</td></tr>
-<tr><td><strong>Terrible</strong></td><td>Problèmes graves, défauts majeurs</td></tr>
-<tr><td><strong>Unknown</strong></td><td>Non évaluable à partir des photos disponibles</td></tr></table>`
+<tr><td><strong>Bon</strong></td><td>Au-dessus de la moyenne, imperfections mineures</td></tr>
+<tr><td><strong>Moyen</strong></td><td>Typique, ni notablement bon ni mauvais</td></tr>
+<tr><td><strong>Mauvais</strong></td><td>En dessous de la moyenne, problèmes visibles</td></tr>
+<tr><td><strong>Très mauvais</strong></td><td>Problèmes graves, défauts majeurs</td></tr>
+<tr><td><strong>Inconnu</strong></td><td>Non évaluable à partir des photos disponibles</td></tr></table>`
 },
 nl:{
   app_title:"Enquête perceptuele attributen", tab_welcome:"Welkom", tab_validate:"1. Attribuutvalidatie", tab_scoring:"2. Huizen scoren", tab_admin:"Beheer",
   sign_out:"Uitloggen", lot:"Lot", section:"Sectie:", order:"Orde:", all:"Alles", all_sections:"Alle secties", first_only:"Alleen 1e orde", second_only:"Alleen 2e orde",
-  your_progress:"Uw voortgang", val_instructions:"Geef per attribuut aan of het relevant is voor woningwaardering. Alleen als u Ja antwoordt, classificeert u het ook als 1e of 2e orde. 1e orde = direct waarneembaar met een sterk verwacht prijseffect (kosten, risico, bruikbaarheid, hygiëne, niet-repliceerbare amenities). 2e orde = eerder een verfijning van esthetiek, ontwerpcoherentie of perceptuele geloofwaardigheid. Bij Nee is geen ordeclassificatie nodig. De ordeclassificatie van de AI wordt niet getoond.",
-  score_instructions:"Kies een huis, bekijk de foto's en geef elk perceptueel attribuut zelf een score op basis van wat u ziet. AI-scores worden niet getoond.",
-  relevant_q:"Relevant voor waardering?", yes:"Ja", no:"Nee", order_q:"Ordeclassificatie?", order_1:"1e orde", order_2:"2e orde",
+  your_progress:"Uw voortgang", next:"Volgende", prev:"Vorige", rationale:"Onderbouwing",
+  val_instructions:"Geef per attribuut aan of het relevant is voor de betalingsbereidheid van een typische koper. Alleen bij Ja classificeert u het ook als 1e of 2e orde. 1e orde = direct waarneembaar met een sterk verwacht prijseffect (kosten, risico, bruikbaarheid, hygiëne, niet-repliceerbare amenities). 2e orde = eerder een verfijning van esthetiek, ontwerpcoherentie of perceptuele geloofwaardigheid. Bij Nee is geen ordeclassificatie nodig. Niets is vooraf ingevuld. De ordeclassificatie van de AI wordt niet getoond.",
+  score_instructions:"Kies een huis, bekijk de foto's en geef elk perceptueel attribuut een score vanuit het standpunt van een typische koper, alleen op basis van wat u ziet. Foto's blijven zichtbaar tijdens het scrollen. AI-scores worden niet getoond.",
+  relevant_q:"Relevant voor een koper?", yes:"Ja", no:"Nee", order_q:"Ordeclassificatie?", order_1:"1e orde", order_2:"2e orde",
   saved:"opgeslagen", completed:"Voltooid", scored:"Gescoord", your_grade:"Uw score…", photos:"foto's", no_houses:"Geen huizen toegewezen.",
   admin_blurb:"Exporteer alle antwoorden. Data staat in SQLite en wordt als CSV geëxporteerd.",
   export_val:"CSV attribuutvalidatie", export_score:"CSV huisenscores", export_combined:"Gecombineerde export (met AI-scores)",
   user_progress:"Voortgang gebruikers", user:"Gebruiker", houses:"Huizen", validation:"Validatie", scoring:"Scoring",
   progress_val:"Attribuutvalidatie", progress_score:"Huizen scoren",
-  welcome_html:`<h2>Welkom bij de enquête voor perceptuele attributen</h2>
-<p>Bedankt voor uw deelname. Deze tool hoort bij het artikel:</p>
-<p style="font-style:italic;color:var(--brand);font-weight:500">"From Vision to Prediction: A Multimodal-AI Pipeline to Generate Perceptual Attributes for Price Prediction"</p>
-<h3>Waarover gaat dit?</h3>
-<p>We gebruiken multimodale AI om <strong>perceptuele attributen</strong> uit woningfoto's te halen — kwaliteiten die een koper ziet (gevelstaat, natuurlijk licht, tuin, enz.) en die woningprijzen helpen verklaren.</p>
-<p>We hebben <strong>menselijke expertvalidatie</strong> nodig over (1) of de attributen ertoe doen, (2) hoe u hun prioriteit classificeert (1e vs 2e orde), en (3) hoe u huizen zou scoren op basis van foto's (onafhankelijk van de AI).</p>
-<h3>Wat vragen we van u?</h3>
-<p><strong>Tab 1 — Validatie:</strong> voor elk van de 59 attributen: relevant voor waardering? Alleen bij Ja kiest u ook 1e of 2e orde (AI-orde wordt niet getoond).</p>
-<p><strong>Tab 2 — Scoren:</strong> voor huizen in uw lot foto's bekijken en elk attribuut zelf scoren. AI-scores zijn verborgen. Antwoorden worden automatisch opgeslagen.</p>
+  welcome_html:`<h2>Expertenquête over perceptuele woningattributen</h2>
+<p class="affil"><strong>Alexandre Garel</strong> &amp; <strong>Koen W. De Bock</strong> · Audencia Business School (Nantes, Frankrijk)<br>
+Niet-commercieel academisch onderzoek · <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5987534" target="_blank" rel="noopener">Working paper op SSRN</a></p>
+<h3>Doel</h3>
+<p>We onderzoeken hoe <strong>visuele indrukken uit advertentiefoto's</strong> samenhangen met woningprijzen. Multimodale AI kan perceptuele attributen extraheren (gevelstaat, natuurlijk licht, tuin, enz.). We vragen vastgoedexperts te valideren of deze attributen ertoe doen en hoe woningen erop scoren — om menselijk oordeel met de AI te vergelijken.</p>
+<p><strong>Antwoord vanuit het standpunt van een typische koper</strong> (wat de betalingsbereidheid beïnvloedt), niet vanuit uw professionele waarderingsmethodologie.</p>
+<h3>Wat we vragen</h3>
+<p><strong>1. Attribuutvalidatie:</strong> voor elk van de 59 attributen — relevant voor kopers? Bij Ja: 1e of 2e orde? (AI-orde verborgen; niets vooraf ingevuld.)</p>
+<p><strong>2. Huizen scoren:</strong> voor huizen in uw lot elk attribuut beoordelen op basis van alleen de foto's. AI-scores verborgen. Automatisch opslaan.</p>
+<h3>Gebruik van gegevens</h3>
+<p>Antwoorden dienen uitsluitend voor academisch onderzoek (working paper en gerelateerde publicaties). Analyse op geaggregeerd niveau; geen publicatie van individuele identiteiten. Deelname is vrijwillig. Meer details in de uitnodigingsmail.</p>
 <table class="scale-table"><tr><th>Score</th><th>Betekenis</th></tr>
-<tr><td><strong>Excellent</strong></td><td>Topkwaliteit, geen zichtbare problemen</td></tr>
-<tr><td><strong>Good</strong></td><td>Boven gemiddeld, kleine imperfecties</td></tr>
-<tr><td><strong>Average</strong></td><td>Typisch, noch opvallend goed noch slecht</td></tr>
-<tr><td><strong>Bad</strong></td><td>Onder gemiddeld, zichtbare problemen</td></tr>
-<tr><td><strong>Terrible</strong></td><td>Ernstige problemen, grote gebreken</td></tr>
-<tr><td><strong>Unknown</strong></td><td>Niet te beoordelen op basis van beschikbare foto's</td></tr></table>`
+<tr><td><strong>Uitstekend</strong></td><td>Topkwaliteit, geen zichtbare problemen</td></tr>
+<tr><td><strong>Goed</strong></td><td>Boven gemiddeld, kleine imperfecties</td></tr>
+<tr><td><strong>Gemiddeld</strong></td><td>Typisch, noch opvallend goed noch slecht</td></tr>
+<tr><td><strong>Slecht</strong></td><td>Onder gemiddeld, zichtbare problemen</td></tr>
+<tr><td><strong>Zeer slecht</strong></td><td>Ernstige problemen, grote gebreken</td></tr>
+<tr><td><strong>Onbekend</strong></td><td>Niet te beoordelen op basis van beschikbare foto's</td></tr></table>`
 }
 };
 
 const T = I18N[LANG] || I18N.en;
 function t(k){ return T[k] || (I18N.en[k] || k); }
+function gradeLabel(g){ return (GRADE_LABELS[LANG] || GRADE_LABELS.en)[g] || g; }
 
 function applyI18n(){
   document.querySelectorAll("[data-i18n]").forEach(el => {
@@ -303,40 +324,75 @@ function applyI18n(){
 
 let TX = [], TX_SAVED = {}, FL = {}, SL = {};
 let HOUSES = [], CUR_HOUSE = null, CUR_HOUSE_DATA = null, CUR_HOUSE_SAVED = {};
+let CURRENT_TAB = "welcome";
+
+function tabOrder() {
+    const tabs = ["welcome", "validate", "scoring"];
+    if (IS_ADMIN) tabs.push("admin");
+    return tabs;
+}
+
+function changeLang(lang) {
+    const active = document.querySelector("#mainTabs button.active");
+    const tab = (active && active.dataset.tab) || CURRENT_TAB || "welcome";
+    sessionStorage.setItem("surveyTab", tab);
+    window.location.href = "/set-lang/" + lang + "?tab=" + encodeURIComponent(tab);
+    return false;
+}
 
 function switchTab(name) {
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('#mainTabs button').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
+    CURRENT_TAB = name;
+    sessionStorage.setItem("surveyTab", name);
+    document.querySelectorAll(".tab-content").forEach(el => el.classList.remove("active"));
+    document.querySelectorAll("#mainTabs button").forEach(b => b.classList.remove("active"));
+    document.getElementById("tab-" + name).classList.add("active");
     const btn = document.querySelector(`#mainTabs button[data-tab="${name}"]`);
-    if (btn) btn.classList.add('active');
-    if (name === 'validate') loadValidation();
-    if (name === 'scoring') loadHouses();
-    if (name === 'admin') loadAdmin();
-    if (name === 'welcome') loadProgress();
+    if (btn) btn.classList.add("active");
+    if (name === "validate") loadValidation();
+    if (name === "scoring") loadHouses();
+    if (name === "admin") loadAdmin();
+    if (name === "welcome") loadProgress();
+    updateNavButtons();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function navTab(dir) {
+    const tabs = tabOrder();
+    const i = tabs.indexOf(CURRENT_TAB);
+    const next = tabs[i + dir];
+    if (next) switchTab(next);
+}
+
+function updateNavButtons() {
+    const tabs = tabOrder();
+    const i = tabs.indexOf(CURRENT_TAB);
+    const prev = document.getElementById("btnPrev");
+    const next = document.getElementById("btnNext");
+    if (prev) prev.disabled = i <= 0;
+    if (next) next.disabled = i >= tabs.length - 1;
 }
 
 async function loadProgress() {
-    const r = await fetch('/progress');
+    const r = await fetch("/progress");
     const d = await r.json();
     const vp = d.validation.total ? Math.round(d.validation.done / d.validation.total * 100) : 0;
     const sp = d.scoring.total ? Math.round(d.scoring.done / d.scoring.total * 100) : 0;
-    document.getElementById('progressSummary').innerHTML = `
-        <p style="margin-bottom:6px"><strong>${t('progress_val')}:</strong> ${d.validation.done} / ${d.validation.total} (${vp}%)</p>
+    document.getElementById("progressSummary").innerHTML = `
+        <p style="margin-bottom:6px"><strong>${t("progress_val")}:</strong> ${d.validation.done} / ${d.validation.total} (${vp}%)</p>
         <div class="progress-bar"><div class="progress-fill" style="width:${vp}%"></div></div>
-        <p style="margin:12px 0 6px"><strong>${t('progress_score')}:</strong> ${d.scoring.done} / ${d.scoring.total} (${sp}%)</p>
+        <p style="margin:12px 0 6px"><strong>${t("progress_score")}:</strong> ${d.scoring.done} / ${d.scoring.total} (${sp}%)</p>
         <div class="progress-bar"><div class="progress-fill" style="width:${sp}%"></div></div>`;
 }
 
 let valLoaded = false;
 async function loadValidation() {
     if (!valLoaded) {
-        const r = await fetch('/validate');
+        const r = await fetch("/validate");
         const d = await r.json();
         TX = d.taxonomy; TX_SAVED = d.saved; FL = d.FL; SL = d.SL;
-        const sel = document.getElementById('valFilterSec');
+        const sel = document.getElementById("valFilterSec");
         Object.entries(FL).forEach(([k,v]) => {
-            const o = document.createElement('option'); o.value = k; o.textContent = v; sel.appendChild(o);
+            const o = document.createElement("option"); o.value = k; o.textContent = v; sel.appendChild(o);
         });
         valLoaded = true;
     }
@@ -345,18 +401,18 @@ async function loadValidation() {
 
 function isValComplete(s) {
     if (!s || !s.relevant) return false;
-    if (s.relevant === 'no') return true;
-    return s.relevant === 'yes' && !!s.order_opinion;
+    if (s.relevant === "no") return true;
+    return s.relevant === "yes" && !!s.order_opinion;
 }
 
 function renderValidation() {
-    const secF = document.getElementById('valFilterSec').value;
+    const secF = document.getElementById("valFilterSec").value;
     const filtered = TX.filter(a => {
-        if (secF !== 'all' && a.sec !== secF) return false;
+        if (secF !== "all" && a.sec !== secF) return false;
         return true;
     });
     const done = TX.filter(a => isValComplete(TX_SAVED[a.vn])).length;
-    document.getElementById('valProgress').textContent = `${t('completed')}: ${done} / ${TX.length}`;
+    document.getElementById("valProgress").textContent = `${t("completed")}: ${done} / ${TX.length}`;
 
     const groups = {};
     filtered.forEach(a => {
@@ -365,35 +421,36 @@ function renderValidation() {
         groups[a.sec][a.sub].push(a);
     });
 
-    let html = '';
+    let html = "";
     for (const [sec, subs] of Object.entries(groups)) {
         html += `<div class="sec-header">${FL[sec] || sec}</div>`;
         for (const [sub, attrs] of Object.entries(subs)) {
             html += `<div class="sub-header">${SL[sub] || sub}</div>`;
             attrs.forEach(a => {
                 const s = TX_SAVED[a.vn] || {};
-                const tick = isValComplete(s) ? `<span class="saved-tick"><i class="bi bi-check-circle-fill"></i> ${t('saved')}</span>` : '';
-                const orderBlock = s.relevant === 'yes' ? `
+                const tick = isValComplete(s) ? `<span class="saved-tick"><i class="bi bi-check-circle-fill"></i> ${t("saved")}</span>` : "";
+                const orderBlock = s.relevant === "yes" ? `
                     <div>
-                        <span class="attr-q">${t('order_q')}</span>
+                        <span class="attr-q">${t("order_q")}</span>
                         <div class="btn-group">
-                            <button class="btn-1${s.order_opinion==='first'?' sel':''}" onclick="saveVal('${a.vn}','order_opinion','first')">${t('order_1')}</button>
-                            <button class="btn-2${s.order_opinion==='second'?' sel':''}" onclick="saveVal('${a.vn}','order_opinion','second')">${t('order_2')}</button>
+                            <button type="button" class="btn-1${s.order_opinion==="first"?" sel":""}" onclick="saveVal('${a.vn}','order_opinion','first')">${t("order_1")}</button>
+                            <button type="button" class="btn-2${s.order_opinion==="second"?" sel":""}" onclick="saveVal('${a.vn}','order_opinion','second')">${t("order_2")}</button>
                         </div>
-                    </div>` : '';
+                    </div>` : "";
+                const feat = (a.feat || a.vn).replace(/_/g, " ");
                 html += `<div class="attr-card">
                     <div class="attr-header">
-                        <div class="attr-name">${a.feat.replace(/_/g,' ')} ${tick}</div>
+                        <div class="attr-name">${feat} ${tick}</div>
                     </div>
-                    <div class="attr-def">${a.def || ''}</div>
-                    <div class="attr-rat">${a.rat ? '<strong>Rationale:</strong> ' + a.rat : ''}</div>
-                    ${a.cues && a.cues.length ? '<div class="attr-cues">' + a.cues.map(c => '<span>'+c+'</span>').join('') + '</div>' : ''}
+                    <div class="attr-def">${a.def || ""}</div>
+                    <div class="attr-rat">${a.rat ? "<strong>" + t("rationale") + ":</strong> " + a.rat : ""}</div>
+                    ${a.cues && a.cues.length ? '<div class="attr-cues">' + a.cues.map(c => "<span>"+c+"</span>").join("") + "</div>" : ""}
                     <div class="attr-actions">
                         <div>
-                            <span class="attr-q">${t('relevant_q')}</span>
+                            <span class="attr-q">${t("relevant_q")}</span>
                             <div class="btn-group">
-                                <button class="btn-y${s.relevant==='yes'?' sel':''}" onclick="saveVal('${a.vn}','relevant','yes')">${t('yes')}</button>
-                                <button class="btn-n${s.relevant==='no'?' sel':''}" onclick="saveVal('${a.vn}','relevant','no')">${t('no')}</button>
+                                <button type="button" class="btn-y${s.relevant==="yes"?" sel":""}" onclick="saveVal('${a.vn}','relevant','yes')">${t("yes")}</button>
+                                <button type="button" class="btn-n${s.relevant==="no"?" sel":""}" onclick="saveVal('${a.vn}','relevant','no')">${t("no")}</button>
                             </div>
                         </div>
                         ${orderBlock}
@@ -402,60 +459,62 @@ function renderValidation() {
             });
         }
     }
-    document.getElementById('validationContent').innerHTML = html;
+    document.getElementById("validationContent").innerHTML = html;
 }
 
 async function saveVal(vn, field, value) {
     if (!TX_SAVED[vn]) TX_SAVED[vn] = {};
     TX_SAVED[vn][field] = value;
-    if (field === 'relevant' && value === 'no') {
-        TX_SAVED[vn].order_opinion = '';
+    if (field === "relevant" && value === "no") {
+        TX_SAVED[vn].order_opinion = "";
     }
     const payload = {variable_name: vn, ...TX_SAVED[vn]};
-    if (payload.relevant === 'no') payload.order_opinion = '';
-    await fetch('/save/validation', {
-        method:'POST', headers:{'Content-Type':'application/json'},
+    if (payload.relevant === "no") payload.order_opinion = "";
+    await fetch("/save/validation", {
+        method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify(payload)
     });
     renderValidation();
 }
 
 async function loadHouses() {
-    let url = '/houses';
+    let url = "/houses";
     if (IS_ADMIN) {
-        const sel = document.getElementById('adminLotSelect');
+        const sel = document.getElementById("adminLotSelect");
         if (sel && !sel.options.length) {
-            const r0 = await fetch('/houses');
+            const r0 = await fetch("/houses");
             const d0 = await r0.json();
             if (d0.all_lots) d0.all_lots.forEach(l => {
-                const o = document.createElement('option'); o.value = l; o.textContent = t('lot') + ' ' + l; sel.appendChild(o);
+                const o = document.createElement("option"); o.value = l; o.textContent = t("lot") + " " + l; sel.appendChild(o);
             });
         }
-        if (sel) url = '/houses?lot=' + sel.value;
+        if (sel) url = "/houses?lot=" + sel.value;
     }
     const r = await fetch(url);
     const d = await r.json();
     HOUSES = d.houses;
     renderHouseNav();
+    if (CUR_HOUSE) selectHouse(CUR_HOUSE);
+    else if (HOUSES.length) selectHouse(HOUSES[0].id);
 }
 
 function renderHouseNav() {
     if (!HOUSES.length) {
-        document.getElementById('houseNav').innerHTML = `<p style="color:var(--muted)">${t('no_houses')}</p>`;
+        document.getElementById("houseNav").innerHTML = `<p style="color:var(--muted)">${t("no_houses")}</p>`;
         return;
     }
-    document.getElementById('houseNav').innerHTML = HOUSES.map(h =>
-        `<button class="house-btn${CUR_HOUSE===h.id?' active':''}" onclick="selectHouse('${h.id}')">
-            ${h.id.replace('id','ID ')}
-            <span class="prog">${h.img_count} ${t('photos')}</span>
+    document.getElementById("houseNav").innerHTML = HOUSES.map(h =>
+        `<button type="button" class="house-btn${CUR_HOUSE===h.id?" active":""}" onclick="selectHouse('${h.id}')">
+            ${h.id.replace("id","ID ")}
+            <span class="prog">${h.img_count} ${t("photos")}</span>
         </button>`
-    ).join('');
+    ).join("");
 }
 
 async function selectHouse(hid) {
     CUR_HOUSE = hid;
     renderHouseNav();
-    const r = await fetch('/house/' + hid);
+    const r = await fetch("/house/" + hid);
     const d = await r.json();
     CUR_HOUSE_DATA = d.house;
     CUR_HOUSE_SAVED = d.saved;
@@ -467,17 +526,21 @@ function renderHouseDetail() {
     const h = CUR_HOUSE_DATA;
     if (!h) return;
     const imgs = h.imgs, ip = h.ip;
-    let html = `<div class="img-viewer">
-        <div class="img-strip" id="imgStrip">
-            ${imgs.map((img,i)=>`<img class="thumb${i===0?' active':''}" src="${ip}${img}" onclick="showImg(${i})" loading="lazy">`).join('')}
+    let html = `<div class="scoring-layout">
+      <div class="scoring-photos">
+        <div class="img-viewer">
+          <div class="img-strip" id="imgStrip">
+            ${imgs.map((img,i)=>`<img class="thumb${i===0?" active":""}" src="${ip}${img}" onclick="showImg(${i})" loading="lazy" alt="">`).join("")}
+          </div>
+          <img class="big-img" id="bigImg" src="${ip}${imgs[0]}" alt="">
+          <div class="img-counter" id="imgCounter">1 / ${imgs.length}</div>
         </div>
-        <img class="big-img" id="bigImg" src="${ip}${imgs[0]}">
-        <div class="img-counter" id="imgCounter">1 / ${imgs.length}</div>
-    </div>`;
+      </div>
+      <div class="scoring-attrs">`;
 
     const done = Object.keys(CUR_HOUSE_SAVED).filter(k => CUR_HOUSE_SAVED[k]).length;
     const total = h.feats.length;
-    html += `<div class="filter-bar"><span class="progress-text" id="houseProgText"><strong>${h.id.replace('id','ID ')}</strong> — ${t('scored')}: ${done} / ${total} (${total?Math.round(done/total*100):0}%)</span></div>`;
+    html += `<div class="filter-bar"><span class="progress-text" id="houseProgText"><strong>${h.id.replace("id","ID ")}</strong> — ${t("scored")}: ${done} / ${total} (${total?Math.round(done/total*100):0}%)</span></div>`;
     html += `<div class="progress-bar"><div class="progress-fill" id="houseProgFill" style="width:${total?done/total*100:0}%"></div></div>`;
 
     const groups = {};
@@ -492,61 +555,74 @@ function renderHouseDetail() {
         for (const [sub, feats] of Object.entries(subs)) {
             html += `<div class="sub-header">${SL[sub]||sub}</div>`;
             feats.forEach(f => {
-                const ug = CUR_HOUSE_SAVED[f.vn] || '';
+                const ug = CUR_HOUSE_SAVED[f.vn] || "";
+                const feat = (f.feat || f.vn).replace(/_/g, " ");
                 html += `<div class="feat-row">
-                    <div class="feat-name">${f.feat.replace(/_/g,' ')}<small>${f.vn}</small></div>
-                    <select class="grade-select${ug?' done':''}" onchange="saveScore('${h.id}','${f.vn}',this.value)">
-                        <option value="">${t('your_grade')}</option>
-                        ${GRADES.map(g=>`<option value="${g}"${ug===g?' selected':''}>${g}</option>`).join('')}
+                    <div class="feat-name">${feat}<small>${f.vn}</small></div>
+                    <select class="grade-select${ug?" done":""}" onchange="saveScore('${h.id}','${f.vn}',this.value)">
+                        <option value="">${t("your_grade")}</option>
+                        ${GRADES.map(g=>`<option value="${g}"${ug===g?" selected":""}>${gradeLabel(g)}</option>`).join("")}
                     </select>
                 </div>`;
             });
         }
     }
-    document.getElementById('houseContent').innerHTML = html;
+    html += `</div></div>`;
+    document.getElementById("houseContent").innerHTML = html;
 }
 
 function showImg(idx) {
     const h = CUR_HOUSE_DATA;
-    document.getElementById('bigImg').src = h.ip + h.imgs[idx];
-    document.getElementById('imgCounter').textContent = (idx+1) + ' / ' + h.imgs.length;
-    document.querySelectorAll('#imgStrip .thumb').forEach((el,i)=>el.classList.toggle('active', i===idx));
+    document.getElementById("bigImg").src = h.ip + h.imgs[idx];
+    document.getElementById("imgCounter").textContent = (idx+1) + " / " + h.imgs.length;
+    document.querySelectorAll("#imgStrip .thumb").forEach((el,i)=>el.classList.toggle("active", i===idx));
 }
 
 async function saveScore(hid, vn, grade) {
     CUR_HOUSE_SAVED[vn] = grade;
-    await fetch('/save/score', {
-        method:'POST', headers:{'Content-Type':'application/json'},
+    await fetch("/save/score", {
+        method:"POST", headers:{"Content-Type":"application/json"},
         body: JSON.stringify({house_id: hid, variable_name: vn, user_grade: grade})
     });
     const done = Object.keys(CUR_HOUSE_SAVED).filter(k => CUR_HOUSE_SAVED[k]).length;
     const total = CUR_HOUSE_DATA.feats.length;
     const pct = total ? Math.round(done/total*100) : 0;
-    const pt = document.getElementById('houseProgText');
-    const pf = document.getElementById('houseProgFill');
-    if (pt) pt.innerHTML = `<strong>${hid.replace('id','ID ')}</strong> — ${t('scored')}: ${done} / ${total} (${pct}%)`;
-    if (pf) pf.style.width = pct + '%';
-    if (event && event.target) event.target.classList.toggle('done', !!grade);
+    const pt = document.getElementById("houseProgText");
+    const pf = document.getElementById("houseProgFill");
+    if (pt) pt.innerHTML = `<strong>${hid.replace("id","ID ")}</strong> — ${t("scored")}: ${done} / ${total} (${pct}%)`;
+    if (pf) pf.style.width = pct + "%";
+    if (event && event.target) event.target.classList.toggle("done", !!grade);
 }
 
 async function loadAdmin() {
-    const r = await fetch('/admin/dashboard');
+    const r = await fetch("/admin/dashboard");
     const d = await r.json();
-    document.querySelector('#adminTable tbody').innerHTML = d.stats.map(s => {
+    document.querySelector("#adminTable tbody").innerHTML = d.stats.map(s => {
         const vp = s.val_total ? Math.round(s.val_done/s.val_total*100) : 0;
         const sp = s.score_total ? Math.round(s.score_done/s.score_total*100) : 0;
         return `<tr>
             <td><strong>${s.username}</strong></td>
-            <td>${t('lot')} ${s.lot_id}</td>
+            <td>${t("lot")} ${s.lot_id}</td>
             <td>${s.houses}</td>
             <td>${s.val_done}/${s.val_total} (${vp}%)</td>
             <td>${s.score_done}/${s.score_total} (${sp}%)</td>
         </tr>`;
-    }).join('');
+    }).join("");
 }
 
 applyI18n();
-loadProgress();
+(function boot() {
+    const params = new URLSearchParams(location.search);
+    let start = params.get("tab") || sessionStorage.getItem("surveyTab") || "welcome";
+    const allowed = tabOrder();
+    if (!allowed.includes(start)) start = "welcome";
+    if (params.get("tab")) {
+        const url = new URL(location.href);
+        url.searchParams.delete("tab");
+        history.replaceState({}, "", url.pathname + url.search);
+    }
+    switchTab(start);
+})();
 </script>
 </body>
 </html>

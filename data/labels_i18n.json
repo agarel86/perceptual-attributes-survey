@@ -1,0 +1,50 @@
+{
+  "FL": {
+    "3a_Property_Appeal": {
+      "fr": "Attrait du bien",
+      "nl": "Aantrekkingskracht van het pand"
+    },
+    "3b_Environmental_Cues": {
+      "fr": "Indices environnementaux",
+      "nl": "Omgevingsaanwijzingen"
+    },
+    "3c_Staging_and_Presentation": {
+      "fr": "Mise en scène et présentation",
+      "nl": "Staging en presentatie"
+    }
+  },
+  "SL": {
+    "Exterior_Architecture": {
+      "fr": "Architecture extérieure",
+      "nl": "Exterieurarchitectuur"
+    },
+    "Interior_Design_and_Layout": {
+      "fr": "Design et agencement intérieurs",
+      "nl": "Interieurontwerp en indeling"
+    },
+    "Outdoor_Spaces": {
+      "fr": "Espaces extérieurs",
+      "nl": "Buitenruimtes"
+    },
+    "Neighborhood_Context": {
+      "fr": "Contexte du quartier",
+      "nl": "Buurtcontext"
+    },
+    "Environmental_Quality": {
+      "fr": "Qualité environnementale",
+      "nl": "Omgevingskwaliteit"
+    },
+    "Photographic_Quality": {
+      "fr": "Qualité photographique",
+      "nl": "Fotografische kwaliteit"
+    },
+    "Interior_Staging": {
+      "fr": "Mise en scène intérieure",
+      "nl": "Interieurstaging"
+    },
+    "Exterior_Presentation": {
+      "fr": "Présentation extérieure",
+      "nl": "Exterieurpresentatie"
+    }
+  }
+}

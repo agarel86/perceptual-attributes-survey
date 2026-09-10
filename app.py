@@ -43,12 +43,14 @@ HOUSES = {}
 TAXONOMY = []
 FL = {}
 SL = {}
+TAXONOMY_I18N = {}
+LABELS_I18N = {"FL": {}, "SL": {}}
 GRADES = ["Excellent", "Good", "Average", "Bad", "Terrible", "Unknown"]
 SUPPORTED_LANGS = ("en", "fr", "nl")
 
 
 def load_data():
-    global USERS, LOT_HOUSES, HOUSES, TAXONOMY, FL, SL
+    global USERS, LOT_HOUSES, HOUSES, TAXONOMY, FL, SL, TAXONOMY_I18N, LABELS_I18N
     with open(os.path.join(DATA_DIR, "users.json"), encoding="utf-8") as f:
         USERS = json.load(f)
     with open(os.path.join(DATA_DIR, "lots.json"), encoding="utf-8") as f:
@@ -66,6 +68,72 @@ def load_data():
         labels = json.load(f)
         FL = labels["FL"]
         SL = labels["SL"]
+    tx_i18n_path = os.path.join(DATA_DIR, "taxonomy_i18n.json")
+    if os.path.exists(tx_i18n_path):
+        with open(tx_i18n_path, encoding="utf-8") as f:
+            TAXONOMY_I18N = json.load(f)
+    lb_i18n_path = os.path.join(DATA_DIR, "labels_i18n.json")
+    if os.path.exists(lb_i18n_path):
+        with open(lb_i18n_path, encoding="utf-8") as f:
+            LABELS_I18N = json.load(f)
+
+
+def localized_labels(lang):
+    if lang not in ("fr", "nl"):
+        return FL, SL
+    fl = {
+        k: LABELS_I18N.get("FL", {}).get(k, {}).get(lang) or v
+        for k, v in FL.items()
+    }
+    sl = {
+        k: LABELS_I18N.get("SL", {}).get(k, {}).get(lang) or v
+        for k, v in SL.items()
+    }
+    return fl, sl
+
+
+def localized_taxonomy(lang):
+    if lang not in ("fr", "nl"):
+        return [
+            {
+                **a,
+                "feat": a["feat"].replace("_", " "),
+                "label": a["feat"].replace("_", " "),
+            }
+            for a in TAXONOMY
+        ]
+    out = []
+    for a in TAXONOMY:
+        tr = TAXONOMY_I18N.get(a["vn"], {})
+        feat = (tr.get("feat") or {}).get(lang) or a["feat"].replace("_", " ")
+        item = {
+            **a,
+            "feat": feat,
+            "label": feat,
+            "def": (tr.get("def") or {}).get(lang) or a.get("def", ""),
+            "rat": (tr.get("rat") or {}).get(lang) or a.get("rat", ""),
+            "cues": (tr.get("cues") or {}).get(lang) or a.get("cues", []),
+        }
+        out.append(item)
+    return out
+
+
+def localize_house_feats(house, lang):
+    """Return a shallow copy of house with localized feature display names."""
+    if lang not in ("fr", "nl"):
+        h = dict(house)
+        h["feats"] = [
+            {**f, "feat": f["feat"].replace("_", " ")} for f in house.get("feats", [])
+        ]
+        return h
+    tx_map = {a["vn"]: a for a in localized_taxonomy(lang)}
+    h = dict(house)
+    feats = []
+    for f in house.get("feats", []):
+        loc = tx_map.get(f["vn"], {})
+        feats.append({**f, "feat": loc.get("feat", f["feat"].replace("_", " "))})
+    h["feats"] = feats
+    return h
 
 
 def get_db():
@@ -144,7 +212,12 @@ def set_lang(lang):
     if lang not in SUPPORTED_LANGS:
         lang = "en"
     session["lang"] = lang
-    resp = redirect(request.referrer or url_for("index"))
+    tab = request.args.get("tab", "").strip()
+    allowed = {"welcome", "validate", "scoring", "admin"}
+    target = url_for("index")
+    if tab in allowed:
+        target = f"{target}?tab={tab}"
+    resp = redirect(target)
     resp.set_cookie("lang", lang, max_age=60 * 60 * 24 * 365)
     return resp
 
@@ -192,12 +265,20 @@ def index():
 @login_required
 def validate_tab():
     db = get_db()
+    lang = current_lang()
     rows = db.execute(
         "SELECT variable_name, relevant, order_opinion, comment FROM attribute_validation WHERE username=?",
         (session["user"],),
     ).fetchall()
-    saved = {r["variable_name"]: dict(r) for r in rows}
-    return jsonify(taxonomy=TAXONOMY, saved=saved, FL=FL, SL=SL)
+    # Only expose answers that were actually chosen (avoid empty rows looking filled)
+    saved = {}
+    for r in rows:
+        d = dict(r)
+        if not d.get("relevant"):
+            continue
+        saved[d["variable_name"]] = d
+    fl, sl = localized_labels(lang)
+    return jsonify(taxonomy=localized_taxonomy(lang), saved=saved, FL=fl, SL=sl)
 
 
 @app.route("/houses")
@@ -228,12 +309,20 @@ def house_detail(house_id):
     if not h:
         return jsonify(error="House not found"), 404
     db = get_db()
+    lang = current_lang()
     rows = db.execute(
         "SELECT variable_name, user_grade FROM house_scoring WHERE username=? AND house_id=?",
         (session["user"], house_id),
     ).fetchall()
-    saved = {r["variable_name"]: r["user_grade"] for r in rows}
-    return jsonify(house=h, saved=saved, grades=GRADES, FL=FL, SL=SL)
+    saved = {r["variable_name"]: r["user_grade"] for r in rows if r["user_grade"]}
+    fl, sl = localized_labels(lang)
+    return jsonify(
+        house=localize_house_feats(h, lang),
+        saved=saved,
+        grades=GRADES,
+        FL=fl,
+        SL=sl,
+    )
 
 
 @app.route("/save/validation", methods=["POST"])
@@ -295,11 +384,19 @@ def save_score():
 def progress():
     db = get_db()
     user = session["user"]
-    val_count = db.execute(
-        "SELECT COUNT(*) as c FROM attribute_validation WHERE username=?", (user,)
-    ).fetchone()["c"]
+    val_rows = db.execute(
+        "SELECT relevant, order_opinion FROM attribute_validation WHERE username=?",
+        (user,),
+    ).fetchall()
+    val_count = 0
+    for r in val_rows:
+        if r["relevant"] == "no":
+            val_count += 1
+        elif r["relevant"] == "yes" and r["order_opinion"] in ("first", "second"):
+            val_count += 1
     score_count = db.execute(
-        "SELECT COUNT(*) as c FROM house_scoring WHERE username=?", (user,)
+        "SELECT COUNT(*) as c FROM house_scoring WHERE username=? AND user_grade!=''",
+        (user,),
     ).fetchone()["c"]
     total_attrs = len(TAXONOMY)
     u = USERS[user]
@@ -438,11 +535,19 @@ def admin_dashboard():
     for uname, udata in USERS.items():
         if udata["is_admin"]:
             continue
-        vc = db.execute(
-            "SELECT COUNT(*) as c FROM attribute_validation WHERE username=?", (uname,)
-        ).fetchone()["c"]
+        vc_rows = db.execute(
+            "SELECT relevant, order_opinion FROM attribute_validation WHERE username=?",
+            (uname,),
+        ).fetchall()
+        vc = 0
+        for r in vc_rows:
+            if r["relevant"] == "no":
+                vc += 1
+            elif r["relevant"] == "yes" and r["order_opinion"] in ("first", "second"):
+                vc += 1
         sc = db.execute(
-            "SELECT COUNT(*) as c FROM house_scoring WHERE username=?", (uname,)
+            "SELECT COUNT(*) as c FROM house_scoring WHERE username=? AND user_grade!=''",
+            (uname,),
         ).fetchone()["c"]
         lot_h = LOT_HOUSES.get(str(udata.get("lot_id", "")), [])
         stats.append(
