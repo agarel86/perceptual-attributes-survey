@@ -15,10 +15,13 @@ from flask import (Flask, render_template, request, redirect, url_for,
                    session, jsonify, Response, g, send_from_directory)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH  = os.path.join(BASE_DIR, "survey.db")
+DB_PATH = os.environ.get("SURVEY_DB_PATH") or os.path.join(BASE_DIR, "survey.db")
 DATA_DIR = os.path.join(BASE_DIR, "data")
 IMAGES_DIR = os.path.join(BASE_DIR, "images")
 SECRET_FILE = os.path.join(BASE_DIR, ".secret_key")
+
+# Ensure DB parent folder exists (e.g. /data on Railway volume)
+os.makedirs(os.path.dirname(os.path.abspath(DB_PATH)) or ".", exist_ok=True)
 
 def _get_secret():
     if os.path.exists(SECRET_FILE):
