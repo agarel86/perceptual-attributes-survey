@@ -171,12 +171,16 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
     <div class="admin-panel">
         <h2><i class="bi bi-shield-lock-fill"></i> <span data-i18n="tab_admin">Admin Panel</span></h2>
         <p style="font-size:.84rem;color:var(--muted);margin-bottom:16px" data-i18n="admin_blurb">Export all survey responses. Data is stored in SQLite and exported as CSV.</p>
+        {% if not is_reviewer %}
         <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px">
             <a href="/admin/export/validation" class="export-btn blue"><i class="bi bi-download"></i> <span data-i18n="export_val">Attribute Validation CSV</span></a>
             <a href="/admin/export/scoring" class="export-btn blue"><i class="bi bi-download"></i> <span data-i18n="export_score">House Scoring CSV</span></a>
             <a href="/admin/export/combined" class="export-btn green"><i class="bi bi-download"></i> <span data-i18n="export_combined">Combined Export</span></a>
             <button type="button" class="export-btn" style="background:#b91c1c" onclick="resetAllResponses()"><i class="bi bi-trash"></i> <span data-i18n="reset_all">Reset all responses</span></button>
         </div>
+        {% else %}
+        <p style="font-size:.82rem;color:var(--muted);margin-bottom:24px;font-style:italic"><i class="bi bi-eye"></i> Read-only view — export and reset are disabled for this account.</p>
+        {% endif %}
         <h3 style="font-size:.9rem;font-weight:600;margin-bottom:10px" data-i18n="user_progress">User Progress</h3>
         <table class="admin-table" id="adminTable">
             <thead><tr>
@@ -205,6 +209,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <script>
 const LANG = "{{ lang }}";
 const IS_ADMIN = {{ 'true' if is_admin else 'false' }};
+const IS_REVIEWER = {{ 'true' if is_reviewer else 'false' }};
 const USERNAME = "{{ username }}";
 const GRADES = ["Excellent","Good","Average","Bad","Terrible","Unknown"];
 const GRADE_LABELS = {
@@ -467,6 +472,7 @@ function renderValidation() {
 }
 
 async function saveVal(vn, field, value) {
+    if (IS_REVIEWER) return;
     if (!TX_SAVED[vn]) TX_SAVED[vn] = {};
     TX_SAVED[vn][field] = value;
     if (field === "relevant" && value === "no") {
@@ -583,6 +589,7 @@ function showImg(idx) {
 }
 
 async function saveScore(hid, vn, grade) {
+    if (IS_REVIEWER) return;
     CUR_HOUSE_SAVED[vn] = grade;
     await fetch("/save/score", {
         method:"POST", headers:{"Content-Type":"application/json"},

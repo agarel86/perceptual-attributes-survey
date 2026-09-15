@@ -246,6 +246,21 @@ def admin_required(f):
     return decorated
 
 
+def admin_no_reviewer(f):
+    """Like admin_required but also blocks reviewer (read-only admin) accounts."""
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if "user" not in session:
+            return redirect(url_for("login"))
+        user = USERS.get(session["user"], {})
+        if not user.get("is_admin"):
+            return "Forbidden", 403
+        if user.get("is_reviewer"):
+            return "Forbidden — read-only account", 403
+        return f(*args, **kwargs)
+    return decorated
+
+
 @app.route("/set-lang/<lang>")
 def set_lang(lang):
     if lang not in SUPPORTED_LANGS:
@@ -295,6 +310,7 @@ def index():
         "index.html",
         username=session["user"],
         is_admin=user["is_admin"],
+        is_reviewer=user.get("is_reviewer", False),
         lot_id=user.get("lot_id"),
         lang=current_lang(),
     )
@@ -450,7 +466,7 @@ def progress():
 
 
 @app.route("/admin/export/validation")
-@admin_required
+@admin_no_reviewer
 def export_validation():
     db = get_db()
     rows = db.execute(
@@ -471,7 +487,7 @@ def export_validation():
 
 
 @app.route("/admin/export/scoring")
-@admin_required
+@admin_no_reviewer
 def export_scoring():
     db = get_db()
     rows = db.execute(
@@ -490,7 +506,7 @@ def export_scoring():
 
 
 @app.route("/admin/export/combined")
-@admin_required
+@admin_no_reviewer
 def export_combined():
     db = get_db()
     si = io.StringIO()
@@ -604,7 +620,7 @@ def admin_dashboard():
 
 
 @app.route("/admin/reset-all", methods=["POST"])
-@admin_required
+@admin_no_reviewer
 def admin_reset_all():
     """Delete every validation and scoring answer (clean sheet for all users)."""
     wipe_all_responses(get_db())
