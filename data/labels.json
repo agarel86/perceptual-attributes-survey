@@ -1,1 +1,28 @@
-{"FL": {"3a_Property_Appeal": "Property Appeal", "3b_Environmental_Cues": "Environmental Cues", "3c_Staging_and_Presentation": "Staging & Presentation"}, "SL": {"Exterior_Architecture": "Exterior Architecture", "Interior_Design_and_Layout": "Interior Design & Layout", "Outdoor_Spaces": "Outdoor Spaces", "Neighborhood_Context": "Neighborhood Context", "Environmental_Quality": "Environmental Quality", "Photographic_Quality": "Photographic Quality", "Interior_Staging": "Interior Staging", "Exterior_Presentation": "Exterior Presentation"}}
+{
+  "FL": {
+    "Architectural_Form_and_Style": "Architectural Form & Style",
+    "Condition_and_Maintenance": "Condition & Maintenance",
+    "Material_and_Finish_Quality": "Material & Finish Quality",
+    "Spatial_Perception_and_Layout": "Spatial Perception & Layout",
+    "Lighting_and_Brightness": "Lighting & Brightness",
+    "Color_and_Visual_Harmony": "Color & Visual Harmony",
+    "Cleanliness_and_Order": "Cleanliness & Order",
+    "View_and_Surroundings": "View & Surroundings",
+    "Functional_Fixtures_and_Built-in_Features": "Functional Fixtures & Built-in Features",
+    "Outdoor_and_Landscape_Features": "Outdoor & Landscape Features",
+    "Staging_and_Presentation": "Staging & Presentation"
+  },
+  "SL": {
+    "Architectural_Form_and_Style": "Architectural Form & Style",
+    "Condition_and_Maintenance": "Condition & Maintenance",
+    "Material_and_Finish_Quality": "Material & Finish Quality",
+    "Spatial_Perception_and_Layout": "Spatial Perception & Layout",
+    "Lighting_and_Brightness": "Lighting & Brightness",
+    "Color_and_Visual_Harmony": "Color & Visual Harmony",
+    "Cleanliness_and_Order": "Cleanliness & Order",
+    "View_and_Surroundings": "View & Surroundings",
+    "Functional_Fixtures_and_Built-in_Features": "Functional Fixtures & Built-in Features",
+    "Outdoor_and_Landscape_Features": "Outdoor & Landscape Features",
+    "Staging_and_Presentation": "Staging & Presentation"
+  }
+}
