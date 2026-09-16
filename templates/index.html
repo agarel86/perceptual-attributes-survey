@@ -568,7 +568,7 @@ function renderHouseDetail() {
                 const ug = CUR_HOUSE_SAVED[f.vn] || "";
                 const feat = (f.feat || f.vn).replace(/_/g, " ");
                 html += `<div class="feat-row">
-                    <div class="feat-name">${feat}<small>${f.vn}</small></div>
+                    <div class="feat-name">${feat}</div>
                     <select class="grade-select${ug?" done":""}" onchange="saveScore('${h.id}','${f.vn}',this.value)">
                         <option value="">${t("your_grade")}</option>
                         ${GRADES.map(g=>`<option value="${g}"${ug===g?" selected":""}>${gradeLabel(g)}</option>`).join("")}
