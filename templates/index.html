@@ -503,9 +503,10 @@ async function loadHouses() {
     const r = await fetch(url);
     const d = await r.json();
     HOUSES = d.houses;
+    // When switching lots, always start with the first house
+    CUR_HOUSE = null;
     renderHouseNav();
-    if (CUR_HOUSE) selectHouse(CUR_HOUSE);
-    else if (HOUSES.length) selectHouse(HOUSES[0].id);
+    if (HOUSES.length) selectHouse(HOUSES[0].id);
 }
 
 function renderHouseNav() {
