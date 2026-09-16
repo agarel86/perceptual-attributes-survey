@@ -371,8 +371,18 @@ def house_detail(house_id):
     ).fetchall()
     saved = {r["variable_name"]: r["user_grade"] for r in rows if r["user_grade"]}
     fl, sl = localized_labels(lang)
+
+    # If the house has no AI-generated feats, populate from the global taxonomy
+    # so the scoring UI still renders all attributes for human grading.
+    house_out = dict(h)
+    if not house_out.get("feats"):
+        house_out["feats"] = [
+            {"vn": a["vn"], "feat": a["feat"], "sec": a["sec"], "sub": a["sub"]}
+            for a in TAXONOMY
+        ]
+
     return jsonify(
-        house=localize_house_feats(h, lang),
+        house=localize_house_feats(house_out, lang),
         saved=saved,
         grades=GRADES,
         FL=fl,
