@@ -139,7 +139,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 <div class="tab-content" id="tab-validate">
     <div class="intro" style="padding:14px 18px" data-i18n="val_instructions">
-        For each attribute, say whether it is relevant to house valuation. Only if you say yes, also classify it as first-order or second-order.
+        For each attribute, indicate whether it is relevant for a typical buyer's willingness to pay. Only if you answer Yes, also classify it as first-order or second-order. If you answer No, no order classification is needed.
     </div>
     <div class="filter-bar">
         <label data-i18n="section">Section:</label>
@@ -153,7 +153,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 
 <div class="tab-content" id="tab-scoring">
     <div class="intro" style="padding:10px 16px;margin-bottom:8px" data-i18n="score_instructions">
-        Select a house, review its photographs, then grade the six attributes shown. AI grades are not shown.
+        Select a house, review its listing photographs, then grade the six attributes shown from a typical buyer's point of view, based only on what you see.
     </div>
     <div class="house-nav" id="houseNav">…</div>
     <div id="houseContent"></div>
@@ -215,8 +215,8 @@ en:{
   app_title:"Perceptual Attribute Survey", tab_welcome:"Welcome", tab_validate:"1. Attribute Validation", tab_scoring:"2. House Scoring", tab_admin:"Admin Panel",
   sign_out:"Sign out", lot:"Lot", section:"Section:", order:"Order:", all:"All", all_sections:"All Sections", first_only:"First-Order Only", second_only:"Second-Order Only",
   your_progress:"Your progress", next:"Next", prev:"Previous", rationale:"Rationale",
-  val_instructions:"For each attribute, indicate whether it is relevant for a typical buyer's willingness to pay. Only if you answer Yes, also classify it as first-order or second-order. First-order = directly observable with a strong expected effect on price (cost, risk, usability, hygiene, non-replicable amenities). Second-order = more of a refinement of aesthetic appeal, design coherence, or perceptual credibility. If you answer No, no order classification is needed. Nothing is pre-filled — answers start blank. The AI's order classification is hidden.",
-  score_instructions:"Select a house, review its listing photographs, then grade the six attributes shown — from a typical buyer's point of view, based only on what you see. Photos stay visible while you score. AI grades are not shown.",
+  val_instructions:"For each attribute, indicate whether it is relevant for a typical buyer's willingness to pay. Only if you answer Yes, also classify it as first-order or second-order. If you answer No, no order classification is needed.",
+  score_instructions:"Select a house, review its listing photographs, then grade the six attributes shown from a typical buyer's point of view, based only on what you see.",
   relevant_q:"Relevant for a buyer's valuation?", yes:"Yes", no:"No", order_q:"Order classification?", order_1:"1st Order", order_2:"2nd Order",
   saved:"saved", completed:"Completed", scored:"Scored", your_grade:"Your grade…", photos:"photos", no_houses:"No houses assigned.",
   admin_blurb:"Export all survey responses collected from all users. Data is stored in SQLite and exported as CSV.",
@@ -247,8 +247,8 @@ fr:{
   app_title:"Enquête attributs perceptuels", tab_welcome:"Bienvenue", tab_validate:"1. Validation des attributs", tab_scoring:"2. Notation des maisons", tab_admin:"Administration",
   sign_out:"Déconnexion", lot:"Lot", section:"Section :", order:"Ordre :", all:"Tous", all_sections:"Toutes les sections", first_only:"1er ordre seulement", second_only:"2e ordre seulement",
   your_progress:"Votre progression", next:"Suivant", prev:"Précédent", rationale:"Justification",
-  val_instructions:"Pour chaque attribut, indiquez s'il est pertinent pour la disposition à payer d'un acheteur typique. Seulement si vous répondez Oui, classifiez-le aussi en 1er ou 2e ordre. 1er ordre = directement observable, avec un effet attendu fort sur le prix (coût, risque, usabilité, hygiène, aménités non réplicables). 2e ordre = raffinement esthétique, cohérence de design ou crédibilité perceptuelle. Si Non, aucune classification d'ordre n'est demandée. Rien n'est prérempli. La classification d'ordre de l'IA n'est pas affichée.",
-  score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez les six attributs affichés — du point de vue d'un acheteur typique, uniquement à partir de ce que vous voyez. Les photos restent visibles pendant la notation. Les notes de l'IA ne sont pas affichées.",
+  val_instructions:"Pour chaque attribut, indiquez s'il est pertinent pour la disposition à payer d'un acheteur typique. Seulement si vous répondez Oui, classifiez-le aussi en 1er ou 2e ordre. Si Non, aucune classification d'ordre n'est demandée.",
+  score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez les six attributs affichés du point de vue d'un acheteur typique, uniquement à partir de ce que vous voyez.",
   relevant_q:"Pertinent pour un acheteur ?", yes:"Oui", no:"Non", order_q:"Classification d'ordre ?", order_1:"1er ordre", order_2:"2e ordre",
   saved:"enregistré", completed:"Terminé", scored:"Noté", your_grade:"Votre note…", photos:"photos", no_houses:"Aucune maison assignée.",
   admin_blurb:"Exportez toutes les réponses. Les données sont stockées en SQLite et exportées en CSV.",
@@ -279,8 +279,8 @@ nl:{
   app_title:"Enquête perceptuele attributen", tab_welcome:"Welkom", tab_validate:"1. Attribuutvalidatie", tab_scoring:"2. Huizen scoren", tab_admin:"Beheer",
   sign_out:"Uitloggen", lot:"Lot", section:"Sectie:", order:"Orde:", all:"Alles", all_sections:"Alle secties", first_only:"Alleen 1e orde", second_only:"Alleen 2e orde",
   your_progress:"Uw voortgang", next:"Volgende", prev:"Vorige", rationale:"Onderbouwing",
-  val_instructions:"Geef per attribuut aan of het relevant is voor de betalingsbereidheid van een typische koper. Alleen bij Ja classificeert u het ook als 1e of 2e orde. 1e orde = direct waarneembaar met een sterk verwacht prijseffect (kosten, risico, bruikbaarheid, hygiëne, niet-repliceerbare amenities). 2e orde = eerder een verfijning van esthetiek, ontwerpcoherentie of perceptuele geloofwaardigheid. Bij Nee is geen ordeclassificatie nodig. Niets is vooraf ingevuld. De ordeclassificatie van de AI wordt niet getoond.",
-  score_instructions:"Kies een huis, bekijk de foto's en geef de zes getoonde attributen een score vanuit het standpunt van een typische koper, alleen op basis van wat u ziet. Foto's blijven zichtbaar tijdens het scoren. AI-scores worden niet getoond.",
+  val_instructions:"Geef per attribuut aan of het relevant is voor de betalingsbereidheid van een typische koper. Alleen bij Ja classificeert u het ook als 1e of 2e orde. Bij Nee is geen ordeclassificatie nodig.",
+  score_instructions:"Kies een huis, bekijk de foto's en geef de zes getoonde attributen een score vanuit het standpunt van een typische koper, alleen op basis van wat u ziet.",
   relevant_q:"Relevant voor een koper?", yes:"Ja", no:"Nee", order_q:"Ordeclassificatie?", order_1:"1e orde", order_2:"2e orde",
   saved:"opgeslagen", completed:"Voltooid", scored:"Gescoord", your_grade:"Uw score…", photos:"foto's", no_houses:"Geen huizen toegewezen.",
   admin_blurb:"Exporteer alle antwoorden. Data staat in SQLite en wordt als CSV geëxporteerd.",
