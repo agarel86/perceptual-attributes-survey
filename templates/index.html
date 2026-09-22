@@ -387,16 +387,19 @@ async function loadProgress() {
 
 let valLoaded = false;
 async function loadValidation() {
-    if (!valLoaded) {
-        const r = await fetch("/validate");
-        const d = await r.json();
-        TX = d.taxonomy; TX_SAVED = d.saved; FL = d.FL; SL = d.SL;
-        const sel = document.getElementById("valFilterSec");
-        Object.entries(FL).forEach(([k,v]) => {
-            const o = document.createElement("option"); o.value = k; o.textContent = v; sel.appendChild(o);
-        });
-        valLoaded = true;
-    }
+    const r = await fetch("/validate");
+    const d = await r.json();
+    TX = d.taxonomy; TX_SAVED = d.saved; FL = d.FL; SL = d.SL;
+    const sel = document.getElementById("valFilterSec");
+    const keep = sel.value || "all";
+    sel.innerHTML = "";
+    const all = document.createElement("option");
+    all.value = "all"; all.textContent = t("all_sections"); sel.appendChild(all);
+    Object.entries(FL).forEach(([k,v]) => {
+        const o = document.createElement("option"); o.value = k; o.textContent = v; sel.appendChild(o);
+    });
+    if ([...sel.options].some(o => o.value === keep)) sel.value = keep;
+    valLoaded = true;
     renderValidation();
 }
 

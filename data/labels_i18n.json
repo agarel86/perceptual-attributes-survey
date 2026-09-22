@@ -1,0 +1,94 @@
+{
+  "FL": {
+    "Architectural_Form_and_Style": {
+      "fr": "Forme et style architecturaux",
+      "nl": "Architecturale vorm en stijl"
+    },
+    "Condition_and_Maintenance": {
+      "fr": "État et entretien",
+      "nl": "Staat en onderhoud"
+    },
+    "Material_and_Finish_Quality": {
+      "fr": "Qualité des matériaux et des finitions",
+      "nl": "Kwaliteit van materialen en afwerking"
+    },
+    "Spatial_Perception_and_Layout": {
+      "fr": "Perception spatiale et agencement",
+      "nl": "Ruimtelijke beleving en indeling"
+    },
+    "Lighting_and_Brightness": {
+      "fr": "Éclairage et luminosité",
+      "nl": "Verlichting en helderheid"
+    },
+    "Color_and_Visual_Harmony": {
+      "fr": "Couleur et harmonie visuelle",
+      "nl": "Kleur en visuele harmonie"
+    },
+    "Cleanliness_and_Order": {
+      "fr": "Propreté et ordre",
+      "nl": "Netheid en orde"
+    },
+    "View_and_Surroundings": {
+      "fr": "Vue et environnement",
+      "nl": "Zicht en omgeving"
+    },
+    "Functional_Fixtures_and_Built-in_Features": {
+      "fr": "Équipements et éléments intégrés",
+      "nl": "Functionele voorzieningen en ingebouwde elementen"
+    },
+    "Outdoor_and_Landscape_Features": {
+      "fr": "Extérieur et aménagements paysagers",
+      "nl": "Buitenruimte en landschap"
+    },
+    "Staging_and_Presentation": {
+      "fr": "Mise en scène et présentation",
+      "nl": "Staging en presentatie"
+    }
+  },
+  "SL": {
+    "Architectural_Form_and_Style": {
+      "fr": "Forme et style architecturaux",
+      "nl": "Architecturale vorm en stijl"
+    },
+    "Condition_and_Maintenance": {
+      "fr": "État et entretien",
+      "nl": "Staat en onderhoud"
+    },
+    "Material_and_Finish_Quality": {
+      "fr": "Qualité des matériaux et des finitions",
+      "nl": "Kwaliteit van materialen en afwerking"
+    },
+    "Spatial_Perception_and_Layout": {
+      "fr": "Perception spatiale et agencement",
+      "nl": "Ruimtelijke beleving en indeling"
+    },
+    "Lighting_and_Brightness": {
+      "fr": "Éclairage et luminosité",
+      "nl": "Verlichting en helderheid"
+    },
+    "Color_and_Visual_Harmony": {
+      "fr": "Couleur et harmonie visuelle",
+      "nl": "Kleur en visuele harmonie"
+    },
+    "Cleanliness_and_Order": {
+      "fr": "Propreté et ordre",
+      "nl": "Netheid en orde"
+    },
+    "View_and_Surroundings": {
+      "fr": "Vue et environnement",
+      "nl": "Zicht en omgeving"
+    },
+    "Functional_Fixtures_and_Built-in_Features": {
+      "fr": "Équipements et éléments intégrés",
+      "nl": "Functionele voorzieningen en ingebouwde elementen"
+    },
+    "Outdoor_and_Landscape_Features": {
+      "fr": "Extérieur et aménagements paysagers",
+      "nl": "Buitenruimte en landschap"
+    },
+    "Staging_and_Presentation": {
+      "fr": "Mise en scène et présentation",
+      "nl": "Staging en presentatie"
+    }
+  }
+}

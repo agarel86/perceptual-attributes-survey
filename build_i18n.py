@@ -1,0 +1,429 @@
+# -*- coding: utf-8 -*-
+"""Write FR/NL translations for the 38 paper attributes and 11 families."""
+import json
+import os
+
+DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+
+LABELS = {
+    "Architectural_Form_and_Style": {
+        "fr": "Forme et style architecturaux",
+        "nl": "Architecturale vorm en stijl",
+    },
+    "Condition_and_Maintenance": {
+        "fr": "État et entretien",
+        "nl": "Staat en onderhoud",
+    },
+    "Material_and_Finish_Quality": {
+        "fr": "Qualité des matériaux et des finitions",
+        "nl": "Kwaliteit van materialen en afwerking",
+    },
+    "Spatial_Perception_and_Layout": {
+        "fr": "Perception spatiale et agencement",
+        "nl": "Ruimtelijke beleving en indeling",
+    },
+    "Lighting_and_Brightness": {
+        "fr": "Éclairage et luminosité",
+        "nl": "Verlichting en helderheid",
+    },
+    "Color_and_Visual_Harmony": {
+        "fr": "Couleur et harmonie visuelle",
+        "nl": "Kleur en visuele harmonie",
+    },
+    "Cleanliness_and_Order": {
+        "fr": "Propreté et ordre",
+        "nl": "Netheid en orde",
+    },
+    "View_and_Surroundings": {
+        "fr": "Vue et environnement",
+        "nl": "Zicht en omgeving",
+    },
+    "Functional_Fixtures_and_Built-in_Features": {
+        "fr": "Équipements et éléments intégrés",
+        "nl": "Functionele voorzieningen en ingebouwde elementen",
+    },
+    "Outdoor_and_Landscape_Features": {
+        "fr": "Extérieur et aménagements paysagers",
+        "nl": "Buitenruimte en landschap",
+    },
+    "Staging_and_Presentation": {
+        "fr": "Mise en scène et présentation",
+        "nl": "Staging en presentatie",
+    },
+}
+
+ATTRS = {
+    "exterior_architectural_style": {
+        "feat": {
+            "fr": "Style architectural extérieur",
+            "nl": "Architecturale stijl van de buitenkant",
+        },
+        "def": {
+            "fr": "Le style architectural visuellement identifiable de l'extérieur de la maison (par ex. moderne, traditionnel, colonial, contemporain), d'après la forme, la toiture et la composition de la façade.",
+            "nl": "De visueel herkenbare architecturale stijl van de buitenkant (bijv. modern, traditioneel, koloniaal, hedendaags), afgeleid uit vorm, daklijn en gevelcompositie.",
+        },
+    },
+    "exterior_design_cohesion": {
+        "feat": {
+            "fr": "Cohérence du design extérieur",
+            "nl": "Samenhang van het buitendesign",
+        },
+        "def": {
+            "fr": "Le degré auquel les éléments de design extérieur (matériaux, couleurs, formes) paraissent harmonieusement intégrés et stylistiquement cohérents.",
+            "nl": "De mate waarin buitenelementen (materialen, kleuren, vormen) harmonieus geïntegreerd en stilistisch consistent ogen.",
+        },
+    },
+    "exterior_proportion_balance": {
+        "feat": {
+            "fr": "Équilibre des proportions extérieures",
+            "nl": "Evenwicht van de buitenproporties",
+        },
+        "def": {
+            "fr": "L'équilibre visuel et les proportions entre les éléments structurels tels que fenêtres, portes, toiture et murs.",
+            "nl": "Het visuele evenwicht en de verhoudingen tussen structurele elementen zoals ramen, deuren, dak en muren.",
+        },
+    },
+    "exterior_architectural_detailing": {
+        "feat": {
+            "fr": "Détails architecturaux extérieurs",
+            "nl": "Architecturale detaillering van de buitenkant",
+        },
+        "def": {
+            "fr": "La richesse et le raffinement des détails architecturaux visibles : moulures, encadrements, ornementation de façade.",
+            "nl": "De rijkdom en verfijning van zichtbare architecturale details zoals lijstwerk, omlijstingen en gevelornamenten.",
+        },
+    },
+    "exterior_condition": {
+        "feat": {"fr": "État extérieur", "nl": "Staat van de buitenkant"},
+        "def": {
+            "fr": "L'état physique apparent des surfaces extérieures : peinture, revêtement, toiture et intégrité structurelle visible.",
+            "nl": "De ogenschijnlijke fysieke staat van buitenoppervlakken, inclusief verf, gevelbekleding, dak en zichtbare structurele integriteit.",
+        },
+    },
+    "interior_condition": {
+        "feat": {"fr": "État intérieur", "nl": "Staat van het interieur"},
+        "def": {
+            "fr": "L'état visible des finitions intérieures, murs, sols et plafonds, révélateur du niveau d'entretien.",
+            "nl": "De zichtbare staat van interieurafwerking, muren, vloeren en plafonds, als teken van onderhoud.",
+        },
+    },
+    "kitchen_condition": {
+        "feat": {"fr": "État de la cuisine", "nl": "Staat van de keuken"},
+        "def": {
+            "fr": "L'état visible des éléments fixes de la cuisine : meubles, plans de travail et appareils encastrés.",
+            "nl": "De zichtbare staat van vaste keukenelementen zoals kasten, werkbladen en ingebouwde toestellen.",
+        },
+    },
+    "bathroom_condition": {
+        "feat": {"fr": "État de la salle de bain", "nl": "Staat van de badkamer"},
+        "def": {
+            "fr": "L'état visible des sanitaires, carrelages et surfaces de la salle de bain.",
+            "nl": "De zichtbare staat van badkamerarmaturen, tegels en oppervlakken.",
+        },
+    },
+    "interior_material_quality": {
+        "feat": {
+            "fr": "Qualité des matériaux intérieurs",
+            "nl": "Kwaliteit van interieurmaterialen",
+        },
+        "def": {
+            "fr": "La qualité et le raffinement apparents des matériaux intérieurs : sols, finitions murales et surfaces intégrées.",
+            "nl": "De ogenschijnlijke kwaliteit en verfijning van interieurmaterialen zoals vloeren, wandafwerking en ingebouwde oppervlakken.",
+        },
+    },
+    "kitchen_material_quality": {
+        "feat": {
+            "fr": "Qualité des matériaux de cuisine",
+            "nl": "Kwaliteit van keukenmaterialen",
+        },
+        "def": {
+            "fr": "La qualité visible des matériaux de cuisine : plans de travail, meubles et crédence.",
+            "nl": "De zichtbare kwaliteit van keukenmaterialen, inclusief werkbladen, kasten en spatwand.",
+        },
+    },
+    "bathroom_material_quality": {
+        "feat": {
+            "fr": "Qualité des matériaux de salle de bain",
+            "nl": "Kwaliteit van badkamermaterialen",
+        },
+        "def": {
+            "fr": "La qualité visible des matériaux de salle de bain : carrelages, sanitaires et surfaces.",
+            "nl": "De zichtbare kwaliteit van badkamermaterialen zoals tegels, armaturen en oppervlakken.",
+        },
+    },
+    "exterior_material_quality": {
+        "feat": {
+            "fr": "Qualité des matériaux extérieurs",
+            "nl": "Kwaliteit van buitenmaterialen",
+        },
+        "def": {
+            "fr": "La qualité et la durabilité visibles des matériaux extérieurs : bardage, toiture et maçonnerie.",
+            "nl": "De zichtbare kwaliteit en duurzaamheid van buitenmaterialen zoals gevelbekleding, dakbedekking en metselwerk.",
+        },
+    },
+    "interior_spaciousness": {
+        "feat": {
+            "fr": "Sensation d'espace intérieur",
+            "nl": "Ruimtelijkheid van het interieur",
+        },
+        "def": {
+            "fr": "L'ouverture et le volume perçus des espaces intérieurs, d'après les proportions des pièces et la profondeur visuelle.",
+            "nl": "De waargenomen openheid en het volume van binnenruimtes, afgeleid uit kamerverhoudingen en visuele diepte.",
+        },
+    },
+    "kitchen_spaciousness": {
+        "feat": {
+            "fr": "Sensation d'espace dans la cuisine",
+            "nl": "Ruimtelijkheid van de keuken",
+        },
+        "def": {
+            "fr": "L'ouverture perçue et l'espace de travail dans la cuisine.",
+            "nl": "De waargenomen openheid en werkruimte in de keuken.",
+        },
+    },
+    "bathroom_spaciousness": {
+        "feat": {
+            "fr": "Sensation d'espace dans la salle de bain",
+            "nl": "Ruimtelijkheid van de badkamer",
+        },
+        "def": {
+            "fr": "L'ouverture et le confort perçus de la salle de bain.",
+            "nl": "De waargenomen openheid en het comfort van de badkamer.",
+        },
+    },
+    "exterior_spatial_openness": {
+        "feat": {
+            "fr": "Ouverture spatiale extérieure",
+            "nl": "Ruimtelijke openheid buiten",
+        },
+        "def": {
+            "fr": "L'ouverture perçue de l'environnement extérieur, y compris la taille du jardin et les vues dégagées.",
+            "nl": "De waargenomen openheid van de buitenomgeving, inclusief tuingrootte en onbelemmerd zicht.",
+        },
+    },
+    "interior_layout_flow": {
+        "feat": {
+            "fr": "Fluidité de l'agencement intérieur",
+            "nl": "Loop van de binnenindeling",
+        },
+        "def": {
+            "fr": "Le sentiment visuel d'une liaison spatiale logique et confortable entre les pièces.",
+            "nl": "Het visuele gevoel van een logische en comfortabele ruimtelijke verbinding tussen kamers.",
+        },
+    },
+    "interior_natural_light": {
+        "feat": {
+            "fr": "Lumière naturelle intérieure",
+            "nl": "Natuurlijk licht binnen",
+        },
+        "def": {
+            "fr": "La quantité apparente de lumière du jour dans les espaces intérieurs, via les fenêtres ou ouvertures.",
+            "nl": "De ogenschijnlijke hoeveelheid daglicht in binnenruimtes via ramen of openingen.",
+        },
+    },
+    "kitchen_natural_light": {
+        "feat": {
+            "fr": "Lumière naturelle dans la cuisine",
+            "nl": "Natuurlijk licht in de keuken",
+        },
+        "def": {
+            "fr": "Le niveau visible de lumière du jour dans la cuisine.",
+            "nl": "Het zichtbare niveau van daglicht in de keuken.",
+        },
+    },
+    "bathroom_natural_light": {
+        "feat": {
+            "fr": "Lumière naturelle dans la salle de bain",
+            "nl": "Natuurlijk licht in de badkamer",
+        },
+        "def": {
+            "fr": "Le niveau visible de lumière du jour dans la salle de bain.",
+            "nl": "Het zichtbare niveau van daglicht in de badkamer.",
+        },
+    },
+    "exterior_lighting_ambience": {
+        "feat": {
+            "fr": "Ambiance lumineuse extérieure",
+            "nl": "Sfeer van de buitenverlichting",
+        },
+        "def": {
+            "fr": "La qualité et la répartition de l'éclairage extérieur visibles sur les photos (naturel ou artificiel).",
+            "nl": "De kwaliteit en verdeling van buitenverlichting zoals zichtbaar op foto's (daglicht of kunstlicht).",
+        },
+    },
+    "interior_color_harmony": {
+        "feat": {
+            "fr": "Harmonie des couleurs intérieures",
+            "nl": "Kleurharmonie van het interieur",
+        },
+        "def": {
+            "fr": "Le degré auquel les couleurs intérieures paraissent équilibrées, coordonnées et agréables à l'œil.",
+            "nl": "De mate waarin interieurkleuren evenwichtig, gecoördineerd en visueel aangenaam ogen.",
+        },
+    },
+    "exterior_color_harmony": {
+        "feat": {
+            "fr": "Harmonie des couleurs extérieures",
+            "nl": "Kleurharmonie van de buitenkant",
+        },
+        "def": {
+            "fr": "La cohérence visuelle des combinaisons de couleurs sur les éléments de façade.",
+            "nl": "De visuele samenhang van kleurcombinaties over gevelelementen.",
+        },
+    },
+    "interior_cleanliness": {
+        "feat": {"fr": "Propreté intérieure", "nl": "Netheid van het interieur"},
+        "def": {
+            "fr": "L'absence visible de saleté, d'encombrement ou de désordre dans les espaces intérieurs.",
+            "nl": "De zichtbare afwezigheid van vuil, rommel of wanorde in binnenruimtes.",
+        },
+    },
+    "exterior_cleanliness": {
+        "feat": {"fr": "Propreté extérieure", "nl": "Netheid van de buitenkant"},
+        "def": {
+            "fr": "La propreté visible des surfaces extérieures, des fenêtres et des abords.",
+            "nl": "De zichtbare netheid van buitenoppervlakken, ramen en de directe omgeving.",
+        },
+    },
+    "exterior_view_quality": {
+        "feat": {"fr": "Qualité de la vue", "nl": "Kwaliteit van het uitzicht"},
+        "def": {
+            "fr": "L'attrait visuel de la vue depuis ou autour du bien : paysage, végétation ou skyline.",
+            "nl": "De visuele aantrekkelijkheid van het uitzicht vanaf of rond het pand, inclusief landschap, groen of skyline.",
+        },
+    },
+    "exterior_privacy_perception": {
+        "feat": {"fr": "Perception d'intimité", "nl": "Beleving van privacy"},
+        "def": {
+            "fr": "Le niveau perçu d'intimité visuelle par rapport aux voisins ou aux espaces publics.",
+            "nl": "Het waargenomen niveau van visuele privacy ten opzichte van buren of publieke ruimte.",
+        },
+    },
+    "neighborhood_visual_quality": {
+        "feat": {
+            "fr": "Qualité visuelle du quartier",
+            "nl": "Visuele kwaliteit van de buurt",
+        },
+        "def": {
+            "fr": "La qualité esthétique visible de l'environnement immédiat, telle qu'elle apparaît sur les photos extérieures.",
+            "nl": "De zichtbare esthetische kwaliteit van de directe buurtomgeving op buitenfoto's.",
+        },
+    },
+    "kitchen_fixture_modernity": {
+        "feat": {
+            "fr": "Modernité des équipements de cuisine",
+            "nl": "Moderniteit van keukenvoorzieningen",
+        },
+        "def": {
+            "fr": "Le caractère moderne et actuel des équipements fixes et appareils encastrés de la cuisine.",
+            "nl": "De ogenschijnlijke moderniteit van vaste keukenvoorzieningen en ingebouwde toestellen.",
+        },
+    },
+    "bathroom_fixture_modernity": {
+        "feat": {
+            "fr": "Modernité des équipements de salle de bain",
+            "nl": "Moderniteit van badkamervoorzieningen",
+        },
+        "def": {
+            "fr": "Le caractère moderne et actuel des sanitaires et robinetteries de la salle de bain.",
+            "nl": "De ogenschijnlijke moderniteit van badkamerarmaturen en -voorzieningen.",
+        },
+    },
+    "lighting_fixture_quality": {
+        "feat": {"fr": "Qualité des luminaires", "nl": "Kwaliteit van de verlichtingsarmaturen"},
+        "def": {
+            "fr": "La qualité et le design visibles des luminaires permanents dans le bien.",
+            "nl": "De zichtbare kwaliteit en het ontwerp van permanente verlichtingsarmaturen in de woning.",
+        },
+    },
+    "landscape_design_quality": {
+        "feat": {
+            "fr": "Qualité de l'aménagement paysager",
+            "nl": "Kwaliteit van het tuinontwerp",
+        },
+        "def": {
+            "fr": "La qualité et l'organisation visibles des éléments paysagers : pelouses, plantations et allées.",
+            "nl": "De zichtbare ontwerpkwaliteit en organisatie van landschapselementen zoals gazons, beplanting en paden.",
+        },
+    },
+    "outdoor_amenity_presence": {
+        "feat": {
+            "fr": "Présence d'aménités extérieures",
+            "nl": "Aanwezigheid van buitenvoorzieningen",
+        },
+        "def": {
+            "fr": "La présence et la qualité visibles d'aménités extérieures fixes : terrasses, decks ou piscine.",
+            "nl": "De zichtbare aanwezigheid en kwaliteit van vaste buitenvoorzieningen zoals terrassen, decks of een zwembad.",
+        },
+    },
+    "outdoor_maintenance_level": {
+        "feat": {
+            "fr": "Niveau d'entretien extérieur",
+            "nl": "Onderhoudsniveau van de buitenruimte",
+        },
+        "def": {
+            "fr": "L'entretien visible des espaces extérieurs : pelouses, clôtures et allées.",
+            "nl": "Het zichtbare onderhoud van buitenruimtes, inclusief gazons, hekken en opritten.",
+        },
+    },
+    "photo_lighting_quality": {
+        "feat": {
+            "fr": "Qualité de l'éclairage des photos",
+            "nl": "Kwaliteit van de fotobelichting",
+        },
+        "def": {
+            "fr": "La qualité et l'équilibre de l'éclairage des photos d'annonce, qui influencent la visibilité et l'ambiance.",
+            "nl": "De kwaliteit en balans van belichting in de advertentiefoto's, die zichtbaarheid en sfeer beïnvloeden.",
+        },
+    },
+    "photo_composition_quality": {
+        "feat": {
+            "fr": "Qualité de composition des photos",
+            "nl": "Kwaliteit van de fotocompositie",
+        },
+        "def": {
+            "fr": "Le cadrage, l'angle et la composition des photos d'annonce, qui influencent la perception des espaces.",
+            "nl": "De kadrering, hoek en compositie van advertentiefoto's, die beïnvloeden hoe ruimtes worden waargenomen.",
+        },
+    },
+    "visual_occlusion_level": {
+        "feat": {
+            "fr": "Niveau d'occultation visuelle",
+            "nl": "Mate van visuele afscherming",
+        },
+        "def": {
+            "fr": "Le degré auquel des éléments clés du bien sont masqués ou cachés sur les photos.",
+            "nl": "De mate waarin belangrijke woningkenmerken op de foto's worden verborgen of afgeschermd.",
+        },
+    },
+    "photo_color_accuracy": {
+        "feat": {
+            "fr": "Fidélité des couleurs des photos",
+            "nl": "Kleurgetrouwheid van de foto's",
+        },
+        "def": {
+            "fr": "La fidélité des couleurs des photos par rapport à l'apparence naturelle.",
+            "nl": "De getrouwheid van de kleurenweergave op foto's ten opzichte van de natuurlijke verschijning.",
+        },
+    },
+}
+
+
+def main():
+    with open(os.path.join(DATA, "taxonomy.json"), encoding="utf-8") as f:
+        tax = json.load(f)
+    missing = [a["vn"] for a in tax if a["vn"] not in ATTRS]
+    extra = [k for k in ATTRS if k not in {a["vn"] for a in tax}]
+    if missing or extra:
+        raise SystemExit(f"Mismatch missing={missing} extra={extra}")
+
+    labels = {"FL": LABELS, "SL": dict(LABELS)}
+    with open(os.path.join(DATA, "labels_i18n.json"), "w", encoding="utf-8") as f:
+        json.dump(labels, f, ensure_ascii=False, indent=2)
+    with open(os.path.join(DATA, "taxonomy_i18n.json"), "w", encoding="utf-8") as f:
+        json.dump(ATTRS, f, ensure_ascii=False, indent=2)
+    print(f"Wrote translations for {len(ATTRS)} attributes and {len(LABELS)} families.")
+
+
+if __name__ == "__main__":
+    main()
