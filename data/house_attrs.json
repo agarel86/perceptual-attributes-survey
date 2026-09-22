@@ -1,0 +1,1602 @@
+{
+  "id206867": [
+    "photo_composition_quality",
+    "exterior_view_quality",
+    "exterior_color_harmony",
+    "outdoor_maintenance_level",
+    "interior_cleanliness",
+    "exterior_spatial_openness"
+  ],
+  "id234506": [
+    "interior_condition",
+    "exterior_architectural_style",
+    "interior_natural_light",
+    "lighting_fixture_quality",
+    "interior_material_quality",
+    "interior_layout_flow"
+  ],
+  "id211053": [
+    "photo_lighting_quality",
+    "exterior_design_cohesion",
+    "exterior_lighting_ambience",
+    "bathroom_material_quality",
+    "kitchen_condition",
+    "outdoor_amenity_presence"
+  ],
+  "id235035": [
+    "exterior_privacy_perception",
+    "bathroom_fixture_modernity",
+    "interior_spaciousness",
+    "bathroom_natural_light",
+    "exterior_architectural_detailing",
+    "kitchen_material_quality"
+  ],
+  "id212516": [
+    "bathroom_condition",
+    "exterior_cleanliness",
+    "photo_color_accuracy",
+    "interior_color_harmony",
+    "kitchen_spaciousness",
+    "landscape_design_quality"
+  ],
+  "id213940": [
+    "neighborhood_visual_quality",
+    "kitchen_fixture_modernity",
+    "exterior_condition",
+    "exterior_material_quality",
+    "kitchen_natural_light",
+    "visual_occlusion_level"
+  ],
+  "id196499": [
+    "exterior_proportion_balance",
+    "bathroom_spaciousness",
+    "bathroom_natural_light",
+    "photo_composition_quality",
+    "exterior_cleanliness",
+    "bathroom_material_quality"
+  ],
+  "id194313": [
+    "kitchen_fixture_modernity",
+    "kitchen_spaciousness",
+    "exterior_privacy_perception",
+    "outdoor_amenity_presence",
+    "exterior_color_harmony",
+    "bathroom_condition"
+  ],
+  "id206825": [
+    "exterior_proportion_balance",
+    "interior_layout_flow",
+    "interior_material_quality",
+    "interior_condition",
+    "exterior_lighting_ambience",
+    "photo_lighting_quality"
+  ],
+  "id201734": [
+    "exterior_architectural_style",
+    "bathroom_fixture_modernity",
+    "neighborhood_visual_quality",
+    "outdoor_maintenance_level",
+    "bathroom_spaciousness",
+    "interior_color_harmony"
+  ],
+  "id227118": [
+    "kitchen_natural_light",
+    "kitchen_condition",
+    "visual_occlusion_level",
+    "interior_cleanliness",
+    "exterior_material_quality",
+    "exterior_architectural_detailing"
+  ],
+  "id232220": [
+    "interior_spaciousness",
+    "exterior_view_quality",
+    "landscape_design_quality",
+    "lighting_fixture_quality",
+    "exterior_condition",
+    "kitchen_material_quality"
+  ],
+  "id215770": [
+    "photo_color_accuracy",
+    "exterior_design_cohesion",
+    "interior_natural_light",
+    "exterior_spatial_openness",
+    "bathroom_condition",
+    "landscape_design_quality"
+  ],
+  "id207899": [
+    "exterior_privacy_perception",
+    "interior_cleanliness",
+    "photo_color_accuracy",
+    "interior_spaciousness",
+    "interior_color_harmony",
+    "exterior_proportion_balance"
+  ],
+  "id230953": [
+    "exterior_material_quality",
+    "interior_natural_light",
+    "lighting_fixture_quality",
+    "kitchen_spaciousness",
+    "kitchen_condition",
+    "exterior_architectural_detailing"
+  ],
+  "id231969": [
+    "exterior_lighting_ambience",
+    "interior_material_quality",
+    "visual_occlusion_level",
+    "exterior_view_quality",
+    "outdoor_maintenance_level",
+    "bathroom_fixture_modernity"
+  ],
+  "id201817": [
+    "interior_layout_flow",
+    "kitchen_material_quality",
+    "kitchen_natural_light",
+    "exterior_design_cohesion",
+    "photo_lighting_quality",
+    "interior_condition"
+  ],
+  "id216190": [
+    "exterior_cleanliness",
+    "exterior_color_harmony",
+    "bathroom_spaciousness",
+    "neighborhood_visual_quality",
+    "outdoor_amenity_presence",
+    "kitchen_fixture_modernity"
+  ],
+  "id198904": [
+    "photo_composition_quality",
+    "bathroom_natural_light",
+    "bathroom_material_quality",
+    "exterior_condition",
+    "exterior_architectural_style",
+    "exterior_spatial_openness"
+  ],
+  "id194379": [
+    "exterior_architectural_style",
+    "interior_natural_light",
+    "exterior_privacy_perception",
+    "exterior_material_quality",
+    "landscape_design_quality",
+    "bathroom_condition"
+  ],
+  "id231251": [
+    "interior_spaciousness",
+    "lighting_fixture_quality",
+    "photo_composition_quality",
+    "interior_color_harmony",
+    "interior_cleanliness",
+    "exterior_condition"
+  ],
+  "id196646": [
+    "interior_layout_flow",
+    "exterior_architectural_detailing",
+    "bathroom_material_quality",
+    "bathroom_natural_light",
+    "photo_lighting_quality",
+    "kitchen_fixture_modernity"
+  ],
+  "id201512": [
+    "exterior_view_quality",
+    "outdoor_amenity_presence",
+    "exterior_spatial_openness",
+    "exterior_proportion_balance",
+    "exterior_cleanliness",
+    "kitchen_material_quality"
+  ],
+  "id215252": [
+    "exterior_color_harmony",
+    "photo_color_accuracy",
+    "interior_condition",
+    "kitchen_natural_light",
+    "kitchen_spaciousness",
+    "outdoor_maintenance_level"
+  ],
+  "id234492": [
+    "bathroom_fixture_modernity",
+    "neighborhood_visual_quality",
+    "kitchen_condition",
+    "exterior_design_cohesion",
+    "visual_occlusion_level",
+    "interior_material_quality"
+  ],
+  "id231669": [
+    "exterior_lighting_ambience",
+    "bathroom_spaciousness",
+    "neighborhood_visual_quality",
+    "exterior_cleanliness",
+    "outdoor_amenity_presence",
+    "interior_color_harmony"
+  ],
+  "id201978": [
+    "bathroom_natural_light",
+    "visual_occlusion_level",
+    "bathroom_condition",
+    "exterior_spatial_openness",
+    "bathroom_fixture_modernity",
+    "interior_material_quality"
+  ],
+  "id212495": [
+    "exterior_design_cohesion",
+    "interior_layout_flow",
+    "exterior_material_quality",
+    "exterior_lighting_ambience",
+    "interior_condition",
+    "photo_color_accuracy"
+  ],
+  "id195132": [
+    "exterior_architectural_detailing",
+    "kitchen_fixture_modernity",
+    "exterior_privacy_perception",
+    "landscape_design_quality",
+    "bathroom_spaciousness",
+    "photo_composition_quality"
+  ],
+  "id235179": [
+    "kitchen_material_quality",
+    "exterior_color_harmony",
+    "kitchen_natural_light",
+    "exterior_architectural_style",
+    "interior_cleanliness",
+    "kitchen_condition"
+  ],
+  "id200705": [
+    "kitchen_spaciousness",
+    "lighting_fixture_quality",
+    "outdoor_maintenance_level",
+    "exterior_view_quality",
+    "exterior_condition",
+    "interior_natural_light"
+  ],
+  "id214075": [
+    "exterior_proportion_balance",
+    "photo_lighting_quality",
+    "bathroom_material_quality",
+    "interior_spaciousness",
+    "interior_color_harmony",
+    "lighting_fixture_quality"
+  ],
+  "id196116": [
+    "exterior_privacy_perception",
+    "bathroom_material_quality",
+    "photo_color_accuracy",
+    "kitchen_condition",
+    "exterior_architectural_style",
+    "outdoor_amenity_presence"
+  ],
+  "id200428": [
+    "interior_cleanliness",
+    "kitchen_spaciousness",
+    "bathroom_natural_light",
+    "exterior_design_cohesion",
+    "photo_composition_quality",
+    "bathroom_condition"
+  ],
+  "id230647": [
+    "interior_layout_flow",
+    "exterior_lighting_ambience",
+    "interior_material_quality",
+    "outdoor_maintenance_level",
+    "bathroom_fixture_modernity",
+    "neighborhood_visual_quality"
+  ],
+  "id207519": [
+    "exterior_spatial_openness",
+    "kitchen_natural_light",
+    "photo_lighting_quality",
+    "exterior_cleanliness",
+    "exterior_color_harmony",
+    "exterior_architectural_detailing"
+  ],
+  "id205147": [
+    "exterior_condition",
+    "exterior_material_quality",
+    "interior_spaciousness",
+    "exterior_view_quality",
+    "landscape_design_quality",
+    "kitchen_fixture_modernity"
+  ],
+  "id235353": [
+    "kitchen_material_quality",
+    "visual_occlusion_level",
+    "exterior_proportion_balance",
+    "interior_natural_light",
+    "interior_condition",
+    "bathroom_spaciousness"
+  ],
+  "id199196": [
+    "visual_occlusion_level",
+    "kitchen_material_quality",
+    "outdoor_maintenance_level",
+    "kitchen_natural_light",
+    "exterior_color_harmony",
+    "exterior_view_quality"
+  ],
+  "id232549": [
+    "exterior_design_cohesion",
+    "interior_spaciousness",
+    "exterior_condition",
+    "interior_cleanliness",
+    "lighting_fixture_quality",
+    "exterior_lighting_ambience"
+  ],
+  "id232479": [
+    "interior_layout_flow",
+    "exterior_architectural_style",
+    "photo_lighting_quality",
+    "kitchen_condition",
+    "exterior_material_quality",
+    "landscape_design_quality"
+  ],
+  "id204984": [
+    "exterior_privacy_perception",
+    "kitchen_fixture_modernity",
+    "exterior_spatial_openness",
+    "exterior_proportion_balance",
+    "bathroom_natural_light",
+    "photo_color_accuracy"
+  ],
+  "id195973": [
+    "exterior_cleanliness",
+    "interior_condition",
+    "interior_color_harmony",
+    "interior_material_quality",
+    "bathroom_spaciousness",
+    "outdoor_amenity_presence"
+  ],
+  "id229485": [
+    "bathroom_fixture_modernity",
+    "neighborhood_visual_quality",
+    "interior_natural_light",
+    "bathroom_condition",
+    "exterior_architectural_detailing",
+    "photo_composition_quality"
+  ],
+  "id231503": [
+    "bathroom_material_quality",
+    "kitchen_spaciousness",
+    "exterior_privacy_perception",
+    "landscape_design_quality",
+    "interior_color_harmony",
+    "kitchen_condition"
+  ],
+  "id203559": [
+    "interior_cleanliness",
+    "bathroom_fixture_modernity",
+    "photo_color_accuracy",
+    "exterior_design_cohesion",
+    "bathroom_material_quality",
+    "exterior_spatial_openness"
+  ],
+  "id214937": [
+    "interior_natural_light",
+    "interior_spaciousness",
+    "visual_occlusion_level",
+    "exterior_architectural_detailing",
+    "exterior_material_quality",
+    "bathroom_condition"
+  ],
+  "id212218": [
+    "bathroom_natural_light",
+    "kitchen_fixture_modernity",
+    "outdoor_maintenance_level",
+    "exterior_view_quality",
+    "bathroom_spaciousness",
+    "exterior_condition"
+  ],
+  "id207735": [
+    "exterior_lighting_ambience",
+    "exterior_cleanliness",
+    "exterior_color_harmony",
+    "interior_material_quality",
+    "photo_lighting_quality",
+    "exterior_proportion_balance"
+  ],
+  "id212542": [
+    "kitchen_spaciousness",
+    "lighting_fixture_quality",
+    "neighborhood_visual_quality",
+    "outdoor_amenity_presence",
+    "exterior_architectural_style",
+    "interior_condition"
+  ],
+  "id211677": [
+    "kitchen_natural_light",
+    "kitchen_material_quality",
+    "photo_composition_quality",
+    "interior_layout_flow",
+    "bathroom_condition",
+    "exterior_color_harmony"
+  ],
+  "id209821": [
+    "bathroom_natural_light",
+    "exterior_architectural_style",
+    "bathroom_spaciousness",
+    "bathroom_fixture_modernity",
+    "outdoor_amenity_presence",
+    "interior_cleanliness"
+  ],
+  "id211372": [
+    "neighborhood_visual_quality",
+    "bathroom_material_quality",
+    "photo_color_accuracy",
+    "exterior_spatial_openness",
+    "exterior_lighting_ambience",
+    "exterior_proportion_balance"
+  ],
+  "id229588": [
+    "exterior_material_quality",
+    "interior_condition",
+    "visual_occlusion_level",
+    "landscape_design_quality",
+    "exterior_view_quality",
+    "lighting_fixture_quality"
+  ],
+  "id201714": [
+    "interior_spaciousness",
+    "interior_color_harmony",
+    "kitchen_condition",
+    "photo_composition_quality",
+    "exterior_design_cohesion",
+    "kitchen_material_quality"
+  ],
+  "id193979": [
+    "exterior_cleanliness",
+    "kitchen_natural_light",
+    "interior_layout_flow",
+    "outdoor_maintenance_level",
+    "kitchen_fixture_modernity",
+    "exterior_privacy_perception"
+  ],
+  "id231546": [
+    "exterior_architectural_detailing",
+    "photo_lighting_quality",
+    "exterior_condition",
+    "interior_material_quality",
+    "interior_natural_light",
+    "kitchen_spaciousness"
+  ],
+  "id234851": [
+    "outdoor_amenity_presence",
+    "exterior_cleanliness",
+    "photo_color_accuracy",
+    "exterior_condition",
+    "exterior_architectural_detailing",
+    "interior_spaciousness"
+  ],
+  "id196691": [
+    "lighting_fixture_quality",
+    "exterior_view_quality",
+    "exterior_color_harmony",
+    "interior_natural_light",
+    "kitchen_material_quality",
+    "interior_layout_flow"
+  ],
+  "id208366": [
+    "photo_lighting_quality",
+    "exterior_architectural_style",
+    "interior_material_quality",
+    "bathroom_condition",
+    "bathroom_natural_light",
+    "bathroom_fixture_modernity"
+  ],
+  "id211327": [
+    "neighborhood_visual_quality",
+    "landscape_design_quality",
+    "kitchen_spaciousness",
+    "exterior_proportion_balance",
+    "interior_color_harmony",
+    "interior_cleanliness"
+  ],
+  "id201182": [
+    "exterior_material_quality",
+    "photo_composition_quality",
+    "kitchen_natural_light",
+    "kitchen_condition",
+    "exterior_spatial_openness",
+    "outdoor_maintenance_level"
+  ],
+  "id230834": [
+    "kitchen_fixture_modernity",
+    "exterior_privacy_perception",
+    "exterior_design_cohesion",
+    "visual_occlusion_level",
+    "interior_condition",
+    "bathroom_material_quality"
+  ],
+  "id232966": [
+    "exterior_lighting_ambience",
+    "bathroom_spaciousness",
+    "exterior_view_quality",
+    "kitchen_material_quality",
+    "bathroom_condition",
+    "kitchen_fixture_modernity"
+  ],
+  "id226881": [
+    "exterior_architectural_style",
+    "interior_layout_flow",
+    "photo_color_accuracy",
+    "exterior_cleanliness",
+    "exterior_color_harmony",
+    "outdoor_maintenance_level"
+  ],
+  "id208197": [
+    "interior_natural_light",
+    "exterior_spatial_openness",
+    "exterior_material_quality",
+    "photo_composition_quality",
+    "exterior_proportion_balance",
+    "kitchen_condition"
+  ],
+  "id212790": [
+    "exterior_lighting_ambience",
+    "exterior_privacy_perception",
+    "lighting_fixture_quality",
+    "outdoor_amenity_presence",
+    "interior_spaciousness",
+    "interior_condition"
+  ],
+  "id197008": [
+    "photo_lighting_quality",
+    "interior_color_harmony",
+    "interior_cleanliness",
+    "kitchen_natural_light",
+    "bathroom_material_quality",
+    "exterior_design_cohesion"
+  ],
+  "id196634": [
+    "bathroom_spaciousness",
+    "neighborhood_visual_quality",
+    "bathroom_fixture_modernity",
+    "landscape_design_quality",
+    "exterior_architectural_detailing",
+    "bathroom_natural_light"
+  ],
+  "id233002": [
+    "exterior_condition",
+    "interior_material_quality",
+    "visual_occlusion_level",
+    "kitchen_spaciousness",
+    "outdoor_amenity_presence",
+    "exterior_color_harmony"
+  ],
+  "id229803": [
+    "exterior_material_quality",
+    "exterior_view_quality",
+    "exterior_proportion_balance",
+    "interior_spaciousness",
+    "photo_color_accuracy",
+    "lighting_fixture_quality"
+  ],
+  "id233434": [
+    "bathroom_natural_light",
+    "exterior_cleanliness",
+    "bathroom_condition",
+    "interior_layout_flow",
+    "exterior_design_cohesion",
+    "photo_composition_quality"
+  ],
+  "id206850": [
+    "kitchen_natural_light",
+    "bathroom_material_quality",
+    "kitchen_condition",
+    "outdoor_maintenance_level",
+    "kitchen_fixture_modernity",
+    "exterior_privacy_perception"
+  ],
+  "id208770": [
+    "exterior_spatial_openness",
+    "interior_color_harmony",
+    "interior_material_quality",
+    "exterior_lighting_ambience",
+    "photo_lighting_quality",
+    "interior_condition"
+  ],
+  "id231864": [
+    "exterior_architectural_style",
+    "interior_cleanliness",
+    "kitchen_spaciousness",
+    "neighborhood_visual_quality",
+    "bathroom_fixture_modernity",
+    "landscape_design_quality"
+  ],
+  "id201949": [
+    "kitchen_material_quality",
+    "exterior_architectural_detailing",
+    "interior_natural_light",
+    "visual_occlusion_level",
+    "exterior_condition",
+    "bathroom_spaciousness"
+  ],
+  "id211421": [
+    "outdoor_maintenance_level",
+    "exterior_privacy_perception",
+    "exterior_lighting_ambience",
+    "interior_color_harmony",
+    "kitchen_condition",
+    "exterior_material_quality"
+  ],
+  "id208258": [
+    "interior_cleanliness",
+    "interior_spaciousness",
+    "photo_color_accuracy",
+    "lighting_fixture_quality",
+    "exterior_architectural_style",
+    "bathroom_natural_light"
+  ],
+  "id203707": [
+    "interior_layout_flow",
+    "exterior_architectural_detailing",
+    "bathroom_condition",
+    "photo_composition_quality",
+    "kitchen_material_quality",
+    "landscape_design_quality"
+  ],
+  "id235409": [
+    "neighborhood_visual_quality",
+    "bathroom_fixture_modernity",
+    "bathroom_spaciousness",
+    "exterior_color_harmony",
+    "exterior_design_cohesion",
+    "exterior_cleanliness"
+  ],
+  "id208873": [
+    "interior_natural_light",
+    "exterior_condition",
+    "visual_occlusion_level",
+    "bathroom_material_quality",
+    "exterior_spatial_openness",
+    "exterior_view_quality"
+  ],
+  "id213166": [
+    "kitchen_fixture_modernity",
+    "outdoor_amenity_presence",
+    "interior_condition",
+    "exterior_proportion_balance",
+    "kitchen_natural_light",
+    "interior_material_quality"
+  ],
+  "id212349": [
+    "photo_lighting_quality",
+    "kitchen_spaciousness",
+    "exterior_cleanliness",
+    "exterior_privacy_perception",
+    "kitchen_fixture_modernity",
+    "exterior_color_harmony"
+  ],
+  "id216411": [
+    "bathroom_spaciousness",
+    "interior_material_quality",
+    "exterior_lighting_ambience",
+    "exterior_design_cohesion",
+    "bathroom_condition",
+    "landscape_design_quality"
+  ],
+  "id229242": [
+    "visual_occlusion_level",
+    "kitchen_spaciousness",
+    "exterior_architectural_style",
+    "exterior_material_quality",
+    "interior_condition",
+    "interior_natural_light"
+  ],
+  "id199257": [
+    "photo_color_accuracy",
+    "outdoor_maintenance_level",
+    "bathroom_fixture_modernity",
+    "neighborhood_visual_quality",
+    "exterior_spatial_openness",
+    "bathroom_material_quality"
+  ],
+  "id196962": [
+    "interior_color_harmony",
+    "interior_cleanliness",
+    "exterior_condition",
+    "exterior_proportion_balance",
+    "photo_composition_quality",
+    "kitchen_natural_light"
+  ],
+  "id228822": [
+    "interior_layout_flow",
+    "outdoor_amenity_presence",
+    "exterior_view_quality",
+    "lighting_fixture_quality",
+    "kitchen_condition",
+    "photo_lighting_quality"
+  ],
+  "id214264": [
+    "kitchen_material_quality",
+    "bathroom_natural_light",
+    "exterior_architectural_detailing",
+    "interior_spaciousness",
+    "landscape_design_quality",
+    "exterior_view_quality"
+  ],
+  "id232951": [
+    "exterior_lighting_ambience",
+    "exterior_color_harmony",
+    "bathroom_condition",
+    "exterior_spatial_openness",
+    "exterior_material_quality",
+    "photo_lighting_quality"
+  ],
+  "id206692": [
+    "interior_cleanliness",
+    "bathroom_fixture_modernity",
+    "exterior_architectural_style",
+    "interior_spaciousness",
+    "interior_material_quality",
+    "photo_color_accuracy"
+  ],
+  "id208602": [
+    "exterior_architectural_detailing",
+    "bathroom_natural_light",
+    "exterior_condition",
+    "kitchen_fixture_modernity",
+    "outdoor_amenity_presence",
+    "neighborhood_visual_quality"
+  ],
+  "id230011": [
+    "bathroom_spaciousness",
+    "exterior_cleanliness",
+    "interior_color_harmony",
+    "photo_composition_quality",
+    "kitchen_condition",
+    "exterior_proportion_balance"
+  ],
+  "id210922": [
+    "bathroom_material_quality",
+    "interior_natural_light",
+    "interior_layout_flow",
+    "outdoor_maintenance_level",
+    "lighting_fixture_quality",
+    "exterior_privacy_perception"
+  ],
+  "id230732": [
+    "interior_condition",
+    "visual_occlusion_level",
+    "kitchen_material_quality",
+    "exterior_design_cohesion",
+    "kitchen_natural_light",
+    "kitchen_spaciousness"
+  ],
+  "id207725": [
+    "exterior_color_harmony",
+    "photo_color_accuracy",
+    "bathroom_natural_light",
+    "lighting_fixture_quality",
+    "interior_layout_flow",
+    "neighborhood_visual_quality"
+  ],
+  "id197891": [
+    "kitchen_material_quality",
+    "kitchen_condition",
+    "exterior_proportion_balance",
+    "interior_cleanliness",
+    "outdoor_amenity_presence",
+    "interior_spaciousness"
+  ],
+  "id234055": [
+    "interior_material_quality",
+    "photo_composition_quality",
+    "exterior_condition",
+    "exterior_architectural_style",
+    "interior_natural_light",
+    "kitchen_fixture_modernity"
+  ],
+  "id212528": [
+    "exterior_privacy_perception",
+    "outdoor_maintenance_level",
+    "kitchen_spaciousness",
+    "photo_lighting_quality",
+    "interior_color_harmony",
+    "bathroom_condition"
+  ],
+  "id202989": [
+    "exterior_design_cohesion",
+    "kitchen_natural_light",
+    "exterior_cleanliness",
+    "exterior_material_quality",
+    "exterior_spatial_openness",
+    "exterior_view_quality"
+  ],
+  "id232950": [
+    "bathroom_fixture_modernity",
+    "landscape_design_quality",
+    "exterior_architectural_detailing",
+    "exterior_lighting_ambience",
+    "bathroom_material_quality",
+    "visual_occlusion_level"
+  ],
+  "id194855": [
+    "interior_condition",
+    "bathroom_spaciousness",
+    "interior_color_harmony",
+    "photo_lighting_quality",
+    "bathroom_fixture_modernity",
+    "landscape_design_quality"
+  ],
+  "id198164": [
+    "exterior_view_quality",
+    "exterior_cleanliness",
+    "exterior_lighting_ambience",
+    "interior_material_quality",
+    "exterior_design_cohesion",
+    "interior_layout_flow"
+  ],
+  "id233995": [
+    "interior_condition",
+    "kitchen_spaciousness",
+    "exterior_architectural_style",
+    "photo_color_accuracy",
+    "bathroom_natural_light",
+    "exterior_material_quality"
+  ],
+  "id210468": [
+    "bathroom_condition",
+    "exterior_privacy_perception",
+    "outdoor_amenity_presence",
+    "kitchen_fixture_modernity",
+    "bathroom_spaciousness",
+    "kitchen_natural_light"
+  ],
+  "id210138": [
+    "kitchen_material_quality",
+    "exterior_color_harmony",
+    "interior_cleanliness",
+    "kitchen_condition",
+    "photo_composition_quality",
+    "exterior_proportion_balance"
+  ],
+  "id216250": [
+    "interior_spaciousness",
+    "outdoor_maintenance_level",
+    "lighting_fixture_quality",
+    "neighborhood_visual_quality",
+    "visual_occlusion_level",
+    "exterior_condition"
+  ],
+  "id214661": [
+    "bathroom_material_quality",
+    "interior_natural_light",
+    "exterior_architectural_detailing",
+    "exterior_spatial_openness",
+    "kitchen_fixture_modernity",
+    "interior_color_harmony"
+  ],
+  "id236377": [
+    "bathroom_condition",
+    "exterior_proportion_balance",
+    "exterior_cleanliness",
+    "bathroom_spaciousness",
+    "outdoor_maintenance_level",
+    "neighborhood_visual_quality"
+  ],
+  "id226688": [
+    "bathroom_natural_light",
+    "photo_color_accuracy",
+    "interior_material_quality",
+    "interior_spaciousness",
+    "exterior_design_cohesion",
+    "kitchen_condition"
+  ],
+  "id233384": [
+    "kitchen_natural_light",
+    "photo_lighting_quality",
+    "kitchen_material_quality",
+    "landscape_design_quality",
+    "exterior_view_quality",
+    "bathroom_fixture_modernity"
+  ],
+  "id213681": [
+    "exterior_spatial_openness",
+    "exterior_condition",
+    "interior_cleanliness",
+    "interior_natural_light",
+    "exterior_architectural_style",
+    "photo_composition_quality"
+  ],
+  "id199460": [
+    "exterior_color_harmony",
+    "exterior_material_quality",
+    "interior_layout_flow",
+    "exterior_privacy_perception",
+    "lighting_fixture_quality",
+    "outdoor_amenity_presence"
+  ],
+  "id202129": [
+    "interior_condition",
+    "exterior_lighting_ambience",
+    "bathroom_material_quality",
+    "visual_occlusion_level",
+    "exterior_architectural_detailing",
+    "kitchen_spaciousness"
+  ],
+  "id232211": [
+    "neighborhood_visual_quality",
+    "visual_occlusion_level",
+    "bathroom_fixture_modernity",
+    "kitchen_spaciousness",
+    "exterior_lighting_ambience",
+    "kitchen_material_quality"
+  ],
+  "id228485": [
+    "exterior_condition",
+    "exterior_architectural_detailing",
+    "exterior_color_harmony",
+    "exterior_cleanliness",
+    "outdoor_amenity_presence",
+    "exterior_spatial_openness"
+  ],
+  "id230060": [
+    "interior_material_quality",
+    "bathroom_natural_light",
+    "kitchen_condition",
+    "photo_composition_quality",
+    "exterior_design_cohesion",
+    "kitchen_fixture_modernity"
+  ],
+  "id216270": [
+    "exterior_view_quality",
+    "outdoor_maintenance_level",
+    "interior_spaciousness",
+    "kitchen_natural_light",
+    "photo_color_accuracy",
+    "bathroom_material_quality"
+  ],
+  "id215264": [
+    "interior_color_harmony",
+    "exterior_proportion_balance",
+    "interior_cleanliness",
+    "bathroom_condition",
+    "bathroom_spaciousness",
+    "exterior_privacy_perception"
+  ],
+  "id197436": [
+    "lighting_fixture_quality",
+    "landscape_design_quality",
+    "interior_condition",
+    "photo_lighting_quality",
+    "exterior_architectural_style",
+    "interior_natural_light"
+  ],
+  "id208408": [
+    "exterior_material_quality",
+    "interior_layout_flow",
+    "exterior_cleanliness",
+    "exterior_view_quality",
+    "exterior_architectural_detailing",
+    "interior_color_harmony"
+  ],
+  "id207941": [
+    "lighting_fixture_quality",
+    "exterior_lighting_ambience",
+    "outdoor_maintenance_level",
+    "interior_layout_flow",
+    "kitchen_condition",
+    "photo_composition_quality"
+  ],
+  "id195779": [
+    "bathroom_material_quality",
+    "interior_spaciousness",
+    "exterior_architectural_style",
+    "photo_color_accuracy",
+    "bathroom_natural_light",
+    "interior_condition"
+  ],
+  "id208544": [
+    "interior_material_quality",
+    "neighborhood_visual_quality",
+    "bathroom_fixture_modernity",
+    "landscape_design_quality",
+    "exterior_spatial_openness",
+    "bathroom_condition"
+  ],
+  "id231803": [
+    "kitchen_natural_light",
+    "exterior_proportion_balance",
+    "kitchen_material_quality",
+    "interior_cleanliness",
+    "photo_lighting_quality",
+    "exterior_color_harmony"
+  ],
+  "id213575": [
+    "kitchen_spaciousness",
+    "outdoor_amenity_presence",
+    "exterior_privacy_perception",
+    "kitchen_fixture_modernity",
+    "interior_natural_light",
+    "visual_occlusion_level"
+  ],
+  "id209331": [
+    "exterior_material_quality",
+    "exterior_design_cohesion",
+    "exterior_condition",
+    "bathroom_spaciousness",
+    "lighting_fixture_quality",
+    "photo_composition_quality"
+  ],
+  "id207373": [
+    "kitchen_condition",
+    "kitchen_natural_light",
+    "exterior_architectural_style",
+    "exterior_color_harmony",
+    "kitchen_material_quality",
+    "exterior_cleanliness"
+  ],
+  "id203631": [
+    "exterior_spatial_openness",
+    "exterior_privacy_perception",
+    "landscape_design_quality",
+    "interior_natural_light",
+    "bathroom_material_quality",
+    "visual_occlusion_level"
+  ],
+  "id209339": [
+    "kitchen_spaciousness",
+    "exterior_condition",
+    "exterior_architectural_detailing",
+    "kitchen_fixture_modernity",
+    "exterior_view_quality",
+    "outdoor_amenity_presence"
+  ],
+  "id209708": [
+    "interior_spaciousness",
+    "exterior_design_cohesion",
+    "exterior_lighting_ambience",
+    "interior_cleanliness",
+    "exterior_material_quality",
+    "photo_color_accuracy"
+  ],
+  "id201486": [
+    "interior_color_harmony",
+    "bathroom_condition",
+    "interior_layout_flow",
+    "neighborhood_visual_quality",
+    "outdoor_maintenance_level",
+    "bathroom_fixture_modernity"
+  ],
+  "id209678": [
+    "bathroom_natural_light",
+    "photo_lighting_quality",
+    "exterior_proportion_balance",
+    "interior_condition",
+    "interior_material_quality",
+    "bathroom_spaciousness"
+  ],
+  "id212809": [
+    "bathroom_material_quality",
+    "exterior_color_harmony",
+    "lighting_fixture_quality",
+    "interior_spaciousness",
+    "interior_cleanliness",
+    "neighborhood_visual_quality"
+  ],
+  "id236731": [
+    "landscape_design_quality",
+    "photo_lighting_quality",
+    "bathroom_natural_light",
+    "exterior_condition",
+    "exterior_proportion_balance",
+    "kitchen_spaciousness"
+  ],
+  "id230942": [
+    "bathroom_condition",
+    "kitchen_material_quality",
+    "visual_occlusion_level",
+    "interior_natural_light",
+    "exterior_architectural_detailing",
+    "exterior_privacy_perception"
+  ],
+  "id197864": [
+    "outdoor_maintenance_level",
+    "kitchen_fixture_modernity",
+    "bathroom_spaciousness",
+    "photo_color_accuracy",
+    "exterior_lighting_ambience",
+    "exterior_architectural_style"
+  ],
+  "id233544": [
+    "kitchen_condition",
+    "interior_color_harmony",
+    "interior_material_quality",
+    "exterior_cleanliness",
+    "exterior_spatial_openness",
+    "bathroom_fixture_modernity"
+  ],
+  "id229859": [
+    "outdoor_amenity_presence",
+    "exterior_view_quality",
+    "interior_condition",
+    "exterior_material_quality",
+    "kitchen_natural_light",
+    "exterior_design_cohesion"
+  ],
+  "id207763": [
+    "photo_composition_quality",
+    "interior_layout_flow",
+    "interior_cleanliness",
+    "bathroom_condition",
+    "bathroom_material_quality",
+    "kitchen_fixture_modernity"
+  ],
+  "id204502": [
+    "exterior_privacy_perception",
+    "bathroom_natural_light",
+    "interior_layout_flow",
+    "outdoor_maintenance_level",
+    "exterior_color_harmony",
+    "photo_lighting_quality"
+  ],
+  "id230572": [
+    "exterior_architectural_detailing",
+    "interior_spaciousness",
+    "visual_occlusion_level",
+    "kitchen_natural_light",
+    "interior_condition",
+    "exterior_material_quality"
+  ],
+  "id196718": [
+    "exterior_architectural_style",
+    "lighting_fixture_quality",
+    "exterior_view_quality",
+    "outdoor_amenity_presence",
+    "kitchen_spaciousness",
+    "exterior_cleanliness"
+  ],
+  "id202537": [
+    "photo_composition_quality",
+    "kitchen_material_quality",
+    "interior_natural_light",
+    "exterior_condition",
+    "exterior_proportion_balance",
+    "interior_color_harmony"
+  ],
+  "id209599": [
+    "exterior_spatial_openness",
+    "neighborhood_visual_quality",
+    "bathroom_fixture_modernity",
+    "landscape_design_quality",
+    "exterior_lighting_ambience",
+    "exterior_design_cohesion"
+  ],
+  "id207833": [
+    "interior_material_quality",
+    "photo_color_accuracy",
+    "kitchen_condition",
+    "bathroom_spaciousness",
+    "landscape_design_quality",
+    "lighting_fixture_quality"
+  ],
+  "id228989": [
+    "kitchen_condition",
+    "exterior_spatial_openness",
+    "exterior_view_quality",
+    "exterior_color_harmony",
+    "interior_cleanliness",
+    "exterior_material_quality"
+  ],
+  "id197190": [
+    "exterior_design_cohesion",
+    "photo_composition_quality",
+    "kitchen_natural_light",
+    "interior_spaciousness",
+    "bathroom_material_quality",
+    "exterior_condition"
+  ],
+  "id209881": [
+    "exterior_lighting_ambience",
+    "photo_lighting_quality",
+    "exterior_architectural_detailing",
+    "outdoor_maintenance_level",
+    "bathroom_fixture_modernity",
+    "neighborhood_visual_quality"
+  ],
+  "id199152": [
+    "interior_layout_flow",
+    "interior_color_harmony",
+    "exterior_cleanliness",
+    "bathroom_condition",
+    "bathroom_natural_light",
+    "interior_material_quality"
+  ],
+  "id228301": [
+    "photo_color_accuracy",
+    "exterior_architectural_style",
+    "bathroom_spaciousness",
+    "kitchen_fixture_modernity",
+    "exterior_privacy_perception",
+    "outdoor_amenity_presence"
+  ],
+  "id212854": [
+    "interior_condition",
+    "visual_occlusion_level",
+    "exterior_proportion_balance",
+    "kitchen_material_quality",
+    "interior_natural_light",
+    "kitchen_spaciousness"
+  ],
+  "id196057": [
+    "exterior_design_cohesion",
+    "photo_color_accuracy",
+    "interior_condition",
+    "exterior_lighting_ambience",
+    "exterior_color_harmony",
+    "kitchen_fixture_modernity"
+  ],
+  "id206889": [
+    "exterior_cleanliness",
+    "kitchen_spaciousness",
+    "exterior_view_quality",
+    "bathroom_material_quality",
+    "outdoor_amenity_presence",
+    "interior_natural_light"
+  ],
+  "id209272": [
+    "interior_layout_flow",
+    "exterior_condition",
+    "visual_occlusion_level",
+    "kitchen_material_quality",
+    "exterior_architectural_detailing",
+    "outdoor_maintenance_level"
+  ],
+  "id209458": [
+    "neighborhood_visual_quality",
+    "lighting_fixture_quality",
+    "bathroom_spaciousness",
+    "interior_color_harmony",
+    "interior_cleanliness",
+    "bathroom_condition"
+  ],
+  "id197863": [
+    "interior_material_quality",
+    "kitchen_natural_light",
+    "exterior_proportion_balance",
+    "photo_composition_quality",
+    "exterior_spatial_openness",
+    "exterior_privacy_perception"
+  ],
+  "id210102": [
+    "landscape_design_quality",
+    "bathroom_fixture_modernity",
+    "bathroom_natural_light",
+    "exterior_material_quality",
+    "kitchen_condition",
+    "exterior_architectural_style"
+  ],
+  "id233678": [
+    "photo_lighting_quality",
+    "interior_spaciousness",
+    "neighborhood_visual_quality",
+    "bathroom_natural_light",
+    "bathroom_fixture_modernity",
+    "exterior_condition"
+  ],
+  "id234744": [
+    "interior_layout_flow",
+    "exterior_architectural_style",
+    "interior_color_harmony",
+    "photo_composition_quality",
+    "interior_cleanliness",
+    "outdoor_maintenance_level"
+  ],
+  "id208881": [
+    "kitchen_material_quality",
+    "bathroom_spaciousness",
+    "kitchen_condition",
+    "photo_color_accuracy",
+    "interior_natural_light",
+    "exterior_design_cohesion"
+  ],
+  "id233576": [
+    "interior_material_quality",
+    "lighting_fixture_quality",
+    "landscape_design_quality",
+    "exterior_view_quality",
+    "interior_spaciousness",
+    "exterior_lighting_ambience"
+  ],
+  "id201366": [
+    "bathroom_condition",
+    "photo_lighting_quality",
+    "exterior_architectural_detailing",
+    "exterior_cleanliness",
+    "exterior_color_harmony",
+    "bathroom_material_quality"
+  ],
+  "id231991": [
+    "exterior_spatial_openness",
+    "exterior_privacy_perception",
+    "outdoor_amenity_presence",
+    "kitchen_fixture_modernity",
+    "exterior_material_quality",
+    "kitchen_natural_light"
+  ],
+  "id209228": [
+    "visual_occlusion_level",
+    "exterior_proportion_balance",
+    "interior_condition",
+    "kitchen_spaciousness",
+    "exterior_material_quality",
+    "lighting_fixture_quality"
+  ],
+  "id234209": [
+    "exterior_lighting_ambience",
+    "exterior_color_harmony",
+    "outdoor_maintenance_level",
+    "exterior_cleanliness",
+    "exterior_architectural_detailing",
+    "neighborhood_visual_quality"
+  ],
+  "id201455": [
+    "exterior_condition",
+    "photo_composition_quality",
+    "interior_spaciousness",
+    "exterior_design_cohesion",
+    "kitchen_material_quality",
+    "kitchen_natural_light"
+  ],
+  "id194089": [
+    "kitchen_spaciousness",
+    "bathroom_condition",
+    "photo_lighting_quality",
+    "bathroom_fixture_modernity",
+    "landscape_design_quality",
+    "exterior_privacy_perception"
+  ],
+  "id207687": [
+    "interior_layout_flow",
+    "interior_condition",
+    "interior_cleanliness",
+    "interior_natural_light",
+    "interior_material_quality",
+    "interior_color_harmony"
+  ],
+  "id230119": [
+    "exterior_proportion_balance",
+    "visual_occlusion_level",
+    "exterior_spatial_openness",
+    "kitchen_fixture_modernity",
+    "exterior_view_quality",
+    "outdoor_amenity_presence"
+  ],
+  "id212640": [
+    "exterior_architectural_style",
+    "kitchen_condition",
+    "bathroom_natural_light",
+    "bathroom_material_quality",
+    "photo_color_accuracy",
+    "bathroom_spaciousness"
+  ],
+  "id203997": [
+    "exterior_color_harmony",
+    "exterior_condition",
+    "neighborhood_visual_quality",
+    "bathroom_fixture_modernity",
+    "outdoor_maintenance_level",
+    "interior_cleanliness"
+  ],
+  "id212265": [
+    "photo_color_accuracy",
+    "exterior_spatial_openness",
+    "kitchen_natural_light",
+    "bathroom_material_quality",
+    "exterior_architectural_detailing",
+    "bathroom_condition"
+  ],
+  "id234749": [
+    "kitchen_spaciousness",
+    "exterior_lighting_ambience",
+    "exterior_design_cohesion",
+    "interior_material_quality",
+    "photo_composition_quality",
+    "outdoor_amenity_presence"
+  ],
+  "id231955": [
+    "exterior_view_quality",
+    "kitchen_fixture_modernity",
+    "interior_layout_flow",
+    "interior_color_harmony",
+    "exterior_architectural_style",
+    "bathroom_natural_light"
+  ],
+  "id202703": [
+    "exterior_cleanliness",
+    "exterior_material_quality",
+    "interior_condition",
+    "visual_occlusion_level",
+    "interior_spaciousness",
+    "landscape_design_quality"
+  ],
+  "id229411": [
+    "lighting_fixture_quality",
+    "exterior_privacy_perception",
+    "kitchen_material_quality",
+    "interior_natural_light",
+    "photo_lighting_quality",
+    "kitchen_condition"
+  ],
+  "id235810": [
+    "exterior_proportion_balance",
+    "bathroom_spaciousness",
+    "kitchen_fixture_modernity",
+    "kitchen_natural_light",
+    "kitchen_condition",
+    "photo_color_accuracy"
+  ],
+  "id230721": [
+    "interior_color_harmony",
+    "exterior_spatial_openness",
+    "exterior_cleanliness",
+    "outdoor_amenity_presence",
+    "neighborhood_visual_quality",
+    "exterior_architectural_style"
+  ],
+  "id216016": [
+    "exterior_material_quality",
+    "interior_spaciousness",
+    "exterior_architectural_detailing",
+    "photo_lighting_quality",
+    "exterior_condition",
+    "interior_natural_light"
+  ],
+  "id204886": [
+    "kitchen_material_quality",
+    "lighting_fixture_quality",
+    "outdoor_maintenance_level",
+    "exterior_view_quality",
+    "bathroom_spaciousness",
+    "exterior_color_harmony"
+  ],
+  "id203991": [
+    "exterior_lighting_ambience",
+    "photo_composition_quality",
+    "interior_cleanliness",
+    "interior_condition",
+    "exterior_proportion_balance",
+    "bathroom_material_quality"
+  ],
+  "id197843": [
+    "kitchen_spaciousness",
+    "landscape_design_quality",
+    "exterior_privacy_perception",
+    "bathroom_fixture_modernity",
+    "bathroom_natural_light",
+    "interior_material_quality"
+  ],
+  "id195310": [
+    "bathroom_condition",
+    "visual_occlusion_level",
+    "exterior_design_cohesion",
+    "interior_layout_flow",
+    "exterior_color_harmony",
+    "exterior_cleanliness"
+  ],
+  "id195572": [
+    "outdoor_maintenance_level",
+    "visual_occlusion_level",
+    "exterior_design_cohesion",
+    "lighting_fixture_quality",
+    "kitchen_material_quality",
+    "kitchen_natural_light"
+  ],
+  "id212268": [
+    "exterior_privacy_perception",
+    "exterior_condition",
+    "interior_layout_flow",
+    "photo_color_accuracy",
+    "interior_natural_light",
+    "exterior_architectural_detailing"
+  ],
+  "id230209": [
+    "interior_spaciousness",
+    "bathroom_material_quality",
+    "interior_condition",
+    "exterior_view_quality",
+    "bathroom_fixture_modernity",
+    "landscape_design_quality"
+  ],
+  "id197832": [
+    "bathroom_spaciousness",
+    "bathroom_natural_light",
+    "bathroom_condition",
+    "interior_material_quality",
+    "interior_cleanliness",
+    "exterior_architectural_style"
+  ],
+  "id228666": [
+    "photo_lighting_quality",
+    "interior_color_harmony",
+    "kitchen_spaciousness",
+    "kitchen_fixture_modernity",
+    "neighborhood_visual_quality",
+    "outdoor_amenity_presence"
+  ],
+  "id232594": [
+    "photo_composition_quality",
+    "kitchen_condition",
+    "exterior_lighting_ambience",
+    "exterior_material_quality",
+    "exterior_proportion_balance",
+    "exterior_spatial_openness"
+  ],
+  "id197869": [
+    "bathroom_material_quality",
+    "visual_occlusion_level",
+    "kitchen_condition",
+    "exterior_privacy_perception",
+    "lighting_fixture_quality",
+    "interior_natural_light"
+  ],
+  "id234590": [
+    "exterior_architectural_style",
+    "exterior_cleanliness",
+    "landscape_design_quality",
+    "exterior_color_harmony",
+    "interior_layout_flow",
+    "photo_composition_quality"
+  ],
+  "id199689": [
+    "kitchen_spaciousness",
+    "interior_material_quality",
+    "exterior_architectural_detailing",
+    "interior_condition",
+    "bathroom_natural_light",
+    "outdoor_maintenance_level"
+  ],
+  "id204428": [
+    "kitchen_fixture_modernity",
+    "neighborhood_visual_quality",
+    "exterior_spatial_openness",
+    "interior_cleanliness",
+    "exterior_lighting_ambience",
+    "exterior_proportion_balance"
+  ],
+  "id206410": [
+    "interior_color_harmony",
+    "kitchen_material_quality",
+    "photo_color_accuracy",
+    "exterior_condition",
+    "bathroom_spaciousness",
+    "bathroom_fixture_modernity"
+  ],
+  "id207629": [
+    "outdoor_amenity_presence",
+    "exterior_view_quality",
+    "bathroom_condition",
+    "kitchen_natural_light",
+    "exterior_design_cohesion",
+    "photo_lighting_quality"
+  ],
+  "id234733": [
+    "exterior_material_quality",
+    "interior_spaciousness",
+    "kitchen_natural_light",
+    "exterior_condition",
+    "interior_cleanliness",
+    "interior_color_harmony"
+  ],
+  "id195275": [
+    "lighting_fixture_quality",
+    "neighborhood_visual_quality",
+    "photo_composition_quality",
+    "outdoor_amenity_presence",
+    "exterior_architectural_detailing",
+    "kitchen_spaciousness"
+  ],
+  "id198046": [
+    "bathroom_material_quality",
+    "exterior_spatial_openness",
+    "interior_condition",
+    "photo_lighting_quality",
+    "interior_natural_light",
+    "exterior_design_cohesion"
+  ],
+  "id231764": [
+    "interior_material_quality",
+    "exterior_privacy_perception",
+    "kitchen_fixture_modernity",
+    "outdoor_maintenance_level",
+    "interior_spaciousness",
+    "bathroom_natural_light"
+  ]
+}

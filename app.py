@@ -40,7 +40,9 @@ app.jinja_env.auto_reload = True
 USERS = {}
 LOT_HOUSES = {}
 HOUSES = {}
+HOUSE_ATTRS = {}
 TAXONOMY = []
+TX_BY_VN = {}
 FL = {}
 SL = {}
 TAXONOMY_I18N = {}
@@ -50,7 +52,7 @@ SUPPORTED_LANGS = ("en", "fr", "nl")
 
 
 def load_data():
-    global USERS, LOT_HOUSES, HOUSES, TAXONOMY, FL, SL, TAXONOMY_I18N, LABELS_I18N
+    global USERS, LOT_HOUSES, HOUSES, HOUSE_ATTRS, TAXONOMY, TX_BY_VN, FL, SL, TAXONOMY_I18N, LABELS_I18N
     with open(os.path.join(DATA_DIR, "users.json"), encoding="utf-8") as f:
         USERS = json.load(f)
     with open(os.path.join(DATA_DIR, "lots.json"), encoding="utf-8") as f:
@@ -62,8 +64,15 @@ def load_data():
         for h in HOUSES.values():
             hid = h["id"]
             h["ip"] = f"/images/{hid}/"
+    ha_path = os.path.join(DATA_DIR, "house_attrs.json")
+    if os.path.exists(ha_path):
+        with open(ha_path, encoding="utf-8") as f:
+            HOUSE_ATTRS = json.load(f)
+    else:
+        HOUSE_ATTRS = {}
     with open(os.path.join(DATA_DIR, "taxonomy.json"), encoding="utf-8") as f:
         TAXONOMY = json.load(f)
+    TX_BY_VN = {a["vn"]: a for a in TAXONOMY}
     with open(os.path.join(DATA_DIR, "labels.json"), encoding="utf-8") as f:
         labels = json.load(f)
         FL = labels["FL"]
@@ -177,7 +186,7 @@ def init_db():
     db.commit()
 
     # One-shot clean sheet before real fieldwork (marker lives next to the DB / volume)
-    marker = os.path.join(os.path.dirname(os.path.abspath(DB_PATH)), ".survey_clean_sheet_v1")
+    marker = os.path.join(os.path.dirname(os.path.abspath(DB_PATH)), ".survey_clean_sheet_v2")
     force = os.environ.get("SURVEY_FORCE_CLEAN", "").strip().lower() in ("1", "true", "yes")
     if force or not os.path.exists(marker):
         db.execute("DELETE FROM attribute_validation")
@@ -224,6 +233,38 @@ def hash_pw(pw):
 def current_lang():
     lang = session.get("lang") or request.cookies.get("lang") or "en"
     return lang if lang in SUPPORTED_LANGS else "en"
+
+
+def user_house_ids(user):
+    if user.get("is_admin"):
+        return [h["id"] for h in sorted(HOUSES.values(), key=lambda x: x["id"])]
+    return LOT_HOUSES.get(str(user.get("lot_id", "")), [])
+
+
+def assigned_attr_vns(house_id):
+    vns = HOUSE_ATTRS.get(house_id)
+    if vns:
+        return list(vns)
+    return [a["vn"] for a in TAXONOMY]
+
+
+def feats_for_house(house_id):
+    vns = assigned_attr_vns(house_id)
+    feats = []
+    for vn in vns:
+        a = TX_BY_VN.get(vn)
+        if a:
+            feats.append({
+                "vn": a["vn"],
+                "feat": a["feat"],
+                "sec": a["sec"],
+                "sub": a["sub"],
+            })
+    return feats
+
+
+def n_assigned_scores(house_ids):
+    return sum(len(assigned_attr_vns(hid)) for hid in house_ids)
 
 
 def login_required(f):
@@ -340,21 +381,17 @@ def validate_tab():
 @login_required
 def houses_list():
     user = USERS[session["user"]]
-    if user["is_admin"]:
-        lot = request.args.get("lot", "1")
-        ids = LOT_HOUSES.get(lot, [])
-    else:
-        ids = LOT_HOUSES.get(str(user["lot_id"]), [])
+    ids = user_house_ids(user)
     houses = []
     for hid in ids:
         h = HOUSES.get(hid)
         if h:
-            houses.append({"id": h["id"], "img_count": len(h["imgs"])})
-    return jsonify(
-        houses=houses,
-        lot_id=user.get("lot_id"),
-        all_lots=list(LOT_HOUSES.keys()) if user["is_admin"] else None,
-    )
+            houses.append({
+                "id": h["id"],
+                "img_count": len(h["imgs"]),
+                "n_attrs": len(assigned_attr_vns(hid)),
+            })
+    return jsonify(houses=houses, lot_id=user.get("lot_id"))
 
 
 @app.route("/house/<house_id>")
@@ -363,6 +400,10 @@ def house_detail(house_id):
     h = HOUSES.get(house_id)
     if not h:
         return jsonify(error="House not found"), 404
+    user = USERS[session["user"]]
+    allowed = set(user_house_ids(user))
+    if house_id not in allowed:
+        return jsonify(error="House not assigned"), 403
     db = get_db()
     lang = current_lang()
     rows = db.execute(
@@ -372,14 +413,8 @@ def house_detail(house_id):
     saved = {r["variable_name"]: r["user_grade"] for r in rows if r["user_grade"]}
     fl, sl = localized_labels(lang)
 
-    # If the house has no AI-generated feats, populate from the global taxonomy
-    # so the scoring UI still renders all attributes for human grading.
     house_out = dict(h)
-    if not house_out.get("feats"):
-        house_out["feats"] = [
-            {"vn": a["vn"], "feat": a["feat"], "sec": a["sec"], "sub": a["sub"]}
-            for a in TAXONOMY
-        ]
+    house_out["feats"] = feats_for_house(house_id)
 
     return jsonify(
         house=localize_house_feats(house_out, lang),
@@ -423,6 +458,13 @@ def save_validation():
 @login_required
 def save_score():
     data = request.get_json()
+    house_id = data.get("house_id")
+    vn = data.get("variable_name")
+    user = USERS[session["user"]]
+    if house_id not in set(user_house_ids(user)):
+        return jsonify(ok=False, error="House not assigned"), 403
+    if vn not in set(assigned_attr_vns(house_id)):
+        return jsonify(ok=False, error="Attribute not assigned"), 400
     db = get_db()
     db.execute(
         """INSERT INTO house_scoring
@@ -434,8 +476,8 @@ def save_score():
     """,
         (
             session["user"],
-            data["house_id"],
-            data["variable_name"],
+            house_id,
+            vn,
             data["user_grade"],
             datetime.utcnow().isoformat(),
         ),
@@ -465,10 +507,8 @@ def progress():
     ).fetchone()["c"]
     total_attrs = len(TAXONOMY)
     u = USERS[user]
-    lot_houses = LOT_HOUSES.get(str(u.get("lot_id", "")), [])
-    if u.get("is_admin"):
-        lot_houses = [hid for ids in LOT_HOUSES.values() for hid in ids]
-    total_scores = len(lot_houses) * total_attrs
+    house_ids = user_house_ids(u)
+    total_scores = n_assigned_scores(house_ids)
     return jsonify(
         validation={"done": val_count, "total": total_attrs},
         scoring={"done": score_count, "total": total_scores},
@@ -623,7 +663,7 @@ def admin_dashboard():
                 "val_done": vc,
                 "val_total": len(TAXONOMY),
                 "score_done": sc,
-                "score_total": len(lot_h) * len(TAXONOMY),
+                "score_total": n_assigned_scores(lot_h),
             }
         )
     return jsonify(stats=stats)

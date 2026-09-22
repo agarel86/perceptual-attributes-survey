@@ -21,7 +21,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .lang{display:inline-flex;gap:3px}
 .lang a{text-decoration:none;font-size:.7rem;font-weight:700;padding:3px 7px;border-radius:4px;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.75);cursor:pointer}
 .lang a.on{background:#fff;color:var(--brand);border-color:#fff}
-.container{max-width:1200px;margin:0 auto;padding:20px}
+.container{max-width:1320px;margin:0 auto;padding:16px}
 .tab-content{display:none}.tab-content.active{display:block}
 .intro{background:var(--card);border-radius:10px;padding:24px 28px;margin-bottom:20px;border:1px solid var(--border);line-height:1.65;font-size:.86rem;color:#374151}
 .intro h2{font-size:1.1rem;font-weight:700;color:var(--brand);margin-bottom:8px}
@@ -36,7 +36,6 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .attr-header{display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap}
 .attr-name{font-size:.9rem;font-weight:600;color:var(--brand);flex:1;min-width:180px}
 .attr-def{font-size:.78rem;color:#555;margin-top:3px;line-height:1.5}
-.attr-rat{font-size:.74rem;color:#777;margin-top:3px;font-style:italic;line-height:1.45}
 .attr-cues{font-size:.7rem;color:#999;margin-top:4px}
 .attr-cues span{background:#f1f5f9;padding:1px 6px;border-radius:3px;margin-right:3px;display:inline-block;margin-bottom:2px}
 .attr-actions{display:flex;gap:14px;margin-top:10px;padding-top:8px;border-top:1px solid #f0f0f0;flex-wrap:wrap;align-items:center}
@@ -51,25 +50,25 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .saved-tick{color:var(--good);font-size:.7rem;margin-left:6px}
 .sec-header{font-size:.88rem;font-weight:700;color:var(--brand);margin:14px 0 4px;padding-bottom:3px;border-bottom:2px solid var(--accent)}
 .sub-header{font-size:.78rem;font-weight:600;color:#555;margin:8px 0 3px;padding-left:6px;border-left:3px solid var(--accent)}
-.house-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
-.house-btn{border:1.5px solid var(--border);background:var(--card);padding:8px 14px;border-radius:7px;cursor:pointer;font-size:.78rem;font-weight:500;transition:.15s}
+.house-nav{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;max-height:72px;overflow-y:auto}
+.house-btn{border:1.5px solid var(--border);background:var(--card);padding:4px 8px;border-radius:6px;cursor:pointer;font-size:.7rem;font-weight:500;transition:.15s}
 .house-btn:hover{border-color:var(--accent)}
 .house-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.house-btn .prog{display:block;font-size:.6rem;color:#94a3b8;margin-top:2px}
+.house-btn .prog{display:block;font-size:.58rem;color:#94a3b8;margin-top:1px}
 .house-btn.active .prog{color:rgba(255,255,255,.7)}
-.scoring-layout{display:grid;grid-template-columns:minmax(340px,1.1fr) minmax(300px,.9fr);gap:10px;align-items:start}
+.scoring-layout{display:grid;grid-template-columns:minmax(420px,1.3fr) minmax(260px,.7fr);gap:10px;align-items:start}
 .scoring-photos{position:sticky;top:calc(var(--topbar-h) + 4px);z-index:20}
 .img-viewer{background:#111827;border-radius:10px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
 .img-strip{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scroll-behavior:smooth}
 .img-strip::-webkit-scrollbar{height:5px}
 .img-strip::-webkit-scrollbar-thumb{background:rgba(255,255,255,.25);border-radius:3px}
-.thumb{width:72px;height:52px;object-fit:cover;border-radius:5px;cursor:pointer;border:2px solid transparent;flex-shrink:0;transition:.15s}
+.thumb{width:64px;height:46px;object-fit:cover;border-radius:5px;cursor:pointer;border:2px solid transparent;flex-shrink:0;transition:.15s}
 .thumb:hover{border-color:rgba(255,255,255,.4)}
 .thumb.active{border-color:var(--accent);box-shadow:0 0 6px rgba(59,130,246,.5)}
-.big-img{display:block;max-height:min(55vh,520px);max-width:100%;margin:6px auto 0;border-radius:8px;object-fit:contain}
+.big-img{display:block;max-height:min(64vh,580px);max-width:100%;margin:6px auto 0;border-radius:8px;object-fit:contain}
 .img-counter{color:rgba(255,255,255,.6);text-align:center;font-size:.75rem;margin-top:6px}
 .scoring-attrs{min-width:0}
-.feat-row{display:flex;align-items:center;gap:4px;padding:5px 8px;border-radius:5px;margin-bottom:2px;background:var(--card);border:1px solid var(--border);flex-wrap:nowrap;transition:.12s}
+.feat-row{display:flex;align-items:center;gap:6px;padding:7px 10px;border-radius:5px;margin-bottom:4px;background:var(--card);border:1px solid var(--border);flex-wrap:nowrap;transition:.12s}
 .feat-row:hover{border-color:#c5c5c5}
 .feat-name{flex:1;min-width:0;font-size:.76rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .grade-select{padding:3px 6px;border-radius:5px;border:1.5px solid #d1d9e6;font-size:.74rem;min-width:100px;cursor:pointer;flex-shrink:0}
@@ -99,7 +98,8 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 @media(max-width:900px){
   .scoring-layout{grid-template-columns:1fr}
   .scoring-photos{position:sticky;top:calc(var(--topbar-h) + 4px)}
-  .big-img{max-height:38vh}
+  .big-img{max-height:36vh}
+  .house-nav{max-height:56px}
 }
 @media(max-width:640px){.topbar{gap:8px;padding:8px 12px}.container{padding:12px}.tabs button{padding:5px 10px;font-size:.72rem}.bottom-bar{padding:8px 12px;flex-wrap:wrap}}
 </style>
@@ -122,7 +122,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
             <a href="#" class="{{ 'on' if lang=='fr' else '' }}" onclick="return changeLang('fr')">FR</a>
             <a href="#" class="{{ 'on' if lang=='nl' else '' }}" onclick="return changeLang('nl')">NL</a>
         </div>
-        <span class="badge-user"><i class="bi bi-person-fill"></i> {{ username }}{% if lot_id %} · <span data-i18n="lot">Lot</span> {{ lot_id }}{% endif %}</span>
+        <span class="badge-user"><i class="bi bi-person-fill"></i> {{ username }}</span>
         <a href="/logout"><i class="bi bi-box-arrow-right"></i> <span data-i18n="sign_out">Sign out</span></a>
     </div>
 </div>
@@ -152,15 +152,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 </div>
 
 <div class="tab-content" id="tab-scoring">
-    <div class="intro" style="padding:14px 18px" data-i18n="score_instructions">
-        Select a house, review its photographs, then grade each perceptual attribute yourself. AI grades are not shown.
+    <div class="intro" style="padding:10px 16px;margin-bottom:8px" data-i18n="score_instructions">
+        Select a house, review its photographs, then grade the six attributes shown. AI grades are not shown.
     </div>
-    {% if is_admin %}
-    <div class="filter-bar">
-        <label data-i18n="lot">Lot:</label>
-        <select id="adminLotSelect" class="lot-selector" onchange="loadHouses()"></select>
-    </div>
-    {% endif %}
     <div class="house-nav" id="houseNav">…</div>
     <div id="houseContent"></div>
 </div>
@@ -184,12 +178,11 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
         <table class="admin-table" id="adminTable">
             <thead><tr>
                 <th data-i18n="user">User</th>
-                <th data-i18n="lot">Lot</th>
                 <th data-i18n="houses">Houses</th>
                 <th data-i18n="validation">Validation</th>
                 <th data-i18n="scoring">Scoring</th>
             </tr></thead>
-            <tbody><tr><td colspan="5">…</td></tr></tbody>
+            <tbody><tr><td colspan="4">…</td></tr></tbody>
         </table>
     </div>
 </div>
@@ -223,7 +216,7 @@ en:{
   sign_out:"Sign out", lot:"Lot", section:"Section:", order:"Order:", all:"All", all_sections:"All Sections", first_only:"First-Order Only", second_only:"Second-Order Only",
   your_progress:"Your progress", next:"Next", prev:"Previous", rationale:"Rationale",
   val_instructions:"For each attribute, indicate whether it is relevant for a typical buyer's willingness to pay. Only if you answer Yes, also classify it as first-order or second-order. First-order = directly observable with a strong expected effect on price (cost, risk, usability, hygiene, non-replicable amenities). Second-order = more of a refinement of aesthetic appeal, design coherence, or perceptual credibility. If you answer No, no order classification is needed. Nothing is pre-filled — answers start blank. The AI's order classification is hidden.",
-  score_instructions:"Select a house, review its listing photographs, then grade each perceptual attribute from a typical buyer's point of view based only on what you see. Photos stay visible while you scroll. AI grades are not shown.",
+  score_instructions:"Select a house, review its listing photographs, then grade the six attributes shown — from a typical buyer's point of view, based only on what you see. Photos stay visible while you score. AI grades are not shown.",
   relevant_q:"Relevant for a buyer's valuation?", yes:"Yes", no:"No", order_q:"Order classification?", order_1:"1st Order", order_2:"2nd Order",
   saved:"saved", completed:"Completed", scored:"Scored", your_grade:"Your grade…", photos:"photos", no_houses:"No houses assigned.",
   admin_blurb:"Export all survey responses collected from all users. Data is stored in SQLite and exported as CSV.",
@@ -239,7 +232,7 @@ Non-commercial academic research · <a href="https://papers.ssrn.com/sol3/papers
 <p><strong>Please answer from a typical buyer's point of view</strong> (what would influence willingness to pay), not from your professional valuation methodology or appraisal checklist.</p>
 <h3>What we ask</h3>
 <p><strong>1. Attribute Validation:</strong> For each of 38 attributes — is it relevant for buyers? If Yes, is it 1st or 2nd order? (AI order is hidden; nothing is pre-answered.)</p>
-<p><strong>2. House Scoring:</strong> For houses in your lot, grade each attribute from the photos only. AI grades are hidden. Answers save automatically.</p>
+<p><strong>2. House Scoring:</strong> You will rate 20 houses. For each house, grade 6 attributes (each from a different family) from the photos only. Floor plans are excluded. AI grades are hidden. Answers save automatically.</p>
 <h3>Data use</h3>
 <p>Responses are used only for academic research (working paper and related publications). Results are analysed in aggregate; we do not publish individual identities. Participation is voluntary. More detail is in the invitation email.</p>
 <table class="scale-table"><tr><th>Grade</th><th>Meaning</th></tr>
@@ -255,7 +248,7 @@ fr:{
   sign_out:"Déconnexion", lot:"Lot", section:"Section :", order:"Ordre :", all:"Tous", all_sections:"Toutes les sections", first_only:"1er ordre seulement", second_only:"2e ordre seulement",
   your_progress:"Votre progression", next:"Suivant", prev:"Précédent", rationale:"Justification",
   val_instructions:"Pour chaque attribut, indiquez s'il est pertinent pour la disposition à payer d'un acheteur typique. Seulement si vous répondez Oui, classifiez-le aussi en 1er ou 2e ordre. 1er ordre = directement observable, avec un effet attendu fort sur le prix (coût, risque, usabilité, hygiène, aménités non réplicables). 2e ordre = raffinement esthétique, cohérence de design ou crédibilité perceptuelle. Si Non, aucune classification d'ordre n'est demandée. Rien n'est prérempli. La classification d'ordre de l'IA n'est pas affichée.",
-  score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez chaque attribut perceptuel du point de vue d'un acheteur typique, uniquement à partir de ce que vous voyez. Les photos restent visibles pendant le défilement. Les notes de l'IA ne sont pas affichées.",
+  score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez les six attributs affichés — du point de vue d'un acheteur typique, uniquement à partir de ce que vous voyez. Les photos restent visibles pendant la notation. Les notes de l'IA ne sont pas affichées.",
   relevant_q:"Pertinent pour un acheteur ?", yes:"Oui", no:"Non", order_q:"Classification d'ordre ?", order_1:"1er ordre", order_2:"2e ordre",
   saved:"enregistré", completed:"Terminé", scored:"Noté", your_grade:"Votre note…", photos:"photos", no_houses:"Aucune maison assignée.",
   admin_blurb:"Exportez toutes les réponses. Les données sont stockées en SQLite et exportées en CSV.",
@@ -271,7 +264,7 @@ Recherche académique non commerciale · <a href="https://papers.ssrn.com/sol3/p
 <p><strong>Répondez du point de vue d'un acheteur typique</strong> (ce qui influencerait la disposition à payer), et non selon votre méthodologie professionnelle d'évaluation.</p>
 <h3>Ce que nous demandons</h3>
 <p><strong>1. Validation des attributs :</strong> pour chacun des 38 attributs — pertinent pour les acheteurs ? Si Oui, 1er ou 2e ordre ? (ordre IA masqué ; rien n'est prérempli.)</p>
-<p><strong>2. Notation des maisons :</strong> pour les maisons de votre lot, notez chaque attribut à partir des photos seules. Notes IA masquées. Sauvegarde automatique.</p>
+<p><strong>2. Notation des maisons :</strong> vous notez 20 maisons. Pour chacune, notez 6 attributs (chacun d'une famille différente) à partir des photos seules. Les plans de sol sont exclus. Notes IA masquées. Sauvegarde automatique.</p>
 <h3>Utilisation des données</h3>
 <p>Les réponses servent uniquement à la recherche académique (working paper et publications associées). Analyse agrégée ; pas de publication d'identités individuelles. Participation volontaire. Plus de détails dans l'e-mail d'invitation.</p>
 <table class="scale-table"><tr><th>Note</th><th>Signification</th></tr>
@@ -287,7 +280,7 @@ nl:{
   sign_out:"Uitloggen", lot:"Lot", section:"Sectie:", order:"Orde:", all:"Alles", all_sections:"Alle secties", first_only:"Alleen 1e orde", second_only:"Alleen 2e orde",
   your_progress:"Uw voortgang", next:"Volgende", prev:"Vorige", rationale:"Onderbouwing",
   val_instructions:"Geef per attribuut aan of het relevant is voor de betalingsbereidheid van een typische koper. Alleen bij Ja classificeert u het ook als 1e of 2e orde. 1e orde = direct waarneembaar met een sterk verwacht prijseffect (kosten, risico, bruikbaarheid, hygiëne, niet-repliceerbare amenities). 2e orde = eerder een verfijning van esthetiek, ontwerpcoherentie of perceptuele geloofwaardigheid. Bij Nee is geen ordeclassificatie nodig. Niets is vooraf ingevuld. De ordeclassificatie van de AI wordt niet getoond.",
-  score_instructions:"Kies een huis, bekijk de foto's en geef elk perceptueel attribuut een score vanuit het standpunt van een typische koper, alleen op basis van wat u ziet. Foto's blijven zichtbaar tijdens het scrollen. AI-scores worden niet getoond.",
+  score_instructions:"Kies een huis, bekijk de foto's en geef de zes getoonde attributen een score vanuit het standpunt van een typische koper, alleen op basis van wat u ziet. Foto's blijven zichtbaar tijdens het scoren. AI-scores worden niet getoond.",
   relevant_q:"Relevant voor een koper?", yes:"Ja", no:"Nee", order_q:"Ordeclassificatie?", order_1:"1e orde", order_2:"2e orde",
   saved:"opgeslagen", completed:"Voltooid", scored:"Gescoord", your_grade:"Uw score…", photos:"foto's", no_houses:"Geen huizen toegewezen.",
   admin_blurb:"Exporteer alle antwoorden. Data staat in SQLite en wordt als CSV geëxporteerd.",
@@ -303,7 +296,7 @@ Niet-commercieel academisch onderzoek · <a href="https://papers.ssrn.com/sol3/p
 <p><strong>Antwoord vanuit het standpunt van een typische koper</strong> (wat de betalingsbereidheid beïnvloedt), niet vanuit uw professionele waarderingsmethodologie.</p>
 <h3>Wat we vragen</h3>
 <p><strong>1. Attribuutvalidatie:</strong> voor elk van de 38 attributen — relevant voor kopers? Bij Ja: 1e of 2e orde? (AI-orde verborgen; niets vooraf ingevuld.)</p>
-<p><strong>2. Huizen scoren:</strong> voor huizen in uw lot elk attribuut beoordelen op basis van alleen de foto's. AI-scores verborgen. Automatisch opslaan.</p>
+<p><strong>2. Huizen scoren:</strong> u beoordeelt 20 huizen. Per huis geeft u 6 attributen (elk uit een andere familie) een score op basis van alleen de foto's. Plattegronden zijn uitgesloten. AI-scores verborgen. Automatisch opslaan.</p>
 <h3>Gebruik van gegevens</h3>
 <p>Antwoorden dienen uitsluitend voor academisch onderzoek (working paper en gerelateerde publicaties). Analyse op geaggregeerd niveau; geen publicatie van individuele identiteiten. Deelname is vrijwillig. Meer details in de uitnodigingsmail.</p>
 <table class="scale-table"><tr><th>Score</th><th>Betekenis</th></tr>
@@ -433,7 +426,7 @@ function renderValidation() {
     for (const [sec, subs] of Object.entries(groups)) {
         html += `<div class="sec-header">${FL[sec] || sec}</div>`;
         for (const [sub, attrs] of Object.entries(subs)) {
-            html += `<div class="sub-header">${SL[sub] || sub}</div>`;
+            if (sub !== sec) html += `<div class="sub-header">${SL[sub] || sub}</div>`;
             attrs.forEach(a => {
                 const s = TX_SAVED[a.vn] || {};
                 const tick = isValComplete(s) ? `<span class="saved-tick"><i class="bi bi-check-circle-fill"></i> ${t("saved")}</span>` : "";
@@ -451,7 +444,6 @@ function renderValidation() {
                         <div class="attr-name">${feat} ${tick}</div>
                     </div>
                     <div class="attr-def">${a.def || ""}</div>
-                    <div class="attr-rat">${a.rat ? "<strong>" + t("rationale") + ":</strong> " + a.rat : ""}</div>
                     ${a.cues && a.cues.length ? '<div class="attr-cues">' + a.cues.map(c => "<span>"+c+"</span>").join("") + "</div>" : ""}
                     <div class="attr-actions">
                         <div>
@@ -487,22 +479,9 @@ async function saveVal(vn, field, value) {
 }
 
 async function loadHouses() {
-    let url = "/houses";
-    if (IS_ADMIN) {
-        const sel = document.getElementById("adminLotSelect");
-        if (sel && !sel.options.length) {
-            const r0 = await fetch("/houses");
-            const d0 = await r0.json();
-            if (d0.all_lots) d0.all_lots.forEach(l => {
-                const o = document.createElement("option"); o.value = l; o.textContent = t("lot") + " " + l; sel.appendChild(o);
-            });
-        }
-        if (sel) url = "/houses?lot=" + sel.value;
-    }
-    const r = await fetch(url);
+    const r = await fetch("/houses");
     const d = await r.json();
     HOUSES = d.houses;
-    // When switching lots, always start with the first house
     CUR_HOUSE = null;
     renderHouseNav();
     if (HOUSES.length) selectHouse(HOUSES[0].id);
@@ -563,7 +542,7 @@ function renderHouseDetail() {
     for (const [sec, subs] of Object.entries(groups)) {
         html += `<div class="sec-header">${FL[sec]||sec}</div>`;
         for (const [sub, feats] of Object.entries(subs)) {
-            html += `<div class="sub-header">${SL[sub]||sub}</div>`;
+            if (sub !== sec) html += `<div class="sub-header">${SL[sub]||sub}</div>`;
             feats.forEach(f => {
                 const ug = CUR_HOUSE_SAVED[f.vn] || "";
                 const feat = (f.feat || f.vn).replace(/_/g, " ");
@@ -613,7 +592,6 @@ async function loadAdmin() {
         const sp = s.score_total ? Math.round(s.score_done/s.score_total*100) : 0;
         return `<tr>
             <td><strong>${s.username}</strong></td>
-            <td>${t("lot")} ${s.lot_id}</td>
             <td>${s.houses}</td>
             <td>${s.val_done}/${s.val_total} (${vp}%)</td>
             <td>${s.score_done}/${s.score_total} (${sp}%)</td>
