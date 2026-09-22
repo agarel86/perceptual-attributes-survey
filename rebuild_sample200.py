@@ -13,8 +13,7 @@ import shutil
 import zipfile
 from collections import Counter, defaultdict
 
-from PIL import Image
-import numpy as np
+from filter_floorplans import is_floorplan
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 ZIP_PATH = os.path.join(os.path.dirname(os.path.dirname(BASE)), "propfiles_sample200.zip")
@@ -24,29 +23,6 @@ SEED = 42
 N_USERS = 10
 HOUSES_PER_USER = 20
 ATTRS_PER_HOUSE = 6
-
-
-def is_floorplan(img_path, saturation_thresh=25, white_ratio_thresh=0.70):
-    try:
-        img = Image.open(img_path).convert("RGB")
-        img = img.resize((200, 200), Image.LANCZOS)
-        arr = np.array(img, dtype=np.float32)
-        r, g, b = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2]
-        cmax = np.maximum(np.maximum(r, g), b)
-        cmin = np.minimum(np.minimum(r, g), b)
-        delta = cmax - cmin
-        with np.errstate(invalid="ignore", divide="ignore"):
-            sat = np.where(cmax > 0, (delta / cmax) * 255, 0)
-        mean_sat = float(np.nanmean(sat))
-        white_ratio = float(np.all(arr > 230, axis=2).mean())
-        if mean_sat < saturation_thresh and white_ratio > white_ratio_thresh:
-            return True
-        if mean_sat < 15 and white_ratio > 0.55:
-            return True
-        return False
-    except Exception as e:
-        print(f"  Warning: could not process {img_path}: {e}")
-        return False
 
 
 def extract_photos():
