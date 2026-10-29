@@ -576,16 +576,74 @@ def save_score():
     return jsonify(ok=True)
 
 
+def apply_session_answers(db, username, data):
+    """Write one user's in-memory answers into sqlite (Save / logout / exit)."""
+    if not data:
+        return
+    now = datetime.utcnow().isoformat()
+    user = USERS.get(username) or {}
+    allowed_houses = set(user_house_ids(user))
+    allowed_vns = set(TX_BY_VN)
+    for row in data.get("validation") or []:
+        vn = row.get("variable_name")
+        if vn not in allowed_vns:
+            continue
+        db.execute(
+            """INSERT INTO attribute_validation
+            (username, variable_name, relevant, order_opinion, comment, updated_at)
+            VALUES (?,?,?,?,?,?)
+            ON CONFLICT(username, variable_name) DO UPDATE SET
+                relevant=excluded.relevant,
+                order_opinion=excluded.order_opinion,
+                comment=excluded.comment,
+                updated_at=excluded.updated_at
+            """,
+            (
+                username,
+                vn,
+                row.get("relevant"),
+                row.get("order_opinion") or "",
+                row.get("comment") or "",
+                now,
+            ),
+        )
+    for row in data.get("scoring") or []:
+        hid = row.get("house_id")
+        vn = row.get("variable_name")
+        if hid not in allowed_houses or vn not in set(assigned_attr_vns(hid)):
+            continue
+        db.execute(
+            """INSERT INTO house_scoring
+            (username, house_id, variable_name, user_grade, updated_at)
+            VALUES (?,?,?,?,?)
+            ON CONFLICT(username, house_id, variable_name) DO UPDATE SET
+                user_grade=excluded.user_grade,
+                updated_at=excluded.updated_at
+            """,
+            (
+                username,
+                hid,
+                vn,
+                row.get("user_grade") or "",
+                now,
+            ),
+        )
+    db.commit()
+
+
 @app.route("/save/flush", methods=["POST"])
 @login_required
 def save_flush():
-    """One GitHub CSV snapshot for the whole database (Save button or leaving)."""
+    """Write this session's answers, then one GitHub CSV snapshot."""
+    data = request.get_json(silent=True) or {}
+    db = get_db()
+    apply_session_answers(db, session["user"], data)
     if not persist.enabled():
         if os.environ.get("RENDER"):
             return jsonify(ok=False, error="Durable backup is not configured"), 503
         return jsonify(ok=True, durable=False)
     try:
-        persist.dump_from_db(get_db(), message=f"flush {session['user']}")
+        persist.dump_from_db(db, message=f"flush {session['user']}")
     except Exception as e:
         print("Backup flush failed:", e)
         return jsonify(ok=False, error="GitHub CSV flush failed"), 503

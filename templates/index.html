@@ -334,6 +334,7 @@ function applyI18n(){
 
 let TX = [], TX_SAVED = {}, FL = {}, SL = {};
 let HOUSES = [], CUR_HOUSE = null, CUR_HOUSE_DATA = null, CUR_HOUSE_SAVED = {};
+let ALL_SCORES = {};
 let CURRENT_TAB = "welcome";
 
 function tabOrder() {
@@ -346,7 +347,8 @@ function changeLang(lang) {
     const active = document.querySelector("#mainTabs button.active");
     const tab = (active && active.dataset.tab) || CURRENT_TAB || "welcome";
     sessionStorage.setItem("surveyTab", tab);
-    window.location.href = "/set-lang/" + lang + "?tab=" + encodeURIComponent(tab);
+    const dest = "/set-lang/" + lang + "?tab=" + encodeURIComponent(tab);
+    flushBackup(false).finally(function(){ window.location.href = dest; });
     return false;
 }
 
@@ -396,6 +398,7 @@ async function loadProgress() {
 
 let valLoaded = false;
 async function loadValidation() {
+    if (valLoaded) { renderValidation(); return; }
     const r = await fetch("/validate");
     const d = await r.json();
     TX = d.taxonomy; TX_SAVED = d.saved; FL = d.FL; SL = d.SL;
@@ -481,24 +484,37 @@ function setSaveStatus(ok, detail) {
     el.textContent = ok ? t("save_ok") : (detail || t("save_fail"));
 }
 
-async function postSave(url, payload) {
-    const r = await fetch(url, {
-        method:"POST", headers:{"Content-Type":"application/json"},
-        body: JSON.stringify(payload)
+function pendingAnswers() {
+    if (CUR_HOUSE) ALL_SCORES[CUR_HOUSE] = Object.assign({}, CUR_HOUSE_SAVED);
+    const validation = [];
+    Object.keys(TX_SAVED).forEach(function(vn) {
+        const s = TX_SAVED[vn] || {};
+        validation.push({
+            variable_name: vn,
+            relevant: s.relevant || "",
+            order_opinion: s.relevant === "no" ? "" : (s.order_opinion || ""),
+            comment: s.comment || ""
+        });
     });
-    let data = {};
-    try { data = await r.json(); } catch (e) {}
-    if (!r.ok || data.ok === false) {
-        setSaveStatus(false, data.error || t("save_fail"));
-        return false;
-    }
-    return true;
+    const scoring = [];
+    Object.keys(ALL_SCORES).forEach(function(hid) {
+        const grades = ALL_SCORES[hid] || {};
+        Object.keys(grades).forEach(function(vn) {
+            if (grades[vn]) scoring.push({house_id: hid, variable_name: vn, user_grade: grades[vn]});
+        });
+    });
+    return {validation: validation, scoring: scoring};
 }
 
 async function flushBackup(showStatus) {
     if (IS_REVIEWER) return true;
     try {
-        const r = await fetch("/save/flush", { method:"POST", keepalive: true });
+        const r = await fetch("/save/flush", {
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body: JSON.stringify(pendingAnswers()),
+            keepalive: true
+        });
         let data = {};
         try { data = await r.json(); } catch (e) {}
         if (!r.ok || data.ok === false) {
@@ -519,7 +535,15 @@ function signOut(ev) {
     return false;
 }
 
-window.addEventListener("pagehide", function(){ flushBackup(false); });
+window.addEventListener("pagehide", function(){
+    if (IS_REVIEWER) return;
+    const body = JSON.stringify(pendingAnswers());
+    if (navigator.sendBeacon) {
+        navigator.sendBeacon("/save/flush", new Blob([body], {type:"application/json"}));
+        return;
+    }
+    flushBackup(false);
+});
 
 function saveVal(vn, field, value) {
     if (IS_REVIEWER) return;
@@ -529,18 +553,17 @@ function saveVal(vn, field, value) {
         TX_SAVED[vn].order_opinion = "";
     }
     renderValidation();
-    const payload = {variable_name: vn, ...TX_SAVED[vn]};
-    if (payload.relevant === "no") payload.order_opinion = "";
-    postSave("/save/validation", payload);
 }
 
 async function loadHouses() {
+    if (CUR_HOUSE) ALL_SCORES[CUR_HOUSE] = Object.assign({}, CUR_HOUSE_SAVED);
+    const keep = CUR_HOUSE;
     const r = await fetch("/houses");
     const d = await r.json();
     HOUSES = d.houses;
-    CUR_HOUSE = null;
-    renderHouseNav();
-    if (HOUSES.length) selectHouse(HOUSES[0].id);
+    const next = (keep && HOUSES.some(function(h){ return h.id === keep; })) ? keep : (HOUSES[0] && HOUSES[0].id);
+    if (next) selectHouse(next);
+    else renderHouseNav();
 }
 
 function renderHouseNav() {
@@ -557,12 +580,16 @@ function renderHouseNav() {
 }
 
 async function selectHouse(hid) {
+    if (CUR_HOUSE && CUR_HOUSE !== hid) {
+        ALL_SCORES[CUR_HOUSE] = Object.assign({}, CUR_HOUSE_SAVED);
+    }
     CUR_HOUSE = hid;
     renderHouseNav();
     const r = await fetch("/house/" + hid);
     const d = await r.json();
     CUR_HOUSE_DATA = d.house;
-    CUR_HOUSE_SAVED = d.saved;
+    CUR_HOUSE_SAVED = Object.assign({}, d.saved, ALL_SCORES[hid] || {});
+    ALL_SCORES[hid] = Object.assign({}, CUR_HOUSE_SAVED);
     FL = d.FL; SL = d.SL;
     renderHouseDetail();
 }
@@ -625,9 +652,10 @@ function showImg(idx) {
 
 function saveScore(hid, vn, grade) {
     if (IS_REVIEWER) return;
-    const prev = CUR_HOUSE_SAVED[vn] || "";
     const sel = event && event.target;
     CUR_HOUSE_SAVED[vn] = grade;
+    if (!ALL_SCORES[hid]) ALL_SCORES[hid] = {};
+    ALL_SCORES[hid][vn] = grade;
     if (sel) sel.classList.toggle("done", !!grade);
     const done = Object.keys(CUR_HOUSE_SAVED).filter(k => CUR_HOUSE_SAVED[k]).length;
     const total = CUR_HOUSE_DATA.feats.length;
@@ -636,14 +664,6 @@ function saveScore(hid, vn, grade) {
     const pf = document.getElementById("houseProgFill");
     if (pt) pt.innerHTML = `<strong>${hid.replace("id","ID ")}</strong> — ${t("scored")}: ${done} / ${total} (${pct}%)`;
     if (pf) pf.style.width = pct + "%";
-    postSave("/save/score", {house_id: hid, variable_name: vn, user_grade: grade}).then(function(ok){
-        if (ok) return;
-        CUR_HOUSE_SAVED[vn] = prev;
-        if (sel) {
-            sel.value = prev;
-            sel.classList.toggle("done", !!prev);
-        }
-    });
 }
 
 async function loadAdmin() {
@@ -668,6 +688,7 @@ async function resetAllResponses() {
     // Clear in-memory caches so UI shows blank immediately
     TX_SAVED = {};
     CUR_HOUSE_SAVED = {};
+    ALL_SCORES = {};
     valLoaded = false;
     alert(t("reset_done"));
     loadAdmin();
