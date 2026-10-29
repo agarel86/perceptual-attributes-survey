@@ -352,6 +352,7 @@ function changeLang(lang) {
     return false;
 }
 
+let adminTimer = null;
 function switchTab(name) {
     CURRENT_TAB = name;
     sessionStorage.setItem("surveyTab", name);
@@ -360,9 +361,13 @@ function switchTab(name) {
     document.getElementById("tab-" + name).classList.add("active");
     const btn = document.querySelector(`#mainTabs button[data-tab="${name}"]`);
     if (btn) btn.classList.add("active");
+    if (adminTimer) { clearInterval(adminTimer); adminTimer = null; }
     if (name === "validate") loadValidation();
     if (name === "scoring") loadHouses();
-    if (name === "admin") loadAdmin();
+    if (name === "admin") {
+        loadAdmin();
+        adminTimer = setInterval(loadAdmin, 4000);
+    }
     if (name === "welcome") loadProgress();
     updateNavButtons();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -484,6 +489,19 @@ function setSaveStatus(ok, detail) {
     el.textContent = ok ? t("save_ok") : (detail || t("save_fail"));
 }
 
+function persistNow(url, payload) {
+    fetch(url, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload),
+        keepalive: true
+    }).then(function(r){
+        if (!r.ok) setSaveStatus(false, t("save_fail"));
+    }).catch(function(){
+        setSaveStatus(false, t("save_fail"));
+    });
+}
+
 function pendingAnswers() {
     if (CUR_HOUSE) ALL_SCORES[CUR_HOUSE] = Object.assign({}, CUR_HOUSE_SAVED);
     const validation = [];
@@ -553,6 +571,9 @@ function saveVal(vn, field, value) {
         TX_SAVED[vn].order_opinion = "";
     }
     renderValidation();
+    const payload = {variable_name: vn, ...TX_SAVED[vn]};
+    if (payload.relevant === "no") payload.order_opinion = "";
+    persistNow("/save/validation", payload);
 }
 
 async function loadHouses() {
@@ -664,6 +685,7 @@ function saveScore(hid, vn, grade) {
     const pf = document.getElementById("houseProgFill");
     if (pt) pt.innerHTML = `<strong>${hid.replace("id","ID ")}</strong> — ${t("scored")}: ${done} / ${total} (${pct}%)`;
     if (pf) pf.style.width = pct + "%";
+    persistNow("/save/score", {house_id: hid, variable_name: vn, user_grade: grade});
 }
 
 async function loadAdmin() {

@@ -282,9 +282,14 @@ def restore_from_backup(db, force=False):
 
 
 def ensure_answers_loaded():
-    """Reload GitHub CSVs into sqlite (empty disk after days of no traffic)."""
+    """Reload GitHub CSVs only when sqlite is empty (after idle sleep). Never overwrite live answers."""
     try:
-        return restore_from_backup(get_db(), force=True)
+        db = get_db()
+        n = db.execute("SELECT COUNT(*) FROM attribute_validation").fetchone()[0]
+        n += db.execute("SELECT COUNT(*) FROM house_scoring").fetchone()[0]
+        if n > 0:
+            return 0
+        return restore_from_backup(db, force=True)
     except Exception as e:
         print("ensure_answers_loaded:", e)
         return 0
