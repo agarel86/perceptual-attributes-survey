@@ -1,5 +1,7 @@
-"""Durable survey-answer backup on GitHub (survives Render free-tier sleep)."""
+"""Durable survey-answer backup on GitHub (CSV + JSON, survives Render sleep)."""
 import base64
+import csv
+import io
 import json
 import os
 import threading
@@ -9,7 +11,26 @@ import urllib.request
 
 REPO = os.environ.get("SURVEY_BACKUP_GITHUB_REPO", "").strip()
 TOKEN = os.environ.get("SURVEY_BACKUP_GITHUB_TOKEN", "").strip()
-PATH = os.environ.get("SURVEY_BACKUP_PATH", "survey_answers.json").strip() or "survey_answers.json"
+JSON_PATH = os.environ.get("SURVEY_BACKUP_PATH", "survey_answers.json").strip() or "survey_answers.json"
+VAL_CSV = "csv/attribute_validation.csv"
+SCORE_CSV = "csv/house_scoring.csv"
+LOG_CSV = "csv/answer_log.csv"
+BRANCH = os.environ.get("SURVEY_BACKUP_BRANCH", "main").strip() or "main"
+
+VAL_FIELDS = ["username", "variable_name", "relevant", "order_opinion", "comment", "updated_at"]
+SCORE_FIELDS = ["username", "house_id", "variable_name", "user_grade", "updated_at"]
+LOG_FIELDS = [
+    "logged_at",
+    "kind",
+    "username",
+    "house_id",
+    "variable_name",
+    "relevant",
+    "order_opinion",
+    "user_grade",
+    "comment",
+    "updated_at",
+]
 
 _lock = threading.Lock()
 
@@ -31,7 +52,10 @@ def _api(method, url, payload=None):
         with urllib.request.urlopen(req, timeout=45) as resp:
             if resp.status == 204:
                 return {}
-            return json.load(resp)
+            raw = resp.read()
+            if not raw:
+                return {}
+            return json.loads(raw.decode("utf-8"))
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", "replace")
         err = RuntimeError(f"GitHub {method} {e.code}: {body[:500]}")
@@ -39,38 +63,130 @@ def _api(method, url, payload=None):
         raise err from e
 
 
-def _contents_url():
-    return f"https://api.github.com/repos/{REPO}/contents/{PATH}"
+def _repo_url(path):
+    return f"https://api.github.com/repos/{REPO}/{path}"
+
+
+def _rows_to_csv(fields, rows):
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=fields, extrasaction="ignore", lineterminator="\n")
+    w.writeheader()
+    for r in rows:
+        w.writerow({k: r.get(k, "") if r.get(k) is not None else "" for k in fields})
+    return buf.getvalue()
+
+
+def _csv_to_rows(text, fields):
+    if not text or not text.strip():
+        return []
+    r = csv.DictReader(io.StringIO(text))
+    out = []
+    for row in r:
+        out.append({k: (row.get(k) or "") for k in fields})
+    return out
+
+
+def _get_file_text(path):
+    try:
+        data = _api("GET", _repo_url(f"contents/{path}?ref={BRANCH}"))
+    except RuntimeError as e:
+        if getattr(e, "status", None) == 404:
+            return None
+        raise
+    return base64.b64decode(data["content"].encode("ascii")).decode("utf-8")
 
 
 def load_all():
-    """Return {attribute_validation, house_scoring, _sha} or empty stub."""
+    """Return {attribute_validation, house_scoring} from JSON, else from CSVs."""
     if not enabled():
         return None
+    val, sco = [], []
     try:
-        data = _api("GET", _contents_url())
-    except RuntimeError as e:
-        if getattr(e, "status", None) == 404:
-            return {"attribute_validation": [], "house_scoring": [], "_sha": None}
-        raise
-    raw = base64.b64decode(data["content"].encode("ascii")).decode("utf-8")
-    content = json.loads(raw)
-    content.setdefault("attribute_validation", [])
-    content.setdefault("house_scoring", [])
-    content["_sha"] = data.get("sha")
-    return content
+        raw = _get_file_text(JSON_PATH)
+        if raw:
+            content = json.loads(raw)
+            val = content.get("attribute_validation") or []
+            sco = content.get("house_scoring") or []
+    except Exception:
+        val, sco = [], []
+    if not val:
+        csv_text = _get_file_text(VAL_CSV)
+        if csv_text:
+            val = _csv_to_rows(csv_text, VAL_FIELDS)
+    if not sco:
+        csv_text = _get_file_text(SCORE_CSV)
+        if csv_text:
+            sco = _csv_to_rows(csv_text, SCORE_FIELDS)
+    return {"attribute_validation": val, "house_scoring": sco}
 
 
-def _put(bundle, sha, message):
-    body = {
-        "attribute_validation": bundle.get("attribute_validation", []),
-        "house_scoring": bundle.get("house_scoring", []),
+def _log_line(kind, row):
+    return {
+        "logged_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+        "kind": kind,
+        "username": row.get("username", ""),
+        "house_id": row.get("house_id", ""),
+        "variable_name": row.get("variable_name", ""),
+        "relevant": row.get("relevant", ""),
+        "order_opinion": row.get("order_opinion", ""),
+        "user_grade": row.get("user_grade", ""),
+        "comment": row.get("comment", ""),
+        "updated_at": row.get("updated_at", ""),
     }
-    encoded = base64.b64encode(json.dumps(body, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii")
-    payload = {"message": message, "content": encoded}
-    if sha:
-        payload["sha"] = sha
-    return _api("PUT", _contents_url(), payload)
+
+
+def _commit_files(files, message):
+    """Commit several text files on BRANCH in one git commit."""
+    ref = _api("GET", _repo_url(f"git/ref/heads/{BRANCH}"))
+    commit_sha = ref["object"]["sha"]
+    commit = _api("GET", _repo_url(f"git/commits/{commit_sha}"))
+    tree = _api(
+        "POST",
+        _repo_url("git/trees"),
+        {
+            "base_tree": commit["tree"]["sha"],
+            "tree": [
+                {"path": path, "mode": "100644", "type": "blob", "content": content}
+                for path, content in files.items()
+            ],
+        },
+    )
+    new_commit = _api(
+        "POST",
+        _repo_url("git/commits"),
+        {"message": message, "tree": tree["sha"], "parents": [commit_sha]},
+    )
+    try:
+        _api("PATCH", _repo_url(f"git/refs/heads/{BRANCH}"), {"sha": new_commit["sha"]})
+    except RuntimeError as e:
+        if getattr(e, "status", None) in (409, 422):
+            raise
+        raise
+    return new_commit
+
+
+def _snapshot_files(val_rows, score_rows, extra_log_row=None):
+    log_text = _get_file_text(LOG_CSV) or _rows_to_csv(LOG_FIELDS, [])
+    if extra_log_row:
+        # Append without rewriting the whole history incorrectly if file has no header
+        if not log_text.strip():
+            log_text = _rows_to_csv(LOG_FIELDS, [])
+        buf = io.StringIO()
+        w = csv.DictWriter(buf, fieldnames=LOG_FIELDS, extrasaction="ignore", lineterminator="\n")
+        w.writerow({k: extra_log_row.get(k, "") for k in LOG_FIELDS})
+        log_text = log_text.rstrip() + "\n" + buf.getvalue()
+        if not log_text.endswith("\n"):
+            log_text += "\n"
+    json_body = {
+        "attribute_validation": val_rows,
+        "house_scoring": score_rows,
+    }
+    return {
+        JSON_PATH: json.dumps(json_body, ensure_ascii=False, indent=2) + "\n",
+        VAL_CSV: _rows_to_csv(VAL_FIELDS, val_rows),
+        SCORE_CSV: _rows_to_csv(SCORE_FIELDS, score_rows),
+        LOG_CSV: log_text,
+    }
 
 
 def _upsert_list(rows, key_fn, row):
@@ -82,7 +198,6 @@ def _upsert_list(rows, key_fn, row):
 
 
 def upsert(kind, row, message=None):
-    """Merge one validation or scoring row into GitHub JSON. kind is table name."""
     if not enabled():
         return False
     key_fn = {
@@ -93,33 +208,16 @@ def upsert(kind, row, message=None):
     for attempt in range(8):
         with _lock:
             try:
-                bundle = load_all()
-                sha = bundle.get("_sha")
+                bundle = load_all() or {"attribute_validation": [], "house_scoring": []}
                 bundle[kind] = _upsert_list(bundle.get(kind, []), key_fn, row)
-                _put(bundle, sha, message or f"survey {kind} {row.get('username')}")
-                return True
-            except RuntimeError as e:
-                last_err = e
-                if getattr(e, "status", None) in (409, 422):
-                    time.sleep(0.25 * (attempt + 1))
-                    continue
-                raise
-    raise last_err or RuntimeError("GitHub backup failed")
-
-
-def replace_all(validation_rows, scoring_rows, message="survey replace"):
-    if not enabled():
-        return False
-    last_err = None
-    for attempt in range(8):
-        with _lock:
-            try:
-                bundle = load_all()
-                sha = bundle.get("_sha")
-                _put(
-                    {"attribute_validation": list(validation_rows), "house_scoring": list(scoring_rows)},
-                    sha,
-                    message,
+                files = _snapshot_files(
+                    bundle.get("attribute_validation") or [],
+                    bundle.get("house_scoring") or [],
+                    extra_log_row=_log_line(kind, row),
+                )
+                _commit_files(
+                    files,
+                    message or f"save {kind} {row.get('username')} {row.get('variable_name')}",
                 )
                 return True
             except RuntimeError as e:
@@ -128,4 +226,25 @@ def replace_all(validation_rows, scoring_rows, message="survey replace"):
                     time.sleep(0.25 * (attempt + 1))
                     continue
                 raise
-    raise last_err or RuntimeError("GitHub backup replace failed")
+    raise last_err or RuntimeError("GitHub CSV backup failed")
+
+
+def replace_all(validation_rows, scoring_rows, message="survey replace"):
+    if not enabled():
+        return False
+    last_err = None
+    val = list(validation_rows)
+    sco = list(scoring_rows)
+    for attempt in range(8):
+        with _lock:
+            try:
+                files = _snapshot_files(val, sco, extra_log_row=_log_line("replace_all", {}))
+                _commit_files(files, message)
+                return True
+            except RuntimeError as e:
+                last_err = e
+                if getattr(e, "status", None) in (409, 422):
+                    time.sleep(0.25 * (attempt + 1))
+                    continue
+                raise
+    raise last_err or RuntimeError("GitHub CSV backup replace failed")

@@ -30,6 +30,6 @@ python app.py
 
 - Root = this folder
 - Start command: `gunicorn -w 1 -b 0.0.0.0:$PORT app:app`
-- Set `SURVEY_BACKUP_GITHUB_REPO` and `SURVEY_BACKUP_GITHUB_TOKEN` so answers survive free-tier sleep (private repo JSON backup). Do not rely on local `survey.db` alone.
+- Set `SURVEY_BACKUP_GITHUB_REPO` and `SURVEY_BACKUP_GITHUB_TOKEN` so every answer is committed to GitHub as CSV (`csv/attribute_validation.csv`, `csv/house_scoring.csv`, `csv/answer_log.csv`) plus `survey_answers.json`. Do not rely on local `survey.db` alone.
 
 Images: ~110 MB under `images/`.
