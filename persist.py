@@ -248,3 +248,22 @@ def replace_all(validation_rows, scoring_rows, message="survey replace"):
                     continue
                 raise
     raise last_err or RuntimeError("GitHub CSV backup replace failed")
+
+
+def dump_from_db(db, message="session flush CSV snapshot"):
+    """Write the full sqlite tables to GitHub CSVs in one commit."""
+    if not enabled():
+        return False
+    val = [
+        dict(r)
+        for r in db.execute(
+            "SELECT username, variable_name, relevant, order_opinion, comment, updated_at FROM attribute_validation ORDER BY username, variable_name"
+        )
+    ]
+    sco = [
+        dict(r)
+        for r in db.execute(
+            "SELECT username, house_id, variable_name, user_grade, updated_at FROM house_scoring ORDER BY username, house_id, variable_name"
+        )
+    ]
+    return replace_all(val, sco, message=message)

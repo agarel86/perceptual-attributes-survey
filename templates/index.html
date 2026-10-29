@@ -127,7 +127,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
         </div>
         <span id="saveStatus" class="save-status" aria-live="polite"></span>
         <span class="badge-user"><i class="bi bi-person-fill"></i> {{ username }}</span>
-        <a href="/logout"><i class="bi bi-box-arrow-right"></i> <span data-i18n="sign_out">Sign out</span></a>
+        <a href="/logout" onclick="return signOut(event)"><i class="bi bi-box-arrow-right"></i> <span data-i18n="sign_out">Sign out</span></a>
     </div>
 </div>
 
@@ -197,6 +197,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 <div class="bottom-bar">
     <span id="bottomInfo" data-i18n="app_title">Perceptual Attribute Survey</span>
     <div class="nav-btns">
+        <button type="button" id="btnSave" onclick="flushBackup(true)"><i class="bi bi-cloud-arrow-up"></i> <span data-i18n="save_all">Save</span></button>
         <button type="button" id="btnPrev" onclick="navTab(-1)"><i class="bi bi-chevron-left"></i> <span data-i18n="prev">Previous</span></button>
         <button type="button" id="btnNext" class="primary" onclick="navTab(1)"><span data-i18n="next">Next</span> <i class="bi bi-chevron-right"></i></button>
     </div>
@@ -222,7 +223,7 @@ en:{
   val_instructions:"For each attribute, indicate whether it is relevant for a typical buyer's willingness to pay. Only if you answer Yes, also classify it as first-order or second-order. If you answer No, no order classification is needed.",
   score_instructions:"Select a house, review its listing photographs, then grade the six attributes shown from a typical buyer's point of view, based only on what you see.",
   relevant_q:"Relevant for a buyer's valuation?", yes:"Yes", no:"No", order_q:"Order classification?", order_1:"1st Order", order_2:"2nd Order",
-  saved:"saved", completed:"Completed", scored:"Scored", your_grade:"Your grade…", photos:"photos", no_houses:"No houses assigned.",
+  saved:"saved", save_all:"Save", completed:"Completed", scored:"Scored", your_grade:"Your grade…", photos:"photos", no_houses:"No houses assigned.",
   admin_blurb:"Export CSVs here. Every answer is also committed to GitHub (csv/attribute_validation.csv and csv/house_scoring.csv) so it can be recovered if the server sleeps.",
   save_ok:"Saved", save_fail:"Save failed — try again",
   export_val:"Attribute Validation CSV", export_score:"House Scoring CSV", export_combined:"Combined Export (with AI grades)",
@@ -255,7 +256,7 @@ fr:{
   val_instructions:"Pour chaque attribut, indiquez s'il est pertinent pour la disposition à payer d'un acheteur typique. Seulement si vous répondez Oui, classifiez-le aussi en 1er ou 2e ordre. Si Non, aucune classification d'ordre n'est demandée.",
   score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez les six attributs affichés du point de vue d'un acheteur typique, uniquement à partir de ce que vous voyez.",
   relevant_q:"Pertinent pour un acheteur ?", yes:"Oui", no:"Non", order_q:"Classification d'ordre ?", order_1:"1er ordre", order_2:"2e ordre",
-  saved:"enregistré", completed:"Terminé", scored:"Noté", your_grade:"Votre note…", photos:"photos", no_houses:"Aucune maison assignée.",
+  saved:"enregistré", save_all:"Enregistrer", completed:"Terminé", scored:"Noté", your_grade:"Votre note…", photos:"photos", no_houses:"Aucune maison assignée.",
   admin_blurb:"Exportez toutes les réponses. Elles sont aussi copiées dans une sauvegarde durable.",
   save_ok:"Enregistré", save_fail:"Échec de l'enregistrement — réessayez",
   export_val:"CSV validation des attributs", export_score:"CSV notation des maisons", export_combined:"Export combiné (avec notes IA)",
@@ -288,7 +289,7 @@ nl:{
   val_instructions:"Geef per attribuut aan of het relevant is voor de betalingsbereidheid van een typische koper. Alleen bij Ja classificeert u het ook als 1e of 2e orde. Bij Nee is geen ordeclassificatie nodig.",
   score_instructions:"Kies een huis, bekijk de foto's en geef de zes getoonde attributen een score vanuit het standpunt van een typische koper, alleen op basis van wat u ziet.",
   relevant_q:"Relevant voor een koper?", yes:"Ja", no:"Nee", order_q:"Ordeclassificatie?", order_1:"1e orde", order_2:"2e orde",
-  saved:"opgeslagen", completed:"Voltooid", scored:"Gescoord", your_grade:"Uw score…", photos:"foto's", no_houses:"Geen huizen toegewezen.",
+  saved:"opgeslagen", save_all:"Opslaan", completed:"Voltooid", scored:"Gescoord", your_grade:"Uw score…", photos:"foto's", no_houses:"Geen huizen toegewezen.",
   admin_blurb:"Exporteer alle antwoorden. Antwoorden gaan naar een duurzame back-up.",
   save_ok:"Opgeslagen", save_fail:"Opslaan mislukt — probeer opnieuw",
   export_val:"CSV attribuutvalidatie", export_score:"CSV huisenscores", export_combined:"Gecombineerde export (met AI-scores)",
@@ -490,9 +491,37 @@ async function postSave(url, payload) {
         setSaveStatus(false, data.error || t("save_fail"));
         return false;
     }
-    setSaveStatus(true);
     return true;
 }
+
+async function flushBackup(showStatus) {
+    if (IS_REVIEWER) return true;
+    try {
+        const r = await fetch("/save/flush", { method:"POST", keepalive: true });
+        let data = {};
+        try { data = await r.json(); } catch (e) {}
+        if (!r.ok || data.ok === false) {
+            if (showStatus) setSaveStatus(false, data.error || t("save_fail"));
+            return false;
+        }
+        if (showStatus) setSaveStatus(true);
+        return true;
+    } catch (e) {
+        if (showStatus) setSaveStatus(false, t("save_fail"));
+        return false;
+    }
+}
+
+function signOut(ev) {
+    if (ev) ev.preventDefault();
+    flushBackup(false).finally(function(){ location.href = "/logout"; });
+    return false;
+}
+
+document.addEventListener("visibilitychange", function(){
+    if (document.hidden) flushBackup(false);
+});
+window.addEventListener("pagehide", function(){ flushBackup(false); });
 
 async function saveVal(vn, field, value) {
     if (IS_REVIEWER) return;

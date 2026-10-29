@@ -194,7 +194,7 @@ def init_db():
         wipe_all_responses(db)
         print("SURVEY_FORCE_CLEAN: sqlite answers wiped (GitHub backup not cleared).")
     else:
-        restored = restore_from_backup(db)
+        restored = restore_from_backup(db, force=True)
         if restored:
             print(f"Restored {restored} answer rows from durable backup.")
         elif persist.enabled():
@@ -205,8 +205,8 @@ def init_db():
     db.close()
 
 
-def restore_from_backup(db):
-    """Pull GitHub JSON into sqlite when this instance has no (or fewer) rows."""
+def restore_from_backup(db, force=False):
+    """Pull GitHub CSV/JSON into sqlite. force=True on boot and admin so idle sleep cannot hide answers."""
     if not persist.enabled():
         return 0
     try:
@@ -218,9 +218,16 @@ def restore_from_backup(db):
         return 0
     val = bundle.get("attribute_validation") or []
     sco = bundle.get("house_scoring") or []
+    if not val and not sco:
+        return 0
     local_v = db.execute("SELECT COUNT(*) FROM attribute_validation").fetchone()[0]
     local_s = db.execute("SELECT COUNT(*) FROM house_scoring").fetchone()[0]
-    if local_v >= len(val) and local_s >= len(sco) and (local_v + local_s) > 0:
+    if (
+        not force
+        and local_v >= len(val)
+        and local_s >= len(sco)
+        and (local_v + local_s) > 0
+    ):
         return 0
     n = 0
     for r in val:
@@ -264,6 +271,15 @@ def restore_from_backup(db):
         n += 1
     db.commit()
     return n
+
+
+def ensure_answers_loaded():
+    """Reload GitHub CSVs into sqlite (empty disk after days of no traffic)."""
+    try:
+        return restore_from_backup(get_db(), force=True)
+    except Exception as e:
+        print("ensure_answers_loaded:", e)
+        return 0
 
 
 def wipe_all_responses(db=None, also_backup=False):
@@ -392,6 +408,7 @@ def login():
         user = USERS.get(u)
         if user and user["password_hash"] == hash_pw(p):
             session["user"] = u
+            ensure_answers_loaded()
             return redirect(url_for("index"))
         error = "auth_error"
     return render_template("login.html", error=error, lang=current_lang())
@@ -399,6 +416,11 @@ def login():
 
 @app.route("/logout")
 def logout():
+    if session.get("user") and persist.enabled():
+        try:
+            persist.dump_from_db(get_db(), message=f"logout {session['user']}")
+        except Exception as e:
+            print("logout flush failed:", e)
     session.clear()
     return redirect(url_for("login"))
 
@@ -511,22 +533,7 @@ def save_validation():
         ),
     )
     db.commit()
-    row = {
-        "username": session["user"],
-        "variable_name": vn,
-        "relevant": data.get("relevant"),
-        "order_opinion": data.get("order_opinion"),
-        "comment": data.get("comment", ""),
-        "updated_at": datetime.utcnow().isoformat(),
-    }
-    if os.environ.get("RENDER") and not persist.enabled():
-        return jsonify(ok=False, error="Durable backup is not configured on this host"), 503
-    try:
-        persist.upsert("attribute_validation", row)
-    except Exception as e:
-        print("Backup validation failed:", e)
-        return jsonify(ok=False, error="Durable backup failed — answer not kept"), 503
-    return jsonify(ok=True, durable=persist.enabled())
+    return jsonify(ok=True)
 
 
 @app.route("/save/score", methods=["POST"])
@@ -558,21 +565,23 @@ def save_score():
         ),
     )
     db.commit()
-    row = {
-        "username": session["user"],
-        "house_id": house_id,
-        "variable_name": vn,
-        "user_grade": data["user_grade"],
-        "updated_at": datetime.utcnow().isoformat(),
-    }
-    if os.environ.get("RENDER") and not persist.enabled():
-        return jsonify(ok=False, error="Durable backup is not configured on this host"), 503
+    return jsonify(ok=True)
+
+
+@app.route("/save/flush", methods=["POST"])
+@login_required
+def save_flush():
+    """One GitHub CSV snapshot for the whole database (Save button or leaving)."""
+    if not persist.enabled():
+        if os.environ.get("RENDER"):
+            return jsonify(ok=False, error="Durable backup is not configured"), 503
+        return jsonify(ok=True, durable=False)
     try:
-        persist.upsert("house_scoring", row)
+        persist.dump_from_db(get_db(), message=f"flush {session['user']}")
     except Exception as e:
-        print("Backup scoring failed:", e)
-        return jsonify(ok=False, error="Durable backup failed — answer not kept"), 503
-    return jsonify(ok=True, durable=persist.enabled())
+        print("Backup flush failed:", e)
+        return jsonify(ok=False, error="GitHub CSV flush failed"), 503
+    return jsonify(ok=True, durable=True)
 
 
 @app.route("/progress")
@@ -607,6 +616,7 @@ def progress():
 @app.route("/admin/export/validation")
 @admin_no_reviewer
 def export_validation():
+    ensure_answers_loaded()
     db = get_db()
     rows = db.execute(
         "SELECT * FROM attribute_validation ORDER BY username, variable_name"
@@ -628,6 +638,7 @@ def export_validation():
 @app.route("/admin/export/scoring")
 @admin_no_reviewer
 def export_scoring():
+    ensure_answers_loaded()
     db = get_db()
     rows = db.execute(
         "SELECT * FROM house_scoring ORDER BY username, house_id, variable_name"
@@ -647,6 +658,7 @@ def export_scoring():
 @app.route("/admin/export/combined")
 @admin_no_reviewer
 def export_combined():
+    ensure_answers_loaded()
     db = get_db()
     si = io.StringIO()
     w = csv.writer(si)
@@ -724,6 +736,7 @@ def export_combined():
 @app.route("/admin/dashboard")
 @admin_required
 def admin_dashboard():
+    ensure_answers_loaded()
     db = get_db()
     stats = []
     for uname, udata in USERS.items():
