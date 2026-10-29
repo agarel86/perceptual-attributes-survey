@@ -38,6 +38,14 @@ app.secret_key = _get_secret()
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.jinja_env.auto_reload = True
 
+
+@app.after_request
+def _no_store_html(resp):
+    if resp.mimetype == "text/html":
+        resp.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+        resp.headers["Pragma"] = "no-cache"
+    return resp
+
 USERS = {}
 LOT_HOUSES = {}
 HOUSES = {}

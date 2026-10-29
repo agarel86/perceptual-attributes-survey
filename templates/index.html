@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-store">
 <title>Perceptual Attribute Survey</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 <style>
@@ -518,22 +519,19 @@ function signOut(ev) {
     return false;
 }
 
-document.addEventListener("visibilitychange", function(){
-    if (document.hidden) flushBackup(false);
-});
 window.addEventListener("pagehide", function(){ flushBackup(false); });
 
-async function saveVal(vn, field, value) {
+function saveVal(vn, field, value) {
     if (IS_REVIEWER) return;
     if (!TX_SAVED[vn]) TX_SAVED[vn] = {};
     TX_SAVED[vn][field] = value;
     if (field === "relevant" && value === "no") {
         TX_SAVED[vn].order_opinion = "";
     }
+    renderValidation();
     const payload = {variable_name: vn, ...TX_SAVED[vn]};
     if (payload.relevant === "no") payload.order_opinion = "";
-    const ok = await postSave("/save/validation", payload);
-    if (ok) renderValidation();
+    postSave("/save/validation", payload);
 }
 
 async function loadHouses() {
@@ -625,16 +623,12 @@ function showImg(idx) {
     document.querySelectorAll("#imgStrip .thumb").forEach((el,i)=>el.classList.toggle("active", i===idx));
 }
 
-async function saveScore(hid, vn, grade) {
+function saveScore(hid, vn, grade) {
     if (IS_REVIEWER) return;
     const prev = CUR_HOUSE_SAVED[vn] || "";
+    const sel = event && event.target;
     CUR_HOUSE_SAVED[vn] = grade;
-    const ok = await postSave("/save/score", {house_id: hid, variable_name: vn, user_grade: grade});
-    if (!ok) {
-        CUR_HOUSE_SAVED[vn] = prev;
-        if (event && event.target) event.target.value = prev;
-        return;
-    }
+    if (sel) sel.classList.toggle("done", !!grade);
     const done = Object.keys(CUR_HOUSE_SAVED).filter(k => CUR_HOUSE_SAVED[k]).length;
     const total = CUR_HOUSE_DATA.feats.length;
     const pct = total ? Math.round(done/total*100) : 0;
@@ -642,7 +636,14 @@ async function saveScore(hid, vn, grade) {
     const pf = document.getElementById("houseProgFill");
     if (pt) pt.innerHTML = `<strong>${hid.replace("id","ID ")}</strong> — ${t("scored")}: ${done} / ${total} (${pct}%)`;
     if (pf) pf.style.width = pct + "%";
-    if (event && event.target) event.target.classList.toggle("done", !!grade);
+    postSave("/save/score", {house_id: hid, variable_name: vn, user_grade: grade}).then(function(ok){
+        if (ok) return;
+        CUR_HOUSE_SAVED[vn] = prev;
+        if (sel) {
+            sel.value = prev;
+            sel.classList.toggle("done", !!prev);
+        }
+    });
 }
 
 async function loadAdmin() {
