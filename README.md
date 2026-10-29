@@ -29,7 +29,7 @@ python app.py
 ## Deploy (Railway / Render)
 
 - Root = this folder
-- Start command: `gunicorn -w 2 -b 0.0.0.0:$PORT app:app`
-- Attach a **persistent disk** for `survey.db` if possible
+- Start command: `gunicorn -w 1 -b 0.0.0.0:$PORT app:app`
+- Set `SURVEY_BACKUP_GITHUB_REPO` and `SURVEY_BACKUP_GITHUB_TOKEN` so answers survive free-tier sleep (private repo JSON backup). Do not rely on local `survey.db` alone.
 
 Images: ~110 MB under `images/`.

@@ -18,6 +18,9 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
 .topbar .right a{color:rgba(255,255,255,.7);text-decoration:none}
 .topbar .right a:hover{color:#fff}
 .badge-user{background:rgba(255,255,255,.15);padding:3px 10px;border-radius:12px;font-size:.75rem}
+.save-status{font-size:.72rem;font-weight:600;padding:3px 8px;border-radius:6px;display:none}
+.save-status.ok{display:inline;background:rgba(22,163,74,.25);color:#bbf7d0}
+.save-status.err{display:inline;background:rgba(220,38,38,.35);color:#fecaca}
 .lang{display:inline-flex;gap:3px}
 .lang a{text-decoration:none;font-size:.7rem;font-weight:700;padding:3px 7px;border-radius:4px;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.75);cursor:pointer}
 .lang a.on{background:#fff;color:var(--brand);border-color:#fff}
@@ -122,6 +125,7 @@ body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--
             <a href="#" class="{{ 'on' if lang=='fr' else '' }}" onclick="return changeLang('fr')">FR</a>
             <a href="#" class="{{ 'on' if lang=='nl' else '' }}" onclick="return changeLang('nl')">NL</a>
         </div>
+        <span id="saveStatus" class="save-status" aria-live="polite"></span>
         <span class="badge-user"><i class="bi bi-person-fill"></i> {{ username }}</span>
         <a href="/logout"><i class="bi bi-box-arrow-right"></i> <span data-i18n="sign_out">Sign out</span></a>
     </div>
@@ -219,7 +223,8 @@ en:{
   score_instructions:"Select a house, review its listing photographs, then grade the six attributes shown from a typical buyer's point of view, based only on what you see.",
   relevant_q:"Relevant for a buyer's valuation?", yes:"Yes", no:"No", order_q:"Order classification?", order_1:"1st Order", order_2:"2nd Order",
   saved:"saved", completed:"Completed", scored:"Scored", your_grade:"Your grade…", photos:"photos", no_houses:"No houses assigned.",
-  admin_blurb:"Export all survey responses collected from all users. Data is stored in SQLite and exported as CSV.",
+  admin_blurb:"Export all survey responses. Answers are written to a durable backup so they survive server sleep.",
+  save_ok:"Saved", save_fail:"Save failed — try again",
   export_val:"Attribute Validation CSV", export_score:"House Scoring CSV", export_combined:"Combined Export (with AI grades)",
   reset_all:"Reset all responses", reset_confirm:"Delete ALL validation and scoring answers for every user? This cannot be undone.", reset_done:"All responses cleared. Clean sheet.",
   user_progress:"User Progress", user:"User", houses:"Houses", validation:"Validation", scoring:"Scoring",
@@ -251,7 +256,8 @@ fr:{
   score_instructions:"Sélectionnez une maison, examinez ses photos, puis notez les six attributs affichés du point de vue d'un acheteur typique, uniquement à partir de ce que vous voyez.",
   relevant_q:"Pertinent pour un acheteur ?", yes:"Oui", no:"Non", order_q:"Classification d'ordre ?", order_1:"1er ordre", order_2:"2e ordre",
   saved:"enregistré", completed:"Terminé", scored:"Noté", your_grade:"Votre note…", photos:"photos", no_houses:"Aucune maison assignée.",
-  admin_blurb:"Exportez toutes les réponses. Les données sont stockées en SQLite et exportées en CSV.",
+  admin_blurb:"Exportez toutes les réponses. Elles sont aussi copiées dans une sauvegarde durable.",
+  save_ok:"Enregistré", save_fail:"Échec de l'enregistrement — réessayez",
   export_val:"CSV validation des attributs", export_score:"CSV notation des maisons", export_combined:"Export combiné (avec notes IA)",
   reset_all:"Effacer toutes les réponses", reset_confirm:"Supprimer TOUTES les réponses de validation et de notation pour tous les utilisateurs ? Irréversible.", reset_done:"Toutes les réponses ont été effacées.",
   user_progress:"Progression des utilisateurs", user:"Utilisateur", houses:"Maisons", validation:"Validation", scoring:"Notation",
@@ -283,7 +289,8 @@ nl:{
   score_instructions:"Kies een huis, bekijk de foto's en geef de zes getoonde attributen een score vanuit het standpunt van een typische koper, alleen op basis van wat u ziet.",
   relevant_q:"Relevant voor een koper?", yes:"Ja", no:"Nee", order_q:"Ordeclassificatie?", order_1:"1e orde", order_2:"2e orde",
   saved:"opgeslagen", completed:"Voltooid", scored:"Gescoord", your_grade:"Uw score…", photos:"foto's", no_houses:"Geen huizen toegewezen.",
-  admin_blurb:"Exporteer alle antwoorden. Data staat in SQLite en wordt als CSV geëxporteerd.",
+  admin_blurb:"Exporteer alle antwoorden. Antwoorden gaan naar een duurzame back-up.",
+  save_ok:"Opgeslagen", save_fail:"Opslaan mislukt — probeer opnieuw",
   export_val:"CSV attribuutvalidatie", export_score:"CSV huisenscores", export_combined:"Gecombineerde export (met AI-scores)",
   reset_all:"Alle antwoorden wissen", reset_confirm:"ALLE validatie- en scoringsantwoorden van alle gebruikers verwijderen? Dit kan niet ongedaan worden.", reset_done:"Alle antwoorden gewist. Schone lei.",
   user_progress:"Voortgang gebruikers", user:"Gebruiker", houses:"Huizen", validation:"Validatie", scoring:"Scoring",
@@ -465,6 +472,28 @@ function renderValidation() {
     document.getElementById("validationContent").innerHTML = html;
 }
 
+function setSaveStatus(ok, detail) {
+    const el = document.getElementById("saveStatus");
+    if (!el) return;
+    el.className = "save-status " + (ok ? "ok" : "err");
+    el.textContent = ok ? t("save_ok") : (detail || t("save_fail"));
+}
+
+async function postSave(url, payload) {
+    const r = await fetch(url, {
+        method:"POST", headers:{"Content-Type":"application/json"},
+        body: JSON.stringify(payload)
+    });
+    let data = {};
+    try { data = await r.json(); } catch (e) {}
+    if (!r.ok || data.ok === false) {
+        setSaveStatus(false, data.error || t("save_fail"));
+        return false;
+    }
+    setSaveStatus(true);
+    return true;
+}
+
 async function saveVal(vn, field, value) {
     if (IS_REVIEWER) return;
     if (!TX_SAVED[vn]) TX_SAVED[vn] = {};
@@ -474,11 +503,8 @@ async function saveVal(vn, field, value) {
     }
     const payload = {variable_name: vn, ...TX_SAVED[vn]};
     if (payload.relevant === "no") payload.order_opinion = "";
-    await fetch("/save/validation", {
-        method:"POST", headers:{"Content-Type":"application/json"},
-        body: JSON.stringify(payload)
-    });
-    renderValidation();
+    const ok = await postSave("/save/validation", payload);
+    if (ok) renderValidation();
 }
 
 async function loadHouses() {
@@ -572,11 +598,14 @@ function showImg(idx) {
 
 async function saveScore(hid, vn, grade) {
     if (IS_REVIEWER) return;
+    const prev = CUR_HOUSE_SAVED[vn] || "";
     CUR_HOUSE_SAVED[vn] = grade;
-    await fetch("/save/score", {
-        method:"POST", headers:{"Content-Type":"application/json"},
-        body: JSON.stringify({house_id: hid, variable_name: vn, user_grade: grade})
-    });
+    const ok = await postSave("/save/score", {house_id: hid, variable_name: vn, user_grade: grade});
+    if (!ok) {
+        CUR_HOUSE_SAVED[vn] = prev;
+        if (event && event.target) event.target.value = prev;
+        return;
+    }
     const done = Object.keys(CUR_HOUSE_SAVED).filter(k => CUR_HOUSE_SAVED[k]).length;
     const total = CUR_HOUSE_DATA.feats.length;
     const pct = total ? Math.round(done/total*100) : 0;

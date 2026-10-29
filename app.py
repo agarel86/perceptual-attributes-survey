@@ -13,6 +13,7 @@ from datetime import datetime
 from functools import wraps
 from flask import (Flask, render_template, request, redirect, url_for,
                    session, jsonify, Response, g, send_from_directory)
+import persist
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.environ.get("SURVEY_DB_PATH") or os.path.join(BASE_DIR, "survey.db")
@@ -147,9 +148,10 @@ def localize_house_feats(house, lang):
 
 def get_db():
     if "db" not in g:
-        g.db = sqlite3.connect(DB_PATH)
+        g.db = sqlite3.connect(DB_PATH, timeout=30)
         g.db.execute("PRAGMA journal_mode=WAL")
-        g.db.execute("PRAGMA busy_timeout=5000")
+        g.db.execute("PRAGMA busy_timeout=30000")
+        g.db.execute("PRAGMA synchronous=NORMAL")
         g.db.row_factory = sqlite3.Row
     return g.db
 
@@ -185,33 +187,89 @@ def init_db():
     )""")
     db.commit()
 
-    # One-shot clean sheet before real fieldwork (marker lives next to the DB / volume)
-    marker = os.path.join(os.path.dirname(os.path.abspath(DB_PATH)), ".survey_clean_sheet_v2")
+    # Never auto-wipe on boot. Render's free disk is empty after sleep; wiping
+    # here used to destroy answers whenever the marker file also vanished.
     force = os.environ.get("SURVEY_FORCE_CLEAN", "").strip().lower() in ("1", "true", "yes")
-    if force or not os.path.exists(marker):
-        db.execute("DELETE FROM attribute_validation")
-        db.execute("DELETE FROM house_scoring")
-        try:
-            db.execute(
-                "DELETE FROM sqlite_sequence WHERE name IN ('attribute_validation','house_scoring')"
-            )
-        except sqlite3.Error:
-            pass
-        db.commit()
-        try:
-            with open(marker, "w", encoding="utf-8") as f:
-                f.write(datetime.utcnow().isoformat() + "\n")
-        except OSError as e:
-            print("Could not write clean-sheet marker:", e)
-        print("Clean sheet: all validation and scoring responses wiped.")
+    if force:
+        wipe_all_responses(db)
+        print("SURVEY_FORCE_CLEAN: sqlite answers wiped (GitHub backup not cleared).")
+    else:
+        restored = restore_from_backup(db)
+        if restored:
+            print(f"Restored {restored} answer rows from durable backup.")
+        elif persist.enabled():
+            print("Durable backup enabled; sqlite empty or already in sync.")
+        else:
+            print("WARNING: SURVEY_BACKUP_GITHUB_TOKEN/REPO not set — answers die if this disk sleeps.")
 
     db.close()
 
 
-def wipe_all_responses(db=None):
+def restore_from_backup(db):
+    """Pull GitHub JSON into sqlite when this instance has no (or fewer) rows."""
+    if not persist.enabled():
+        return 0
+    try:
+        bundle = persist.load_all()
+    except Exception as e:
+        print("Backup restore failed:", e)
+        return 0
+    if not bundle:
+        return 0
+    val = bundle.get("attribute_validation") or []
+    sco = bundle.get("house_scoring") or []
+    local_v = db.execute("SELECT COUNT(*) FROM attribute_validation").fetchone()[0]
+    local_s = db.execute("SELECT COUNT(*) FROM house_scoring").fetchone()[0]
+    if local_v >= len(val) and local_s >= len(sco) and (local_v + local_s) > 0:
+        return 0
+    n = 0
+    for r in val:
+        db.execute(
+            """INSERT INTO attribute_validation
+            (username, variable_name, relevant, order_opinion, comment, updated_at)
+            VALUES (?,?,?,?,?,?)
+            ON CONFLICT(username, variable_name) DO UPDATE SET
+                relevant=excluded.relevant,
+                order_opinion=excluded.order_opinion,
+                comment=excluded.comment,
+                updated_at=excluded.updated_at
+            """,
+            (
+                r.get("username"),
+                r.get("variable_name"),
+                r.get("relevant"),
+                r.get("order_opinion"),
+                r.get("comment") or "",
+                r.get("updated_at") or datetime.utcnow().isoformat(),
+            ),
+        )
+        n += 1
+    for r in sco:
+        db.execute(
+            """INSERT INTO house_scoring
+            (username, house_id, variable_name, user_grade, updated_at)
+            VALUES (?,?,?,?,?)
+            ON CONFLICT(username, house_id, variable_name) DO UPDATE SET
+                user_grade=excluded.user_grade,
+                updated_at=excluded.updated_at
+            """,
+            (
+                r.get("username"),
+                r.get("house_id"),
+                r.get("variable_name"),
+                r.get("user_grade") or "",
+                r.get("updated_at") or datetime.utcnow().isoformat(),
+            ),
+        )
+        n += 1
+    db.commit()
+    return n
+
+
+def wipe_all_responses(db=None, also_backup=False):
     close = False
     if db is None:
-        db = sqlite3.connect(DB_PATH)
+        db = sqlite3.connect(DB_PATH, timeout=30)
         close = True
     db.execute("DELETE FROM attribute_validation")
     db.execute("DELETE FROM house_scoring")
@@ -222,6 +280,8 @@ def wipe_all_responses(db=None):
     except sqlite3.Error:
         pass
     db.commit()
+    if also_backup and persist.enabled():
+        persist.replace_all([], [], message="admin reset all survey answers")
     if close:
         db.close()
 
@@ -451,7 +511,22 @@ def save_validation():
         ),
     )
     db.commit()
-    return jsonify(ok=True)
+    row = {
+        "username": session["user"],
+        "variable_name": vn,
+        "relevant": data.get("relevant"),
+        "order_opinion": data.get("order_opinion"),
+        "comment": data.get("comment", ""),
+        "updated_at": datetime.utcnow().isoformat(),
+    }
+    if os.environ.get("RENDER") and not persist.enabled():
+        return jsonify(ok=False, error="Durable backup is not configured on this host"), 503
+    try:
+        persist.upsert("attribute_validation", row)
+    except Exception as e:
+        print("Backup validation failed:", e)
+        return jsonify(ok=False, error="Durable backup failed — answer not kept"), 503
+    return jsonify(ok=True, durable=persist.enabled())
 
 
 @app.route("/save/score", methods=["POST"])
@@ -483,7 +558,21 @@ def save_score():
         ),
     )
     db.commit()
-    return jsonify(ok=True)
+    row = {
+        "username": session["user"],
+        "house_id": house_id,
+        "variable_name": vn,
+        "user_grade": data["user_grade"],
+        "updated_at": datetime.utcnow().isoformat(),
+    }
+    if os.environ.get("RENDER") and not persist.enabled():
+        return jsonify(ok=False, error="Durable backup is not configured on this host"), 503
+    try:
+        persist.upsert("house_scoring", row)
+    except Exception as e:
+        print("Backup scoring failed:", e)
+        return jsonify(ok=False, error="Durable backup failed — answer not kept"), 503
+    return jsonify(ok=True, durable=persist.enabled())
 
 
 @app.route("/progress")
@@ -673,7 +762,7 @@ def admin_dashboard():
 @admin_no_reviewer
 def admin_reset_all():
     """Delete every validation and scoring answer (clean sheet for all users)."""
-    wipe_all_responses(get_db())
+    wipe_all_responses(get_db(), also_backup=True)
     return jsonify(ok=True, message="All responses cleared.")
 
 
