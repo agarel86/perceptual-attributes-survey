@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-store">
+<title>Perceptual Attribute Survey</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/survey.css?v=7">
+</head>
+<body>
+
+<div class="topbar">
+    <h1><i class="bi bi-house-heart-fill"></i> <span data-i18n="app_title">Perceptual Attribute Survey</span></h1>
+    <div class="tabs" id="mainTabs">
+        <button class="active" data-tab="welcome" onclick="switchTab('welcome')"><span data-i18n="tab_welcome">Welcome</span></button>
+        <button data-tab="validate" onclick="switchTab('validate')"><span data-i18n="tab_validate">1. Attribute Validation</span></button>
+        <button data-tab="scoring" onclick="switchTab('scoring')"><span data-i18n="tab_scoring">2. House Scoring</span></button>
+        <button data-tab="admin" onclick="switchTab('admin')" id="adminTabBtn" style="display:none"><span data-i18n="tab_admin">Admin Panel</span></button>
+    </div>
+    <div class="right">
+        <div class="lang">
+            <a href="#" id="lang-en" onclick="return changeLang('en')">EN</a>
+            <a href="#" id="lang-fr" onclick="return changeLang('fr')">FR</a>
+            <a href="#" id="lang-nl" onclick="return changeLang('nl')">NL</a>
+        </div>
+        <span id="saveStatus" class="save-status" aria-live="polite"></span>
+        <span class="badge-user"><i class="bi bi-person-fill"></i> <span id="userBadge"></span></span>
+        <button type="button" id="resetAllTop" class="export-btn red" style="display:none" onclick="resetAllResponses()"><i class="bi bi-trash"></i> <span data-i18n="reset_all">Reset all responses</span></button>
+        <a href="index.html" onclick="return signOut(event)"><i class="bi bi-box-arrow-right"></i> <span data-i18n="sign_out">Sign out</span></a>
+    </div>
+</div>
+
+<div class="container" style="padding-bottom:72px">
+
+<div class="tab-content active" id="tab-welcome">
+    <div class="intro" id="welcomeIntro"></div>
+    <div class="intro">
+        <h3 data-i18n="your_progress">Your progress</h3>
+        <div id="progressSummary">…</div>
+    </div>
+</div>
+
+<div class="tab-content" id="tab-validate">
+    <div class="intro" style="padding:14px 18px" data-i18n="val_instructions">
+        For each attribute, indicate whether it is relevant for a typical buyer's willingness to pay. Only if you answer Yes, also classify it as first-order or second-order. If you answer No, no order classification is needed.
+    </div>
+    <div class="filter-bar">
+        <label data-i18n="section">Section:</label>
+        <select id="valFilterSec" onchange="renderValidation()">
+            <option value="all" data-i18n="all_sections">All Sections</option>
+        </select>
+        <span id="valProgress" class="progress-text"></span>
+    </div>
+    <div id="validationContent">…</div>
+</div>
+
+<div class="tab-content" id="tab-scoring">
+    <div class="intro" style="padding:10px 16px;margin-bottom:8px" data-i18n="score_instructions">
+        Select a house, review its listing photographs, then grade the six attributes shown from a typical buyer's point of view, based only on what you see.
+    </div>
+    <div class="house-nav" id="houseNav">…</div>
+    <div id="houseContent"></div>
+</div>
+
+<div class="tab-content" id="tab-admin">
+    <div class="admin-panel">
+        <h2><i class="bi bi-shield-lock-fill"></i> <span data-i18n="tab_admin">Admin Panel</span></h2>
+        <p style="font-size:.84rem;color:var(--muted);margin-bottom:16px" data-i18n="admin_blurb">Export CSVs. Answers are stored as new GitHub files only — nothing on this site can erase them.</p>
+        <div id="adminExport" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+            <button type="button" class="export-btn blue" onclick="exportCsv('validation')"><i class="bi bi-download"></i> <span data-i18n="export_val">Attribute Validation CSV</span></button>
+            <button type="button" class="export-btn blue" onclick="exportCsv('scoring')"><i class="bi bi-download"></i> <span data-i18n="export_score">House Scoring CSV</span></button>
+            <button type="button" class="export-btn green" onclick="exportCsv('combined')"><i class="bi bi-download"></i> <span data-i18n="export_combined">Combined Export</span></button>
+        </div>
+        <div id="adminResetWrap" style="margin:0 0 24px;padding:14px 16px;background:#fef2f2;border:2px solid #b91c1c;border-radius:8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <button type="button" id="resetAllBtn" class="export-btn red" style="padding:10px 20px;font-size:.9rem" onclick="resetAllResponses()"><i class="bi bi-trash"></i> <span data-i18n="reset_all">Reset all responses</span></button>
+            <span style="color:#991b1b;font-size:.82rem">Asks for confirmation, then type ERASE. Git history is kept.</span>
+        </div>
+        <p id="reviewerNote" style="display:none;font-size:.82rem;color:var(--muted);margin-bottom:24px;font-style:italic"><i class="bi bi-eye"></i> Read-only view — export is disabled for this account.</p>
+        <h3 style="font-size:.9rem;font-weight:600;margin-bottom:10px" data-i18n="user_progress">User Progress</h3>
+        <table class="admin-table" id="adminTable">
+            <thead><tr>
+                <th data-i18n="user">User</th>
+                <th data-i18n="houses">Houses</th>
+                <th data-i18n="validation">Validation</th>
+                <th data-i18n="scoring">Scoring</th>
+            </tr></thead>
+            <tbody><tr><td colspan="4">…</td></tr></tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+
+<div class="bottom-bar">
+    <span id="bottomInfo" data-i18n="app_title">Perceptual Attribute Survey</span>
+    <div class="nav-btns">
+        <button type="button" id="btnSave" onclick="flushBackup(true)"><i class="bi bi-cloud-arrow-up"></i> <span data-i18n="save_all">Save</span></button>
+        <button type="button" id="btnPrev" onclick="navTab(-1)"><i class="bi bi-chevron-left"></i> <span data-i18n="prev">Previous</span></button>
+        <button type="button" id="btnNext" class="primary" onclick="navTab(1)"><span data-i18n="next">Next</span> <i class="bi bi-chevron-right"></i></button>
+    </div>
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/i18n.js?v=7"></script>
+<script src="js/store.js?v=7"></script>
+<script src="js/app.js?v=7"></script>
+</body>
+</html>

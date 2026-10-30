@@ -599,6 +599,8 @@ async function boot() {
 
   document.getElementById("userBadge").textContent = USERNAME;
   if (IS_ADMIN) document.getElementById("adminTabBtn").style.display = "";
+  const resetTop = document.getElementById("resetAllTop");
+  if (resetTop && IS_ADMIN && !IS_REVIEWER) resetTop.style.display = "inline-flex";
   if (IS_ADMIN && !IS_REVIEWER) {
     let btn = document.getElementById("resetAllBtn");
     if (!btn) {
@@ -621,6 +623,7 @@ async function boot() {
     document.getElementById("adminExport").style.display = "none";
     const resetWrap = document.getElementById("adminResetWrap");
     if (resetWrap) resetWrap.style.display = "none";
+    if (resetTop) resetTop.style.display = "none";
     document.getElementById("reviewerNote").style.display = "";
     document.getElementById("btnSave").style.display = "none";
   }
