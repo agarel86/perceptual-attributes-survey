@@ -599,6 +599,24 @@ async function boot() {
 
   document.getElementById("userBadge").textContent = USERNAME;
   if (IS_ADMIN) document.getElementById("adminTabBtn").style.display = "";
+  if (IS_ADMIN && !IS_REVIEWER) {
+    let btn = document.getElementById("resetAllBtn");
+    if (!btn) {
+      const wrap = document.createElement("div");
+      wrap.id = "adminResetWrap";
+      wrap.style.marginBottom = "24px";
+      btn = document.createElement("button");
+      btn.type = "button";
+      btn.id = "resetAllBtn";
+      btn.className = "export-btn";
+      btn.setAttribute("style", "background:#b91c1c;padding:10px 20px;font-size:.9rem");
+      btn.innerHTML = '<i class="bi bi-trash"></i> <span>' + t("reset_all") + "</span>";
+      btn.onclick = resetAllResponses;
+      wrap.appendChild(btn);
+      const exportBar = document.getElementById("adminExport");
+      if (exportBar && exportBar.parentNode) exportBar.parentNode.insertBefore(wrap, exportBar.nextSibling);
+    }
+  }
   if (IS_REVIEWER) {
     document.getElementById("adminExport").style.display = "none";
     const resetWrap = document.getElementById("adminResetWrap");

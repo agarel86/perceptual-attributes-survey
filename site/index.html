@@ -81,7 +81,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     }
     sessionStorage.setItem("surveyUser", username);
     sessionStorage.setItem("surveyTab", "welcome");
-    location.href = "survey.html";
+    location.href = "survey.html?v=6";
   } catch (ex) {
     err.textContent = "Could not load user list. Try again.";
   }
