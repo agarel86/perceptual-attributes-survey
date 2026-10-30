@@ -516,7 +516,7 @@ async function loadAdmin(force) {
   if (adminLoading && !force) return;
   adminLoading = true;
   const raters = Object.keys(USERS).filter((u) => !USERS[u].is_admin);
-  const attempts = force ? 4 : 1;
+  const attempts = force ? 2 : 1;
   try {
     let storedCut = 0;
     try { storedCut = Number(localStorage.getItem("survey:ignoreBefore") || 0) || 0; } catch (e) { storedCut = 0; }
@@ -530,7 +530,7 @@ async function loadAdmin(force) {
       const merged = await SurveyStore.mergeAll(cut, raters);
       paintAdmin(merged);
       if (!force || i === attempts - 1) break;
-      await new Promise((r) => setTimeout(r, 3000));
+      await new Promise((r) => setTimeout(r, 1000));
     }
   } catch (e) {
     ADMIN_MERGED = ADMIN_MERGED || {};

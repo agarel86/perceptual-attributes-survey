@@ -125,35 +125,59 @@
       const { owner, repo } = GH();
       return "https://api.github.com/repos/" + owner + "/" + repo + "/actions/workflows/append.yml/dispatches";
     },
-    _appendBody(user) {
+    _appendBody(user, snap) {
       return JSON.stringify({
         ref: GH().branch || "main",
         inputs: {
           username: user,
-          snapshot: JSON.stringify(this.snapshot(user))
+          snapshot: JSON.stringify(snap || this.snapshot(user))
         }
       });
     },
-    // Fire-and-forget POST that survives the tab being closed (no await, keepalive).
+    inboxPath(user) {
+      const stamp = new Date().toISOString().replace(/\.\d+Z$/, "Z").replace(/:/g, "-");
+      return "inbox/" + user + "/" + stamp + "-" + rand() + ".json";
+    },
+    async createInboxFile(user, snap, keepalive) {
+      const { owner, repo } = GH();
+      const path = this.inboxPath(user);
+      const r = await fetch("https://api.github.com/repos/" + owner + "/" + repo + "/contents/" + path, {
+        method: "PUT",
+        headers: Object.assign(headers(), { "Content-Type": "application/json" }),
+        body: JSON.stringify({
+          message: "survey append " + user,
+          content: b64enc(JSON.stringify(snap)),
+          branch: GH().branch || "main"
+        }),
+        keepalive: !!keepalive
+      });
+      if (r.status === 201 || r.status === 200) return { ok: true, path: path };
+      const txt = await r.text().catch(function () { return ""; });
+      return { ok: false, status: r.status, error: txt, path: path };
+    },
+    dispatchWorkflow(user, snap, keepalive) {
+      return fetch(this._appendUrl(), {
+        method: "POST",
+        headers: Object.assign(headers(), { "Content-Type": "application/json" }),
+        body: this._appendBody(user, snap),
+        keepalive: !!keepalive
+      });
+    },
     flushKeepalive(user) {
       clearTimeout(this._timer);
       this.saveLocal(user);
       if (!GH().token) return;
-      const body = this._appendBody(user);
+      const snap = this.snapshot(user);
+      const body = JSON.stringify(snap);
       if (body === this._leaveBody && (Date.now() - this._leaveAt) < 2000) return;
       this._leaveBody = body;
       this._leaveAt = Date.now();
-      try {
-        fetch(this._appendUrl(), {
-          method: "POST",
-          headers: Object.assign(headers(), { "Content-Type": "application/json" }),
-          body: body,
-          keepalive: true
-        });
-        this._dirty = false;
-      } catch (e) {
-        console.warn("keepalive save failed", e);
-      }
+      this.createInboxFile(user, snap, true).then((put) => {
+        if (!put.ok) this.dispatchWorkflow(user, snap, true);
+      }).catch(() => {
+        this.dispatchWorkflow(user, snap, true);
+      });
+      this._dirty = false;
     },
     async flush(user) {
       clearTimeout(this._timer);
@@ -170,23 +194,21 @@
       this._saving = true;
       this.status = "saving";
       this._emit();
+      const snap = this.snapshot(user);
+      this._leaveBody = JSON.stringify(snap);
+      this._leaveAt = Date.now();
       try {
-        const body = this._appendBody(user);
-        this._leaveBody = body;
-        this._leaveAt = Date.now();
-        const r = await fetch(this._appendUrl(), {
-          method: "POST",
-          headers: Object.assign(headers(), { "Content-Type": "application/json" }),
-          body: body,
-          keepalive: true
-        });
-        if (r.status !== 204 && r.status !== 200) {
-          const txt = await r.text();
-          this.status = "error";
-          this._saving = false;
-          this._emit();
-          console.warn("GitHub save failed", r.status, txt);
-          return { ok: false, error: txt };
+        const put = await this.createInboxFile(user, snap, true);
+        if (!put.ok) {
+          const r = await this.dispatchWorkflow(user, snap, true);
+          if (r.status !== 204 && r.status !== 200) {
+            const txt = await r.text();
+            this.status = "error";
+            this._saving = false;
+            this._emit();
+            console.warn("GitHub save failed", r.status, txt, put.error);
+            return { ok: false, error: txt || put.error };
+          }
         }
         this._dirty = false;
         this.status = "saved";
@@ -203,36 +225,30 @@
     },
     clearLocalAll() {
       Object.keys(localStorage).forEach((k) => {
-        if (k.indexOf("survey:") === 0) localStorage.removeItem(k);
+        if (k.indexOf("survey:") === 0 && k !== "survey:ignoreBefore" && k !== "surveyLang") {
+          localStorage.removeItem(k);
+        }
       });
       this.validation = {};
       this.scores = {};
     },
     async resetAll(byUser) {
       const when = this.nowIso();
-      const body = JSON.stringify({
-        ref: GH().branch || "main",
-        inputs: {
-          username: "_reset",
-          snapshot: JSON.stringify({
-            username: "_reset",
-            reset_all: true,
-            by: byUser || "admin",
-            saved_at: when,
-            validation: {},
-            scores: {}
-          })
+      const snap = {
+        username: "_reset",
+        reset_all: true,
+        by: byUser || "admin",
+        saved_at: when,
+        validation: {},
+        scores: {}
+      };
+      const put = await this.createInboxFile("_reset", snap, true);
+      if (!put.ok) {
+        const r = await this.dispatchWorkflow("_reset", snap, true);
+        if (r.status !== 204 && r.status !== 200) {
+          const txt = await r.text();
+          throw new Error(txt || put.error || ("reset failed " + r.status));
         }
-      });
-      const r = await fetch(this._appendUrl(), {
-        method: "POST",
-        headers: Object.assign(headers(), { "Content-Type": "application/json" }),
-        body: body,
-        keepalive: true
-      });
-      if (r.status !== 204 && r.status !== 200) {
-        const txt = await r.text();
-        throw new Error(txt || ("reset failed " + r.status));
       }
       this.clearLocalAll();
       return { ok: true, saved_at: when };
@@ -359,13 +375,13 @@
             return !resetMs || !t || t > resetMs;
           });
           after.sort((a, b) => String(a.name).localeCompare(String(b.name)));
-          for (const f of after) {
-            const snap = await this.getFileJson(f.path);
-            if (!snap || snap.reset_all) continue;
-            const snapMs = Store.snapStamp(snap, f.path);
-            if (resetMs && snapMs && snapMs <= resetMs) continue;
-            applySnap(snap);
-          }
+          const last = after[after.length - 1];
+          if (!last) continue;
+          const snap = await this.getFileJson(last.path);
+          if (!snap || snap.reset_all) continue;
+          const snapMs = Store.snapStamp(snap, last.path);
+          if (resetMs && snapMs && snapMs <= resetMs) continue;
+          applySnap(snap);
         }
         if (!resetMs) {
           try {
