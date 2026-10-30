@@ -200,6 +200,54 @@
         return { ok: false, error: String(e) };
       }
     },
+    clearLocalAll() {
+      Object.keys(localStorage).forEach((k) => {
+        if (k.indexOf("survey:") === 0) localStorage.removeItem(k);
+      });
+      this.validation = {};
+      this.scores = {};
+    },
+    async resetAll(byUser) {
+      const when = this.nowIso();
+      const body = JSON.stringify({
+        ref: GH().branch || "main",
+        inputs: {
+          username: "_reset",
+          snapshot: JSON.stringify({
+            username: "_reset",
+            reset_all: true,
+            by: byUser || "admin",
+            saved_at: when,
+            validation: {},
+            scores: {}
+          })
+        }
+      });
+      const r = await fetch(this._appendUrl(), {
+        method: "POST",
+        headers: Object.assign(headers(), { "Content-Type": "application/json" }),
+        body: body,
+        keepalive: true
+      });
+      if (r.status !== 204 && r.status !== 200) {
+        const txt = await r.text();
+        throw new Error(txt || ("reset failed " + r.status));
+      }
+      this.clearLocalAll();
+      return { ok: true, saved_at: when };
+    },
+    async latestResetAt() {
+      try {
+        const files = await this.listInbox("_reset");
+        files.sort((a, b) => a.name.localeCompare(b.name));
+        const last = files[files.length - 1];
+        if (!last) return "";
+        const snap = await this.getFileJson(last.path);
+        return (snap && snap.saved_at) || "";
+      } catch (e) {
+        return "";
+      }
+    },
     async listInbox(user) {
       const r = await api("/contents/inbox/" + encodeURIComponent(user) + "?ref=" + (GH().branch || "main"));
       if (r.status === 404) return [];
@@ -219,20 +267,25 @@
       this.loadLocal(user);
       const localVal = this.validation;
       const localSco = this.scores;
+      let localMeta = {};
+      try { localMeta = JSON.parse(localStorage.getItem("survey:" + user + ":meta") || "{}"); }
+      catch (e) { localMeta = {}; }
       if (!GH().owner) return;
       try {
+        const resetAt = await this.latestResetAt();
+        const resetMs = resetAt ? Date.parse(resetAt) : 0;
         const files = await this.listInbox(user);
         files.sort((a, b) => a.name.localeCompare(b.name));
         const last = files[files.length - 1];
+        this.validation = {};
+        this.scores = {};
         if (last) {
           const snap = await this.getFileJson(last.path);
-          if (snap) {
-            this.validation = {};
-            this.scores = {};
-            this.applySnapshot(snap);
-          }
+          const snapAt = snap && snap.saved_at ? Date.parse(snap.saved_at) : 0;
+          if (snap && (!resetMs || snapAt >= resetMs)) this.applySnapshot(snap);
         }
-        this.applySnapshot({ validation: localVal, scores: localSco });
+        const localIsNew = !resetMs || (localMeta.t && Number(localMeta.t) >= resetMs);
+        if (localIsNew) this.applySnapshot({ validation: localVal, scores: localSco });
         this.saveLocal(user);
       } catch (e) {
         this.validation = localVal;
@@ -253,7 +306,7 @@
         return byUser[u];
       }
       function applySnap(snap) {
-        if (!snap || !snap.username) return;
+        if (!snap || !snap.username || snap.reset_all) return;
         const rec = ensure(snap.username);
         const stamp = snap.saved_at || "";
         Object.keys(snap.validation || {}).forEach((vn) => {
@@ -272,33 +325,41 @@
         });
       }
       try {
-        const json = await this.getFileJson("survey_answers.json");
-        if (json) {
-          (json.attribute_validation || json.validation || []).forEach((r) => {
-            if (!r.username || !r.variable_name) return;
-            const rec = ensure(r.username);
-            rec.validation[r.variable_name] = {
-              relevant: r.relevant || "",
-              order_opinion: r.order_opinion || "",
-              comment: r.comment || "",
-              t: r.updated_at || "",
-              updated_at: r.updated_at || ""
-            };
-          });
-          (json.house_scoring || json.scoring || []).forEach((r) => {
-            if (!r.username || !r.house_id || !r.variable_name) return;
-            const rec = ensure(r.username);
-            if (!rec.scores[r.house_id]) rec.scores[r.house_id] = {};
-            rec.scores[r.house_id][r.variable_name] = Store.scoreRecord(r.user_grade, r.updated_at || "");
-          });
-        }
-      } catch (e) { /* optional baseline */ }
-      try {
         const files = await this.listAllInbox();
         files.sort((a, b) => a.path.localeCompare(b.path));
+        const snaps = [];
+        let resetIdx = -1;
         for (const f of files) {
-          applySnap(await this.getFileJson(f.path));
+          const snap = await this.getFileJson(f.path);
+          snaps.push(snap);
+          if (snap && snap.reset_all) resetIdx = snaps.length - 1;
         }
+        if (resetIdx < 0) {
+          try {
+            const json = await this.getFileJson("survey_answers.json");
+            if (json) {
+              (json.attribute_validation || json.validation || []).forEach((r) => {
+                if (!r.username || !r.variable_name) return;
+                const rec = ensure(r.username);
+                rec.validation[r.variable_name] = {
+                  relevant: r.relevant || "",
+                  order_opinion: r.order_opinion || "",
+                  comment: r.comment || "",
+                  t: r.updated_at || "",
+                  updated_at: r.updated_at || ""
+                };
+              });
+              (json.house_scoring || json.scoring || []).forEach((r) => {
+                if (!r.username || !r.house_id || !r.variable_name) return;
+                const rec = ensure(r.username);
+                if (!rec.scores[r.house_id]) rec.scores[r.house_id] = {};
+                rec.scores[r.house_id][r.variable_name] = Store.scoreRecord(r.user_grade, r.updated_at || "");
+              });
+            }
+          } catch (e) { /* optional baseline */ }
+        }
+        const start = resetIdx < 0 ? 0 : resetIdx + 1;
+        for (let i = start; i < snaps.length; i++) applySnap(snaps[i]);
       } catch (e) {
         console.warn("mergeAll", e);
       }

@@ -10,7 +10,7 @@ en:{
   admin_blurb:"Export CSVs here. Each save adds a new file in the GitHub answers repo (nothing on this site can overwrite or delete saved answers).",
   save_ok:"Saved", save_fail:"Save failed — try again",
   export_val:"Attribute Validation CSV", export_score:"House Scoring CSV", export_combined:"Combined Export (with AI grades)",
-  reset_all:"Reset all responses", reset_confirm:"Delete ALL validation and scoring answers for every user? This cannot be undone.", reset_done:"All responses cleared. Clean sheet.",
+  reset_all:"Reset all responses", reset_confirm:"Delete ALL validation and scoring answers for every user from the dashboard and CSV? You will be asked to type ERASE next.", reset_type:"Type ERASE in capital letters to confirm. Anything else cancels.", reset_aborted:"Reset cancelled. Nothing was erased.", reset_done:"All responses cleared. Clean sheet.",
   user_progress:"User Progress", user:"User", houses:"Houses", validation:"Validation", scoring:"Scoring",
   progress_val:"Attribute Validation", progress_score:"House Scoring",
   welcome_html:`<h2>Expert survey on perceptual housing attributes</h2>
@@ -43,7 +43,7 @@ fr:{
   admin_blurb:"Exportez les CSV ici. Chaque enregistrement ajoute un nouveau fichier dans le dépôt GitHub des réponses (ce site ne peut ni écraser ni supprimer les réponses sauvegardées).",
   save_ok:"Enregistré", save_fail:"Échec de l'enregistrement — réessayez",
   export_val:"CSV validation des attributs", export_score:"CSV notation des maisons", export_combined:"Export combiné (avec notes IA)",
-  reset_all:"Effacer toutes les réponses", reset_confirm:"Supprimer TOUTES les réponses de validation et de notation pour tous les utilisateurs ? Irréversible.", reset_done:"Toutes les réponses ont été effacées.",
+  reset_all:"Effacer toutes les réponses", reset_confirm:"Supprimer TOUTES les réponses de validation et de notation pour tous les utilisateurs du tableau de bord et des CSV ? Vous devrez ensuite taper ERASE.", reset_type:"Tapez ERASE en majuscules pour confirmer. Toute autre saisie annule.", reset_aborted:"Réinitialisation annulée. Rien n'a été effacé.", reset_done:"Toutes les réponses ont été effacées.",
   user_progress:"Progression des utilisateurs", user:"Utilisateur", houses:"Maisons", validation:"Validation", scoring:"Notation",
   progress_val:"Validation des attributs", progress_score:"Notation des maisons",
   welcome_html:`<h2>Enquête d'experts sur les attributs perceptuels du logement</h2>
@@ -76,7 +76,7 @@ nl:{
   admin_blurb:"Exporteer CSV's hier. Elke opslag voegt een nieuw bestand toe in de GitHub-antwoordenrepo (deze site kan opgeslagen antwoorden niet overschrijven of wissen).",
   save_ok:"Opgeslagen", save_fail:"Opslaan mislukt — probeer opnieuw",
   export_val:"CSV attribuutvalidatie", export_score:"CSV huisenscores", export_combined:"Gecombineerde export (met AI-scores)",
-  reset_all:"Alle antwoorden wissen", reset_confirm:"ALLE validatie- en scoringsantwoorden van alle gebruikers verwijderen? Dit kan niet ongedaan worden.", reset_done:"Alle antwoorden gewist. Schone lei.",
+  reset_all:"Alle antwoorden wissen", reset_confirm:"ALLE validatie- en scoringsantwoorden van alle gebruikers uit het dashboard en de CSV's verwijderen? U moet daarna ERASE typen.", reset_type:"Typ ERASE in hoofdletters om te bevestigen. Iets anders annuleert.", reset_aborted:"Reset geannuleerd. Niets is gewist.", reset_done:"Alle antwoorden gewist. Schone lei.",
   user_progress:"Voortgang gebruikers", user:"Gebruiker", houses:"Huizen", validation:"Validatie", scoring:"Scoring",
   progress_val:"Attribuutvalidatie", progress_score:"Huizen scoren",
   welcome_html:`<h2>Expertenquête over perceptuele woningattributen</h2>

@@ -450,11 +450,45 @@ function saveScore(hid, vn, grade) {
   persistAnswers();
 }
 
+let IGNORE_ANSWERS_BEFORE = 0;
+
+async function resetAllResponses() {
+  if (IS_REVIEWER) return;
+  if (!confirm(t("reset_confirm"))) return;
+  const typed = prompt(t("reset_type"), "");
+  if (typed !== "ERASE") {
+    alert(t("reset_aborted"));
+    return;
+  }
+  try {
+    const r = await SurveyStore.resetAll(USERNAME);
+    IGNORE_ANSWERS_BEFORE = Date.parse(r.saved_at) || Date.now();
+    TX_SAVED = {};
+    CUR_HOUSE_SAVED = {};
+    ALL_SCORES = {};
+    valLoaded = false;
+    ADMIN_MERGED = {};
+    alert(t("reset_done"));
+    loadAdmin();
+    loadProgress();
+  } catch (e) {
+    alert(t("save_fail"));
+    console.warn(e);
+  }
+}
+
 let ADMIN_MERGED = null;
 async function loadAdmin() {
   if (!IS_ADMIN) return;
   try {
-    ADMIN_MERGED = await SurveyStore.mergeAll();
+    const resetAt = await SurveyStore.latestResetAt();
+    const cut = Math.max(IGNORE_ANSWERS_BEFORE, resetAt ? Date.parse(resetAt) : 0);
+    if (IGNORE_ANSWERS_BEFORE && !resetAt) {
+      ADMIN_MERGED = {};
+    } else {
+      ADMIN_MERGED = await SurveyStore.mergeAll();
+    }
+    if (cut && resetAt) IGNORE_ANSWERS_BEFORE = 0;
   } catch (e) {
     ADMIN_MERGED = ADMIN_MERGED || {};
   }
