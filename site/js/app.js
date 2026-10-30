@@ -480,22 +480,8 @@ async function resetAllResponses() {
 
 let ADMIN_MERGED = null;
 let adminLoading = false;
-async function loadAdmin() {
-  if (!IS_ADMIN || adminLoading) return;
-  adminLoading = true;
-  try {
-    const resetAt = await SurveyStore.latestResetAt();
-    const cut = Math.max(IGNORE_ANSWERS_BEFORE, resetAt ? Date.parse(resetAt) : 0);
-    ADMIN_MERGED = await SurveyStore.mergeAll(cut);
-  } catch (e) {
-    ADMIN_MERGED = ADMIN_MERGED || {};
-    const tb = document.querySelector("#adminTable tbody");
-    if (tb) tb.innerHTML = "<tr><td colspan=\"4\">Could not load answers from GitHub.</td></tr>";
-    adminLoading = false;
-    return;
-  } finally {
-    adminLoading = false;
-  }
+function paintAdmin(merged) {
+  ADMIN_MERGED = merged || {};
   const rows = Object.keys(USERS).filter((u) => !USERS[u].is_admin).map((uname) => {
     const udata = USERS[uname];
     const lotH = LOTS[String(udata.lot_id || "")] || [];
@@ -512,15 +498,41 @@ async function loadAdmin() {
       score_total: nAssignedScores(lotH)
     };
   });
-  document.querySelector("#adminTable tbody").innerHTML = rows.map((s) => {
-    const vp = s.val_total ? Math.round(s.val_done / s.val_total * 100) : 0;
-    const sp = s.score_total ? Math.round(s.score_done / s.score_total * 100) : 0;
-    return "<tr><td><strong>" + s.username + "</strong></td><td>" + s.houses + "</td><td>" +
-      s.val_done + "/" + s.val_total + " (" + vp + "%)</td><td>" +
-      s.score_done + "/" + s.score_total + " (" + sp + "%)</td></tr>";
-  }).join("");
+  const tb = document.querySelector("#adminTable tbody");
+  if (tb) {
+    tb.innerHTML = rows.map((s) => {
+      const vp = s.val_total ? Math.round(s.val_done / s.val_total * 100) : 0;
+      const sp = s.score_total ? Math.round(s.score_done / s.score_total * 100) : 0;
+      return "<tr><td><strong>" + s.username + "</strong></td><td>" + s.houses + "</td><td>" +
+        s.val_done + "/" + s.val_total + " (" + vp + "%)</td><td>" +
+        s.score_done + "/" + s.score_total + " (" + sp + "%)</td></tr>";
+    }).join("");
+  }
   const upd = document.getElementById("adminUpdated");
   if (upd) upd.textContent = "Updated " + new Date().toLocaleTimeString();
+}
+async function loadAdmin(force) {
+  if (!IS_ADMIN) return;
+  if (adminLoading && !force) return;
+  adminLoading = true;
+  const raters = Object.keys(USERS).filter((u) => !USERS[u].is_admin);
+  const attempts = force ? 4 : 1;
+  try {
+    const resetAt = await SurveyStore.latestResetAt();
+    const cut = Math.max(IGNORE_ANSWERS_BEFORE, resetAt ? Date.parse(resetAt) : 0);
+    for (let i = 0; i < attempts; i++) {
+      const merged = await SurveyStore.mergeAll(cut, raters);
+      paintAdmin(merged);
+      if (!force || i === attempts - 1) break;
+      await new Promise((r) => setTimeout(r, 3000));
+    }
+  } catch (e) {
+    ADMIN_MERGED = ADMIN_MERGED || {};
+    const tb = document.querySelector("#adminTable tbody");
+    if (tb) tb.innerHTML = "<tr><td colspan=\"4\">Could not load answers from GitHub.</td></tr>";
+  } finally {
+    adminLoading = false;
+  }
 }
 
 function exportCsv(kind) {

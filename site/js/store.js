@@ -15,7 +15,8 @@
     const h = {
       Accept: "application/vnd.github+json",
       "X-GitHub-Api-Version": "2022-11-28",
-      "User-Agent": "perceptual-attributes-survey"
+      "User-Agent": "perceptual-attributes-survey",
+      "Cache-Control": "no-cache"
     };
     if (GH().token) h.Authorization = "Bearer " + GH().token;
     return h;
@@ -264,7 +265,8 @@
       }
     },
     async listInbox(user) {
-      const r = await api("/contents/inbox/" + encodeURIComponent(user) + "?ref=" + (GH().branch || "main"));
+      const bust = "&_=" + Date.now();
+      const r = await api("/contents/inbox/" + encodeURIComponent(user) + "?ref=" + (GH().branch || "main") + bust);
       if (r.status === 404) return [];
       if (!r.ok) throw new Error("list inbox " + r.status);
       const items = await r.json();
@@ -314,7 +316,7 @@
       const j = await r.json();
       return (j.tree || []).filter((n) => n.type === "blob" && n.path.startsWith("inbox/") && n.path.endsWith(".json"));
     },
-    async mergeAll(cutMs) {
+    async mergeAll(cutMs, usernames) {
       const byUser = {};
       function ensure(u) {
         if (!byUser[u]) byUser[u] = { username: u, validation: {}, scores: {} };
@@ -345,11 +347,14 @@
         if (resetAt) resetMs = Math.max(resetMs, Date.parse(resetAt) || 0);
       } catch (e) { /* keep cutMs */ }
       try {
-        const r = await api("/contents/inbox?ref=" + (GH().branch || "main"));
-        if (!r.ok) throw new Error("inbox list " + r.status);
-        const dirs = (await r.json()).filter((x) => x.type === "dir" && x.name !== "_reset" && x.name !== "admin");
-        for (const dir of dirs) {
-          const files = await this.listInbox(dir.name);
+        let names = (usernames || []).filter((u) => u && u !== "_reset" && u !== "admin");
+        if (!names.length) {
+          const r = await api("/contents/inbox?ref=" + (GH().branch || "main") + "&_=" + Date.now());
+          if (!r.ok) throw new Error("inbox list " + r.status);
+          names = (await r.json()).filter((x) => x.type === "dir" && x.name !== "_reset" && x.name !== "admin").map((x) => x.name);
+        }
+        for (const name of names) {
+          const files = await this.listInbox(name);
           const after = files.filter((f) => {
             const t = Store.fileStamp(f.name || f.path);
             return !resetMs || !t || t > resetMs;
