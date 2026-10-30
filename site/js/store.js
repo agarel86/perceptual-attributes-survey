@@ -309,21 +309,24 @@
       }
     },
     async listInbox(user) {
+      const byPath = {};
       try {
         const all = await this.listAllInbox();
         const prefix = "inbox/" + user + "/";
-        return all.filter((n) => n.path.indexOf(prefix) === 0).map((n) => ({
-          name: n.path.split("/").pop(),
-          path: n.path,
-          type: "file"
-        }));
-      } catch (e) {
+        all.filter((n) => n.path.indexOf(prefix) === 0).forEach((n) => {
+          byPath[n.path] = { name: n.path.split("/").pop(), path: n.path, type: "file" };
+        });
+      } catch (e) { /* trees may lag */ }
+      try {
         const r = await api("/contents/inbox/" + encodeURIComponent(user) + "?ref=" + (GH().branch || "main"));
-        if (r.status === 404) return [];
-        if (!r.ok) throw new Error("list inbox " + r.status);
-        const items = await r.json();
-        return (Array.isArray(items) ? items : []).filter((x) => x.type === "file" && x.name.endsWith(".json"));
-      }
+        if (r.ok) {
+          const items = await r.json();
+          (Array.isArray(items) ? items : []).filter((x) => x.type === "file" && x.name.endsWith(".json")).forEach((x) => {
+            byPath[x.path] = { name: x.name, path: x.path, type: "file" };
+          });
+        }
+      } catch (e) { /* folder may not exist yet */ }
+      return Object.keys(byPath).map((k) => byPath[k]);
     },
     async getFileJson(path) {
       const r = await api("/contents/" + path + "?ref=" + (GH().branch || "main"));
@@ -364,7 +367,10 @@
       }
     },
     async listAllInbox() {
-      const r = await api("/git/trees/" + (GH().branch || "main") + "?recursive=1");
+      const ref = await api("/git/ref/heads/" + (GH().branch || "main"));
+      if (!ref.ok) throw new Error("ref " + ref.status);
+      const sha = (await ref.json()).object.sha;
+      const r = await api("/git/trees/" + sha + "?recursive=1");
       if (!r.ok) throw new Error("tree " + r.status);
       const j = await r.json();
       return (j.tree || []).filter((n) => n.type === "blob" && n.path.startsWith("inbox/") && n.path.endsWith(".json"));
