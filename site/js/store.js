@@ -139,21 +139,40 @@
       return "inbox/" + user + "/" + stamp + "-" + rand() + ".json";
     },
     async createInboxFile(user, snap, keepalive) {
-      const { owner, repo } = GH();
-      const path = this.inboxPath(user);
-      const r = await fetch("https://api.github.com/repos/" + owner + "/" + repo + "/contents/" + path, {
-        method: "PUT",
-        headers: Object.assign(headers(), { "Content-Type": "application/json" }),
-        body: JSON.stringify({
-          message: "survey append " + user,
-          content: b64enc(JSON.stringify(snap)),
-          branch: GH().branch || "main"
-        }),
-        keepalive: !!keepalive
-      });
-      if (r.status === 201 || r.status === 200) return { ok: true, path: path };
-      const txt = await r.text().catch(function () { return ""; });
-      return { ok: false, status: r.status, error: txt, path: path };
+      try {
+        const { owner, repo } = GH();
+        const path = this.inboxPath(user);
+        const r = await fetch("https://api.github.com/repos/" + owner + "/" + repo + "/contents/" + path, {
+          method: "PUT",
+          headers: Object.assign(headers(), { "Content-Type": "application/json" }),
+          body: JSON.stringify({
+            message: "survey append " + user,
+            content: b64enc(JSON.stringify(snap)),
+            branch: GH().branch || "main"
+          }),
+          keepalive: !!keepalive
+        });
+        if (r.status === 201 || r.status === 200) return { ok: true, path: path };
+        const txt = await r.text().catch(function () { return ""; });
+        return { ok: false, status: r.status, error: txt, path: path };
+      } catch (e) {
+        return { ok: false, error: String(e) };
+      }
+    },
+    async waitForInbox(user, afterMs, timeoutMs) {
+      const deadline = Date.now() + (timeoutMs || 40000);
+      while (Date.now() < deadline) {
+        try {
+          const files = await this.listInbox(user);
+          const hit = files.some((f) => {
+            const t = this.fileStamp(f.name || f.path);
+            return t && t >= afterMs - 2000;
+          });
+          if (hit) return true;
+        } catch (e) { /* folder may not exist yet */ }
+        await new Promise((r) => setTimeout(r, 1500));
+      }
+      return false;
     },
     dispatchWorkflow(user, snap, keepalive) {
       return fetch(this._appendUrl(), {
@@ -197,6 +216,7 @@
       const snap = this.snapshot(user);
       this._leaveBody = JSON.stringify(snap);
       this._leaveAt = Date.now();
+      const started = Date.now();
       try {
         const put = await this.createInboxFile(user, snap, true);
         if (!put.ok) {
@@ -208,6 +228,13 @@
             this._emit();
             console.warn("GitHub save failed", r.status, txt, put.error);
             return { ok: false, error: txt || put.error };
+          }
+          const landed = await this.waitForInbox(user, started, 40000);
+          if (!landed) {
+            this.status = "error";
+            this._saving = false;
+            this._emit();
+            return { ok: false, error: "Save sent, but GitHub has not stored it yet. Wait and click Save again." };
           }
         }
         this._dirty = false;
@@ -242,6 +269,7 @@
         validation: {},
         scores: {}
       };
+      const started = Date.now();
       const put = await this.createInboxFile("_reset", snap, true);
       if (!put.ok) {
         const r = await this.dispatchWorkflow("_reset", snap, true);
@@ -249,6 +277,8 @@
           const txt = await r.text();
           throw new Error(txt || put.error || ("reset failed " + r.status));
         }
+        const landed = await this.waitForInbox("_reset", started, 40000);
+        if (!landed) throw new Error("Reset sent, but GitHub has not stored it yet. Wait and try again.");
       }
       this.clearLocalAll();
       return { ok: true, saved_at: when };
