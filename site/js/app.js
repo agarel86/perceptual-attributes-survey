@@ -468,10 +468,10 @@ async function resetAllResponses() {
     CUR_HOUSE_SAVED = {};
     ALL_SCORES = {};
     valLoaded = false;
-    ADMIN_MERGED = {};
-    alert(t("reset_done"));
-    await loadAdmin();
+    paintAdmin({});
     loadProgress();
+    alert(t("reset_done"));
+    await loadAdmin(true);
   } catch (e) {
     alert(t("save_fail"));
     console.warn(e);
@@ -518,8 +518,14 @@ async function loadAdmin(force) {
   const raters = Object.keys(USERS).filter((u) => !USERS[u].is_admin);
   const attempts = force ? 4 : 1;
   try {
+    let storedCut = 0;
+    try { storedCut = Number(localStorage.getItem("survey:ignoreBefore") || 0) || 0; } catch (e) { storedCut = 0; }
     const resetAt = await SurveyStore.latestResetAt();
-    const cut = Math.max(IGNORE_ANSWERS_BEFORE, resetAt ? Date.parse(resetAt) : 0);
+    const gitCut = resetAt ? Date.parse(resetAt) : 0;
+    const cut = Math.max(IGNORE_ANSWERS_BEFORE, storedCut, gitCut);
+    if (cut && gitCut < cut - 2000) {
+      paintAdmin({});
+    }
     for (let i = 0; i < attempts; i++) {
       const merged = await SurveyStore.mergeAll(cut, raters);
       paintAdmin(merged);

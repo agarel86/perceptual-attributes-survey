@@ -265,8 +265,7 @@
       }
     },
     async listInbox(user) {
-      const bust = "&_=" + Date.now();
-      const r = await api("/contents/inbox/" + encodeURIComponent(user) + "?ref=" + (GH().branch || "main") + bust);
+      const r = await api("/contents/inbox/" + encodeURIComponent(user) + "?ref=" + (GH().branch || "main"));
       if (r.status === 404) return [];
       if (!r.ok) throw new Error("list inbox " + r.status);
       const items = await r.json();
@@ -349,7 +348,7 @@
       try {
         let names = (usernames || []).filter((u) => u && u !== "_reset" && u !== "admin");
         if (!names.length) {
-          const r = await api("/contents/inbox?ref=" + (GH().branch || "main") + "&_=" + Date.now());
+          const r = await api("/contents/inbox?ref=" + (GH().branch || "main"));
           if (!r.ok) throw new Error("inbox list " + r.status);
           names = (await r.json()).filter((x) => x.type === "dir" && x.name !== "_reset" && x.name !== "admin").map((x) => x.name);
         }
