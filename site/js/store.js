@@ -57,12 +57,38 @@
       localStorage.setItem(LS_SCO(user), JSON.stringify(this.scores));
       localStorage.setItem(LS_META(user), JSON.stringify({ t: Date.now() }));
     },
+    nowIso() {
+      return new Date().toISOString();
+    },
+    isoTime(v) {
+      if (v == null || v === "") return "";
+      if (typeof v === "string" && /^\d{4}-\d{2}-\d{2}T/.test(v)) return v;
+      const n = typeof v === "number" ? v : Date.parse(v);
+      if (!isNaN(n) && n > 0) return new Date(n).toISOString();
+      return String(v);
+    },
+    valTime(s, fallback) {
+      if (!s || typeof s !== "object") return fallback || "";
+      return this.isoTime(s.updated_at || s.t) || fallback || "";
+    },
+    scoreGrade(g) {
+      if (g && typeof g === "object") return g.grade || g.user_grade || "";
+      return g || "";
+    },
+    scoreTime(g, fallback) {
+      if (g && typeof g === "object") return this.isoTime(g.updated_at || g.t) || fallback || "";
+      return fallback || "";
+    },
+    scoreRecord(grade, when) {
+      return { grade: grade, updated_at: when || this.nowIso() };
+    },
     setVal(vn, payload) {
-      this.validation[vn] = Object.assign({}, this.validation[vn] || {}, payload, { t: Date.now() });
+      const when = this.nowIso();
+      this.validation[vn] = Object.assign({}, this.validation[vn] || {}, payload, { t: Date.now(), updated_at: when });
     },
     setScore(hid, vn, grade) {
       if (!this.scores[hid]) this.scores[hid] = {};
-      this.scores[hid][vn] = grade;
+      this.scores[hid][vn] = this.scoreRecord(grade);
     },
     snapshot(user) {
       return {
@@ -229,9 +255,20 @@
       function applySnap(snap) {
         if (!snap || !snap.username) return;
         const rec = ensure(snap.username);
-        rec.validation = Object.assign({}, rec.validation, snap.validation || {});
+        const stamp = snap.saved_at || "";
+        Object.keys(snap.validation || {}).forEach((vn) => {
+          const s = Object.assign({}, rec.validation[vn] || {}, snap.validation[vn] || {});
+          s.updated_at = Store.valTime(s, stamp);
+          rec.validation[vn] = s;
+        });
         Object.keys(snap.scores || {}).forEach((hid) => {
-          rec.scores[hid] = Object.assign({}, rec.scores[hid] || {}, snap.scores[hid] || {});
+          if (!rec.scores[hid]) rec.scores[hid] = {};
+          Object.keys(snap.scores[hid] || {}).forEach((vn) => {
+            const g = snap.scores[hid][vn];
+            const grade = Store.scoreGrade(g);
+            if (!grade) return;
+            rec.scores[hid][vn] = Store.scoreRecord(grade, Store.scoreTime(g, stamp));
+          });
         });
       }
       try {
@@ -244,14 +281,15 @@
               relevant: r.relevant || "",
               order_opinion: r.order_opinion || "",
               comment: r.comment || "",
-              t: r.updated_at || ""
+              t: r.updated_at || "",
+              updated_at: r.updated_at || ""
             };
           });
           (json.house_scoring || json.scoring || []).forEach((r) => {
             if (!r.username || !r.house_id || !r.variable_name) return;
             const rec = ensure(r.username);
             if (!rec.scores[r.house_id]) rec.scores[r.house_id] = {};
-            rec.scores[r.house_id][r.variable_name] = r.user_grade;
+            rec.scores[r.house_id][r.variable_name] = Store.scoreRecord(r.user_grade, r.updated_at || "");
           });
         }
       } catch (e) { /* optional baseline */ }

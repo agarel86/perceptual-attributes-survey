@@ -186,7 +186,7 @@ function scoreDoneCount(scores, houseIds) {
   let n = 0;
   houseIds.forEach((hid) => {
     const g = scores[hid] || {};
-    assignedAttrVns(hid).forEach((vn) => { if (g[vn]) n += 1; });
+    assignedAttrVns(hid).forEach((vn) => { if (SurveyStore.scoreGrade(g[vn])) n += 1; });
   });
   return n;
 }
@@ -334,6 +334,7 @@ function saveVal(vn, field, value) {
   TX_SAVED[vn][field] = value;
   if (field === "relevant" && value === "no") TX_SAVED[vn].order_opinion = "";
   TX_SAVED[vn].t = Date.now();
+  TX_SAVED[vn].updated_at = SurveyStore.nowIso();
   renderValidation();
   persistAnswers();
 }
@@ -394,7 +395,7 @@ function renderHouseDetail() {
     '<img class="big-img" id="bigImg" src="' + (ip + (imgs[0] || "")) + '" alt="">' +
     '<div class="img-counter" id="imgCounter">1 / ' + imgs.length + "</div></div></div><div class=\"scoring-attrs\">";
 
-  const done = Object.keys(CUR_HOUSE_SAVED).filter((k) => CUR_HOUSE_SAVED[k]).length;
+  const done = Object.keys(CUR_HOUSE_SAVED).filter((k) => SurveyStore.scoreGrade(CUR_HOUSE_SAVED[k])).length;
   const total = h.feats.length;
   html += '<div class="filter-bar"><span class="progress-text" id="houseProgText"><strong>' + h.id.replace("id", "ID ") + "</strong> — " + t("scored") + ": " + done + " / " + total + " (" + (total ? Math.round(done / total * 100) : 0) + "%)</span></div>";
   html += '<div class="progress-bar"><div class="progress-fill" id="houseProgFill" style="width:' + (total ? done / total * 100 : 0) + '%"></div></div>';
@@ -410,7 +411,7 @@ function renderHouseDetail() {
     Object.keys(groups[sec]).forEach((sub) => {
       if (sub !== sec) html += '<div class="sub-header">' + (SL[sub] || sub) + "</div>";
       groups[sec][sub].forEach((f) => {
-        const ug = CUR_HOUSE_SAVED[f.vn] || "";
+        const ug = SurveyStore.scoreGrade(CUR_HOUSE_SAVED[f.vn]);
         const feat = (f.feat || f.vn).replace(/_/g, " ");
         html += '<div class="feat-row"><div class="feat-name">' + feat + "</div>" +
           '<select class="grade-select' + (ug ? " done" : "") + "\" onchange=\"saveScore('" + h.id + "','" + f.vn + "',this.value)\">" +
@@ -434,11 +435,12 @@ function showImg(idx) {
 function saveScore(hid, vn, grade) {
   if (IS_REVIEWER) return;
   const sel = event && event.target;
-  CUR_HOUSE_SAVED[vn] = grade;
+  const rec = SurveyStore.scoreRecord(grade);
+  CUR_HOUSE_SAVED[vn] = rec;
   if (!ALL_SCORES[hid]) ALL_SCORES[hid] = {};
-  ALL_SCORES[hid][vn] = grade;
-  if (sel) sel.classList.toggle("done", !!grade);
-  const done = Object.keys(CUR_HOUSE_SAVED).filter((k) => CUR_HOUSE_SAVED[k]).length;
+  ALL_SCORES[hid][vn] = rec;
+  if (sel) sel.classList.toggle("done", !!SurveyStore.scoreGrade(grade));
+  const done = Object.keys(CUR_HOUSE_SAVED).filter((k) => SurveyStore.scoreGrade(CUR_HOUSE_SAVED[k])).length;
   const total = CUR_HOUSE_DATA.feats.length;
   const pct = total ? Math.round(done / total * 100) : 0;
   const pt = document.getElementById("houseProgText");
@@ -492,7 +494,7 @@ function exportCsv(kind) {
       const val = merged[u].validation || {};
       Object.keys(val).sort().forEach((vn) => {
         const s = val[vn] || {};
-        rows.push([u, vn, s.relevant || "", s.relevant === "no" ? "" : (s.order_opinion || ""), s.comment || "", s.t ? new Date(s.t).toISOString() : ""]);
+        rows.push([u, vn, s.relevant || "", s.relevant === "no" ? "" : (s.order_opinion || ""), s.comment || "", SurveyStore.valTime(s)]);
       });
     });
     SurveyStore.downloadCsv("attribute_validation.csv", rows);
@@ -504,7 +506,8 @@ function exportCsv(kind) {
       const sc = merged[u].scores || {};
       Object.keys(sc).sort().forEach((hid) => {
         Object.keys(sc[hid] || {}).sort().forEach((vn) => {
-          if (sc[hid][vn]) rows.push([u, hid, vn, sc[hid][vn], ""]);
+          const grade = SurveyStore.scoreGrade(sc[hid][vn]);
+          if (grade) rows.push([u, hid, vn, grade, SurveyStore.scoreTime(sc[hid][vn])]);
         });
       });
     });
@@ -517,14 +520,15 @@ function exportCsv(kind) {
     Object.keys(val).sort().forEach((vn) => {
       const s = val[vn] || {};
       const a = txMap[vn] || {};
-      rows.push(["validation", u, "", vn, a.feat || "", a.ord || "", a.sec || "", a.sub || "", "", "", s.relevant || "", s.relevant === "no" ? "" : (s.order_opinion || ""), "", s.comment || "", s.t ? new Date(s.t).toISOString() : ""]);
+      rows.push(["validation", u, "", vn, a.feat || "", a.ord || "", a.sec || "", a.sub || "", "", "", s.relevant || "", s.relevant === "no" ? "" : (s.order_opinion || ""), "", s.comment || "", SurveyStore.valTime(s)]);
     });
     const sc = merged[u].scores || {};
     Object.keys(sc).sort().forEach((hid) => {
       Object.keys(sc[hid] || {}).sort().forEach((vn) => {
-        if (!sc[hid][vn]) return;
+        const grade = SurveyStore.scoreGrade(sc[hid][vn]);
+        if (!grade) return;
         const a = txMap[vn] || {};
-        rows.push(["scoring", u, hid, vn, a.feat || "", a.ord || "", a.sec || "", a.sub || "", "", "", "", "", sc[hid][vn], "", ""]);
+        rows.push(["scoring", u, hid, vn, a.feat || "", a.ord || "", a.sec || "", a.sub || "", "", "", "", "", grade, "", SurveyStore.scoreTime(sc[hid][vn])]);
       });
     });
   });
