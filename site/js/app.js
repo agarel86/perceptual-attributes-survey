@@ -463,13 +463,14 @@ async function resetAllResponses() {
   try {
     const r = await SurveyStore.resetAll(USERNAME);
     IGNORE_ANSWERS_BEFORE = Date.parse(r.saved_at) || Date.now();
+    try { localStorage.setItem("survey:ignoreBefore", String(IGNORE_ANSWERS_BEFORE)); } catch (e) {}
     TX_SAVED = {};
     CUR_HOUSE_SAVED = {};
     ALL_SCORES = {};
     valLoaded = false;
     ADMIN_MERGED = {};
     alert(t("reset_done"));
-    loadAdmin();
+    await loadAdmin();
     loadProgress();
   } catch (e) {
     alert(t("save_fail"));
@@ -481,14 +482,11 @@ let ADMIN_MERGED = null;
 async function loadAdmin() {
   if (!IS_ADMIN) return;
   try {
+    let storedCut = 0;
+    try { storedCut = Number(localStorage.getItem("survey:ignoreBefore") || 0) || 0; } catch (e) { storedCut = 0; }
     const resetAt = await SurveyStore.latestResetAt();
-    const cut = Math.max(IGNORE_ANSWERS_BEFORE, resetAt ? Date.parse(resetAt) : 0);
-    if (IGNORE_ANSWERS_BEFORE && !resetAt) {
-      ADMIN_MERGED = {};
-    } else {
-      ADMIN_MERGED = await SurveyStore.mergeAll();
-    }
-    if (cut && resetAt) IGNORE_ANSWERS_BEFORE = 0;
+    const cut = Math.max(IGNORE_ANSWERS_BEFORE, storedCut, resetAt ? Date.parse(resetAt) : 0);
+    ADMIN_MERGED = await SurveyStore.mergeAll(cut);
   } catch (e) {
     ADMIN_MERGED = ADMIN_MERGED || {};
   }

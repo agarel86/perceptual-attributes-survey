@@ -236,14 +236,29 @@
       this.clearLocalAll();
       return { ok: true, saved_at: when };
     },
+    fileStamp(path) {
+      const m = String(path || "").match(/(\d{4}-\d{2}-\d{2})T(\d{2})-(\d{2})-(\d{2})Z/);
+      if (!m) return 0;
+      return Date.parse(m[1] + "T" + m[2] + ":" + m[3] + ":" + m[4] + "Z") || 0;
+    },
+    snapStamp(snap, path) {
+      if (snap && snap.saved_at) {
+        const n = Date.parse(snap.saved_at);
+        if (!isNaN(n) && n > 0) return n;
+      }
+      return this.fileStamp(path);
+    },
     async latestResetAt() {
       try {
         const files = await this.listInbox("_reset");
         files.sort((a, b) => a.name.localeCompare(b.name));
         const last = files[files.length - 1];
         if (!last) return "";
+        const fromName = this.fileStamp(last.name || last.path);
         const snap = await this.getFileJson(last.path);
-        return (snap && snap.saved_at) || "";
+        const fromSnap = snap && snap.saved_at ? Date.parse(snap.saved_at) : 0;
+        const ms = Math.max(fromName || 0, fromSnap || 0);
+        return ms ? new Date(ms).toISOString() : "";
       } catch (e) {
         return "";
       }
@@ -281,8 +296,8 @@
         this.scores = {};
         if (last) {
           const snap = await this.getFileJson(last.path);
-          const snapAt = snap && snap.saved_at ? Date.parse(snap.saved_at) : 0;
-          if (snap && (!resetMs || snapAt >= resetMs)) this.applySnapshot(snap);
+          const snapAt = this.snapStamp(snap, last.path);
+          if (snap && (!resetMs || snapAt > resetMs)) this.applySnapshot(snap);
         }
         const localIsNew = !resetMs || (localMeta.t && Number(localMeta.t) >= resetMs);
         if (localIsNew) this.applySnapshot({ validation: localVal, scores: localSco });
@@ -299,14 +314,14 @@
       const j = await r.json();
       return (j.tree || []).filter((n) => n.type === "blob" && n.path.startsWith("inbox/") && n.path.endsWith(".json"));
     },
-    async mergeAll() {
+    async mergeAll(cutMs) {
       const byUser = {};
       function ensure(u) {
         if (!byUser[u]) byUser[u] = { username: u, validation: {}, scores: {} };
         return byUser[u];
       }
       function applySnap(snap) {
-        if (!snap || !snap.username || snap.reset_all) return;
+        if (!snap || !snap.username || snap.reset_all || snap.username === "_reset") return;
         const rec = ensure(snap.username);
         const stamp = snap.saved_at || "";
         Object.keys(snap.validation || {}).forEach((vn) => {
@@ -326,15 +341,14 @@
       }
       try {
         const files = await this.listAllInbox();
-        files.sort((a, b) => a.path.localeCompare(b.path));
-        const snaps = [];
-        let resetIdx = -1;
-        for (const f of files) {
-          const snap = await this.getFileJson(f.path);
-          snaps.push(snap);
-          if (snap && snap.reset_all) resetIdx = snaps.length - 1;
-        }
-        if (resetIdx < 0) {
+        let resetMs = Number(cutMs) || 0;
+        files.forEach((f) => {
+          if (String(f.path).indexOf("inbox/_reset/") === 0) {
+            const t = Store.fileStamp(f.path);
+            if (t > resetMs) resetMs = t;
+          }
+        });
+        if (!resetMs) {
           try {
             const json = await this.getFileJson("survey_answers.json");
             if (json) {
@@ -358,8 +372,18 @@
             }
           } catch (e) { /* optional baseline */ }
         }
-        const start = resetIdx < 0 ? 0 : resetIdx + 1;
-        for (let i = start; i < snaps.length; i++) applySnap(snaps[i]);
+        files.sort((a, b) => a.path.localeCompare(b.path));
+        for (const f of files) {
+          if (String(f.path).indexOf("inbox/_reset/") === 0) continue;
+          const pathMs = Store.fileStamp(f.path);
+          if (resetMs && pathMs && pathMs <= resetMs) continue;
+          const snap = await this.getFileJson(f.path);
+          if (!snap || snap.reset_all) continue;
+          const snapMs = Store.snapStamp(snap, f.path);
+          if (resetMs && snapMs && snapMs <= resetMs) continue;
+          if (resetMs && !snapMs) continue;
+          applySnap(snap);
+        }
       } catch (e) {
         console.warn("mergeAll", e);
       }
