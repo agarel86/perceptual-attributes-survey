@@ -66,11 +66,13 @@
     <div class="admin-panel">
         <h2><i class="bi bi-shield-lock-fill"></i> <span data-i18n="tab_admin">Admin Panel</span></h2>
         <p style="font-size:.84rem;color:var(--muted);margin-bottom:16px" data-i18n="admin_blurb">Export CSVs. Answers are stored as new GitHub files only — nothing on this site can erase them.</p>
-        <div id="adminExport" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px">
+        <div id="adminExport" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
             <button type="button" class="export-btn blue" onclick="exportCsv('validation')"><i class="bi bi-download"></i> <span data-i18n="export_val">Attribute Validation CSV</span></button>
             <button type="button" class="export-btn blue" onclick="exportCsv('scoring')"><i class="bi bi-download"></i> <span data-i18n="export_score">House Scoring CSV</span></button>
             <button type="button" class="export-btn green" onclick="exportCsv('combined')"><i class="bi bi-download"></i> <span data-i18n="export_combined">Combined Export</span></button>
-            <button type="button" class="export-btn" style="background:#b91c1c" onclick="resetAllResponses()"><i class="bi bi-trash"></i> <span data-i18n="reset_all">Reset all responses</span></button>
+        </div>
+        <div id="adminResetWrap" style="margin-bottom:24px">
+            <button type="button" id="resetAllBtn" class="export-btn" style="background:#b91c1c;padding:10px 20px;font-size:.9rem" onclick="resetAllResponses()"><i class="bi bi-trash"></i> <span data-i18n="reset_all">Reset all responses</span></button>
         </div>
         <p id="reviewerNote" style="display:none;font-size:.82rem;color:var(--muted);margin-bottom:24px;font-style:italic"><i class="bi bi-eye"></i> Read-only view — export is disabled for this account.</p>
         <h3 style="font-size:.9rem;font-weight:600;margin-bottom:10px" data-i18n="user_progress">User Progress</h3>
@@ -98,8 +100,8 @@
 </div>
 
 <script src="js/config.js"></script>
-<script src="js/i18n.js?v=4"></script>
-<script src="js/store.js?v=4"></script>
-<script src="js/app.js?v=4"></script>
+<script src="js/i18n.js?v=5"></script>
+<script src="js/store.js?v=5"></script>
+<script src="js/app.js?v=5"></script>
 </body>
 </html>

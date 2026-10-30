@@ -601,6 +601,8 @@ async function boot() {
   if (IS_ADMIN) document.getElementById("adminTabBtn").style.display = "";
   if (IS_REVIEWER) {
     document.getElementById("adminExport").style.display = "none";
+    const resetWrap = document.getElementById("adminResetWrap");
+    if (resetWrap) resetWrap.style.display = "none";
     document.getElementById("reviewerNote").style.display = "";
     document.getElementById("btnSave").style.display = "none";
   }
