@@ -303,13 +303,24 @@ function signOut(ev) {
   return false;
 }
 
-window.addEventListener("pagehide", function () {
-  if (IS_REVIEWER) return;
+function syncStore() {
+  if (CUR_HOUSE) ALL_SCORES[CUR_HOUSE] = Object.assign({}, CUR_HOUSE_SAVED);
   SurveyStore.validation = TX_SAVED;
   SurveyStore.scores = ALL_SCORES;
-  SurveyStore.saveLocal(USERNAME);
-  SurveyStore.flush(USERNAME);
+}
+
+function saveOnLeave() {
+  if (IS_REVIEWER || !USERNAME) return;
+  syncStore();
+  SurveyStore.flushKeepalive(USERNAME);
+}
+
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "hidden") saveOnLeave();
 });
+window.addEventListener("pagehide", saveOnLeave);
+window.addEventListener("beforeunload", saveOnLeave);
+window.addEventListener("freeze", saveOnLeave);
 
 document.addEventListener("survey-save-status", function (e) {
   const st = e.detail && e.detail.status;

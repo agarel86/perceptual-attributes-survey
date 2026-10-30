@@ -42,6 +42,8 @@
     _timer: null,
     _saving: false,
     _dirty: false,
+    _leaveAt: 0,
+    _leaveBody: "",
     status: "idle",
 
     loadLocal(user) {
@@ -92,6 +94,40 @@
     _emit() {
       document.dispatchEvent(new CustomEvent("survey-save-status", { detail: { status: this.status } }));
     },
+    _appendUrl() {
+      const { owner, repo } = GH();
+      return "https://api.github.com/repos/" + owner + "/" + repo + "/actions/workflows/append.yml/dispatches";
+    },
+    _appendBody(user) {
+      return JSON.stringify({
+        ref: GH().branch || "main",
+        inputs: {
+          username: user,
+          snapshot: JSON.stringify(this.snapshot(user))
+        }
+      });
+    },
+    // Fire-and-forget POST that survives the tab being closed (no await, keepalive).
+    flushKeepalive(user) {
+      clearTimeout(this._timer);
+      this.saveLocal(user);
+      if (!GH().token) return;
+      const body = this._appendBody(user);
+      if (body === this._leaveBody && (Date.now() - this._leaveAt) < 2000) return;
+      this._leaveBody = body;
+      this._leaveAt = Date.now();
+      try {
+        fetch(this._appendUrl(), {
+          method: "POST",
+          headers: Object.assign(headers(), { "Content-Type": "application/json" }),
+          body: body,
+          keepalive: true
+        });
+        this._dirty = false;
+      } catch (e) {
+        console.warn("keepalive save failed", e);
+      }
+    },
     async flush(user) {
       clearTimeout(this._timer);
       this.saveLocal(user);
@@ -100,23 +136,22 @@
         this._emit();
         return { ok: true, local: true };
       }
-      if (this._saving) return { ok: true, queued: true };
+      if (this._saving) {
+        this.flushKeepalive(user);
+        return { ok: true, queued: true };
+      }
       this._saving = true;
       this.status = "saving";
       this._emit();
       try {
-        // Trigger append-only Action (token is Actions:write + Contents:read).
-        // Never PUT/DELETE files from the browser, so a stolen token cannot erase answers.
-        const r = await api("/actions/workflows/append.yml/dispatches", {
+        const body = this._appendBody(user);
+        this._leaveBody = body;
+        this._leaveAt = Date.now();
+        const r = await fetch(this._appendUrl(), {
           method: "POST",
-          keepalive: true,
-          body: JSON.stringify({
-            ref: GH().branch || "main",
-            inputs: {
-              username: user,
-              snapshot: JSON.stringify(this.snapshot(user))
-            }
-          })
+          headers: Object.assign(headers(), { "Content-Type": "application/json" }),
+          body: body,
+          keepalive: true
         });
         if (r.status !== 204 && r.status !== 200) {
           const txt = await r.text();
