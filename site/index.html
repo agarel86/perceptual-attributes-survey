@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survey Login</title>
+<style>
+:root { --ink:#1a1a1a; --muted:#5c5c5c; --line:#ddd; --accent:#1a1a1a; }
+* { box-sizing: border-box; }
+body { margin:0; font-family: Georgia, "Times New Roman", serif; background:#f4f2ee; color:var(--ink); min-height:100vh; display:flex; flex-direction:column; }
+.top { display:flex; justify-content:flex-end; gap:6px; padding:12px 18px; }
+.lang-btn { background:#fff; border:1px solid var(--line); padding:4px 10px; cursor:pointer; font:12px/1.2 system-ui,sans-serif; }
+.lang-btn.on { background:var(--ink); color:#fff; }
+.card { width:min(420px, 92vw); margin:auto; background:#fff; border:1px solid var(--line); padding:32px 28px; }
+h1 { font-size:22px; margin:0 0 8px; }
+p.sub { color:var(--muted); margin:0 0 22px; font-size:14px; }
+label { display:block; font-size:13px; margin:12px 0 4px; }
+input { width:100%; padding:9px 10px; font-size:15px; border:1px solid var(--line); }
+button.submit { margin-top:18px; width:100%; padding:10px; background:var(--ink); color:#fff; border:0; cursor:pointer; font-size:15px; }
+.err { color:#a40000; font-size:13px; margin-top:10px; min-height:18px; }
+.foot { text-align:center; font-size:12px; color:var(--muted); padding:18px; }
+</style>
+</head>
+<body>
+<div class="top">
+  <button type="button" class="lang-btn" data-lang="en">EN</button>
+  <button type="button" class="lang-btn" data-lang="fr">FR</button>
+  <button type="button" class="lang-btn" data-lang="nl">NL</button>
+</div>
+<div class="card">
+  <h1 data-i18n="login_heading">Perceptual Attribute Survey</h1>
+  <p class="sub" data-i18n="login_sub">Sign in with the credentials provided by the research team.</p>
+  <form id="loginForm">
+    <label data-i18n="username">Username</label>
+    <input id="username" name="username" autocomplete="username" required>
+    <label data-i18n="password">Password</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required>
+    <button class="submit" type="submit" data-i18n="sign_in">Sign in</button>
+    <div class="err" id="err"></div>
+  </form>
+</div>
+<p class="foot" data-i18n="login_foot">Companion survey for the Multimodal-AI Pipeline paper</p>
+<script>
+const I18N = {
+en:{login_title:"Survey Login",login_heading:"Perceptual Attribute Survey",login_sub:"Sign in with the credentials provided by the research team.",username:"Username",password:"Password",sign_in:"Sign in",auth_error:"Invalid username or password.",login_foot:"Companion survey for the Multimodal-AI Pipeline paper"},
+fr:{login_title:"Connexion — Enquête",login_heading:"Enquête sur les attributs perceptuels",login_sub:"Connectez-vous avec les identifiants fournis par l'équipe de recherche.",username:"Nom d'utilisateur",password:"Mot de passe",sign_in:"Se connecter",auth_error:"Nom d'utilisateur ou mot de passe incorrect.",login_foot:"Enquête complémentaire à l'article Multimodal-AI Pipeline"},
+nl:{login_title:"Inloggen — Enquête",login_heading:"Enquête perceptuele attributen",login_sub:"Meld u aan met de gegevens die u van het onderzoeksteam hebt ontvangen.",username:"Gebruikersnaam",password:"Wachtwoord",sign_in:"Aanmelden",auth_error:"Ongeldige gebruikersnaam of wachtwoord.",login_foot:"Enquête bij het Multimodal-AI Pipeline-artikel"}
+};
+function lang() { return localStorage.getItem("surveyLang") || "en"; }
+function applyI18n() {
+  const T = I18N[lang()] || I18N.en;
+  document.documentElement.lang = lang();
+  document.title = T.login_title;
+  document.querySelectorAll("[data-i18n]").forEach(el => { if (T[el.getAttribute("data-i18n")]) el.textContent = T[el.getAttribute("data-i18n")]; });
+  document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("on", b.getAttribute("data-lang") === lang()));
+}
+document.querySelectorAll(".lang-btn").forEach(b => b.addEventListener("click", () => {
+  localStorage.setItem("surveyLang", b.getAttribute("data-lang"));
+  applyI18n();
+}));
+applyI18n();
+
+async function sha256hex(text) {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const err = document.getElementById("err");
+  err.textContent = "";
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value;
+  try {
+    const users = await fetch("data/users.json").then(r => r.json());
+    const u = users[username];
+    const hash = await sha256hex(password);
+    const stored = (u && (u.password_hash || u.password)) || "";
+    if (!u || !stored || stored.toLowerCase() !== hash.toLowerCase()) {
+      err.textContent = (I18N[lang()] || I18N.en).auth_error;
+      return;
+    }
+    sessionStorage.setItem("surveyUser", username);
+    sessionStorage.setItem("surveyTab", "welcome");
+    location.href = "survey.html";
+  } catch (ex) {
+    err.textContent = "Could not load user list. Try again.";
+  }
+});
+</script>
+</body>
+</html>

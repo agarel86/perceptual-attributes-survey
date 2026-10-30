@@ -1,0 +1,60 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble static site
+        env:
+          ANSWERS_WRITE_TOKEN: ${{ secrets.ANSWERS_WRITE_TOKEN }}
+        run: |
+          mkdir -p _site/js
+          cp -a site/. _site/
+          cp -a data _site/data
+          cp -a images _site/images
+          touch _site/.nojekyll
+          python3 - <<'PY'
+          import os, json
+          from pathlib import Path
+          token = os.environ.get("ANSWERS_WRITE_TOKEN", "").replace("\\", "\\\\").replace("'", "\\'")
+          cfg = Path("_site/js/config.js")
+          cfg.write_text(
+              "window.SURVEY_GH = {\n"
+              "  owner: \"agarel86\",\n"
+              "  repo: \"perceptual-survey-answers\",\n"
+              f"  token: '{token}',\n"
+              "  branch: \"main\"\n"
+              "};\n",
+              encoding="utf-8",
+          )
+          print("config written; token set:" , bool(token))
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
