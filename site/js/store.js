@@ -309,11 +309,21 @@
       }
     },
     async listInbox(user) {
-      const r = await api("/contents/inbox/" + encodeURIComponent(user) + "?ref=" + (GH().branch || "main"));
-      if (r.status === 404) return [];
-      if (!r.ok) throw new Error("list inbox " + r.status);
-      const items = await r.json();
-      return (Array.isArray(items) ? items : []).filter((x) => x.type === "file" && x.name.endsWith(".json"));
+      try {
+        const all = await this.listAllInbox();
+        const prefix = "inbox/" + user + "/";
+        return all.filter((n) => n.path.indexOf(prefix) === 0).map((n) => ({
+          name: n.path.split("/").pop(),
+          path: n.path,
+          type: "file"
+        }));
+      } catch (e) {
+        const r = await api("/contents/inbox/" + encodeURIComponent(user) + "?ref=" + (GH().branch || "main"));
+        if (r.status === 404) return [];
+        if (!r.ok) throw new Error("list inbox " + r.status);
+        const items = await r.json();
+        return (Array.isArray(items) ? items : []).filter((x) => x.type === "file" && x.name.endsWith(".json"));
+      }
     },
     async getFileJson(path) {
       const r = await api("/contents/" + path + "?ref=" + (GH().branch || "main"));
