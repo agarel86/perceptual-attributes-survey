@@ -22,9 +22,12 @@
   }
   function api(path, opts) {
     const { owner, repo } = GH();
-    return fetch("https://api.github.com/repos/" + owner + "/" + repo + path, Object.assign({
-      headers: headers()
-    }, opts || {}));
+    opts = opts || {};
+    const h = headers();
+    if (opts.body) h["Content-Type"] = "application/json";
+    return fetch("https://api.github.com/repos/" + owner + "/" + repo + path, Object.assign({}, opts, {
+      headers: h
+    }));
   }
   function isoStamp() {
     return new Date().toISOString().replace(/[:.]/g, "-");
@@ -101,24 +104,21 @@
       this._saving = true;
       this.status = "saving";
       this._emit();
-      const path = "inbox/" + encodeURIComponent(user) + "/" + isoStamp() + "-" + rand() + ".json";
-      const body = JSON.stringify(this.snapshot(user));
       try {
-        const r = await api("/contents/" + path, {
-          method: "PUT",
+        // Trigger append-only Action (token is Actions:write + Contents:read).
+        // Never PUT/DELETE files from the browser, so a stolen token cannot erase answers.
+        const r = await api("/actions/workflows/append.yml/dispatches", {
+          method: "POST",
           keepalive: true,
           body: JSON.stringify({
-            message: "append answers " + user,
-            content: b64enc(body),
-            branch: GH().branch || "main"
+            ref: GH().branch || "main",
+            inputs: {
+              username: user,
+              snapshot: JSON.stringify(this.snapshot(user))
+            }
           })
         });
-        if (r.status === 422 || r.status === 409) {
-          // filename collision — retry with a new name, never overwrite
-          this._saving = false;
-          return this.flush(user);
-        }
-        if (!r.ok) {
+        if (r.status !== 204 && r.status !== 200) {
           const txt = await r.text();
           this.status = "error";
           this._saving = false;
