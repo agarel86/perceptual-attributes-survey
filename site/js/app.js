@@ -310,7 +310,7 @@ function syncStore() {
 }
 
 function saveOnLeave() {
-  if (IS_REVIEWER || !USERNAME) return;
+  if (IS_REVIEWER || !USERNAME || IS_ADMIN) return;
   syncStore();
   SurveyStore.flushKeepalive(USERNAME);
 }
@@ -479,16 +479,22 @@ async function resetAllResponses() {
 }
 
 let ADMIN_MERGED = null;
+let adminLoading = false;
 async function loadAdmin() {
-  if (!IS_ADMIN) return;
+  if (!IS_ADMIN || adminLoading) return;
+  adminLoading = true;
   try {
-    let storedCut = 0;
-    try { storedCut = Number(localStorage.getItem("survey:ignoreBefore") || 0) || 0; } catch (e) { storedCut = 0; }
     const resetAt = await SurveyStore.latestResetAt();
-    const cut = Math.max(IGNORE_ANSWERS_BEFORE, storedCut, resetAt ? Date.parse(resetAt) : 0);
+    const cut = Math.max(IGNORE_ANSWERS_BEFORE, resetAt ? Date.parse(resetAt) : 0);
     ADMIN_MERGED = await SurveyStore.mergeAll(cut);
   } catch (e) {
     ADMIN_MERGED = ADMIN_MERGED || {};
+    const tb = document.querySelector("#adminTable tbody");
+    if (tb) tb.innerHTML = "<tr><td colspan=\"4\">Could not load answers from GitHub.</td></tr>";
+    adminLoading = false;
+    return;
+  } finally {
+    adminLoading = false;
   }
   const rows = Object.keys(USERS).filter((u) => !USERS[u].is_admin).map((uname) => {
     const udata = USERS[uname];
@@ -513,6 +519,8 @@ async function loadAdmin() {
       s.val_done + "/" + s.val_total + " (" + vp + "%)</td><td>" +
       s.score_done + "/" + s.score_total + " (" + sp + "%)</td></tr>";
   }).join("");
+  const upd = document.getElementById("adminUpdated");
+  if (upd) upd.textContent = "Updated " + new Date().toLocaleTimeString();
 }
 
 function exportCsv(kind) {

@@ -339,53 +339,57 @@
           });
         });
       }
+      let resetMs = Number(cutMs) || 0;
       try {
-        const files = await this.listAllInbox();
-        let resetMs = Number(cutMs) || 0;
-        files.forEach((f) => {
-          if (String(f.path).indexOf("inbox/_reset/") === 0) {
-            const t = Store.fileStamp(f.path);
-            if (t > resetMs) resetMs = t;
+        const resetAt = await this.latestResetAt();
+        if (resetAt) resetMs = Math.max(resetMs, Date.parse(resetAt) || 0);
+      } catch (e) { /* keep cutMs */ }
+      try {
+        const r = await api("/contents/inbox?ref=" + (GH().branch || "main"));
+        if (!r.ok) throw new Error("inbox list " + r.status);
+        const dirs = (await r.json()).filter((x) => x.type === "dir" && x.name !== "_reset" && x.name !== "admin");
+        for (const dir of dirs) {
+          const files = await this.listInbox(dir.name);
+          const after = files.filter((f) => {
+            const t = Store.fileStamp(f.name || f.path);
+            return !resetMs || !t || t > resetMs;
+          });
+          after.sort((a, b) => String(a.name).localeCompare(String(b.name)));
+          for (const f of after) {
+            const snap = await this.getFileJson(f.path);
+            if (!snap || snap.reset_all) continue;
+            const snapMs = Store.snapStamp(snap, f.path);
+            if (resetMs && snapMs && snapMs <= resetMs) continue;
+            applySnap(snap);
           }
-        });
+        }
         if (!resetMs) {
           try {
             const json = await this.getFileJson("survey_answers.json");
             if (json) {
-              (json.attribute_validation || json.validation || []).forEach((r) => {
-                if (!r.username || !r.variable_name) return;
-                const rec = ensure(r.username);
-                rec.validation[r.variable_name] = {
-                  relevant: r.relevant || "",
-                  order_opinion: r.order_opinion || "",
-                  comment: r.comment || "",
-                  t: r.updated_at || "",
-                  updated_at: r.updated_at || ""
+              (json.attribute_validation || json.validation || []).forEach((row) => {
+                if (!row.username || !row.variable_name) return;
+                const rec = ensure(row.username);
+                rec.validation[row.variable_name] = {
+                  relevant: row.relevant || "",
+                  order_opinion: row.order_opinion || "",
+                  comment: row.comment || "",
+                  t: row.updated_at || "",
+                  updated_at: row.updated_at || ""
                 };
               });
-              (json.house_scoring || json.scoring || []).forEach((r) => {
-                if (!r.username || !r.house_id || !r.variable_name) return;
-                const rec = ensure(r.username);
-                if (!rec.scores[r.house_id]) rec.scores[r.house_id] = {};
-                rec.scores[r.house_id][r.variable_name] = Store.scoreRecord(r.user_grade, r.updated_at || "");
+              (json.house_scoring || json.scoring || []).forEach((row) => {
+                if (!row.username || !row.house_id || !row.variable_name) return;
+                const rec = ensure(row.username);
+                if (!rec.scores[row.house_id]) rec.scores[row.house_id] = {};
+                rec.scores[row.house_id][row.variable_name] = Store.scoreRecord(row.user_grade, row.updated_at || "");
               });
             }
           } catch (e) { /* optional baseline */ }
         }
-        files.sort((a, b) => a.path.localeCompare(b.path));
-        for (const f of files) {
-          if (String(f.path).indexOf("inbox/_reset/") === 0) continue;
-          const pathMs = Store.fileStamp(f.path);
-          if (resetMs && pathMs && pathMs <= resetMs) continue;
-          const snap = await this.getFileJson(f.path);
-          if (!snap || snap.reset_all) continue;
-          const snapMs = Store.snapStamp(snap, f.path);
-          if (resetMs && snapMs && snapMs <= resetMs) continue;
-          if (resetMs && !snapMs) continue;
-          applySnap(snap);
-        }
       } catch (e) {
         console.warn("mergeAll", e);
+        throw e;
       }
       return byUser;
     },
