@@ -9,7 +9,7 @@ Usage:
 """
 
 import os, json, csv, io, hashlib, sqlite3, argparse
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import wraps
 from flask import (Flask, render_template, request, redirect, url_for,
                    session, jsonify, Response, g, send_from_directory)
@@ -25,6 +25,9 @@ SECRET_FILE = os.path.join(BASE_DIR, ".secret_key")
 os.makedirs(os.path.dirname(os.path.abspath(DB_PATH)) or ".", exist_ok=True)
 
 def _get_secret():
+    env = (os.environ.get("SURVEY_SECRET_KEY") or os.environ.get("SECRET_KEY") or "").strip()
+    if env:
+        return env
     if os.path.exists(SECRET_FILE):
         with open(SECRET_FILE, "r", encoding="utf-8") as f:
             return f.read().strip()
@@ -36,6 +39,7 @@ def _get_secret():
 app = Flask(__name__, static_folder="static", template_folder="templates")
 app.secret_key = _get_secret()
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=14)
 app.jinja_env.auto_reload = True
 
 
@@ -406,6 +410,12 @@ def set_lang(lang):
     return resp
 
 
+@app.route("/healthz")
+def healthz():
+    """Cheap always-on ping so the free host does not sleep."""
+    return jsonify(ok=True), 200
+
+
 @app.route("/images/<path:filename>")
 @login_required
 def serve_image(filename):
@@ -420,6 +430,7 @@ def login():
         p = request.form.get("password", "").strip()
         user = USERS.get(u)
         if user and user["password_hash"] == hash_pw(p):
+            session.permanent = True
             session["user"] = u
             ensure_answers_loaded()
             return redirect(url_for("index"))

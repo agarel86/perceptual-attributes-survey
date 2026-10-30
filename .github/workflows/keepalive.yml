@@ -1,0 +1,16 @@
+name: Keep survey awake
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Wake the survey
+        run: |
+          curl -fsS --retry 5 --retry-delay 15 --max-time 90 \
+            https://perceptual-attributes-survey.onrender.com/healthz
