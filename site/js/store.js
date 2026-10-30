@@ -14,9 +14,7 @@
   function headers() {
     const h = {
       Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-      "User-Agent": "perceptual-attributes-survey",
-      "Cache-Control": "no-cache"
+      "X-GitHub-Api-Version": "2022-11-28"
     };
     if (GH().token) h.Authorization = "Bearer " + GH().token;
     return h;
@@ -218,9 +216,9 @@
       this._leaveAt = Date.now();
       const started = Date.now();
       try {
-        const put = await this.createInboxFile(user, snap, true);
+        const put = await this.createInboxFile(user, snap, false);
         if (!put.ok) {
-          const r = await this.dispatchWorkflow(user, snap, true);
+          const r = await this.dispatchWorkflow(user, snap, false);
           if (r.status !== 204 && r.status !== 200) {
             const txt = await r.text();
             this.status = "error";
@@ -270,7 +268,7 @@
         scores: {}
       };
       const started = Date.now();
-      const put = await this.createInboxFile("_reset", snap, true);
+      const put = await this.createInboxFile("_reset", snap, false);
       if (!put.ok) {
         const r = await this.dispatchWorkflow("_reset", snap, true);
         if (r.status !== 204 && r.status !== 200) {
